@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apontamento de Apara por OP</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='14' font-size='14'>📊</text></svg>">
+<style>
+:root {
+  --bg: #f5f5f7;
+  --surface: #ffffff;
+  --surface-2: #f0f0f2;
+  --border: #d8d8dc;
+  --border-2: #c8c8cc;
+  --text-1: #1d1d1f;
+  --text-2: #6e6e73;
+  --text-3: #aeaeb2;
+  --accent: #0071e3;
+  --good: #34c759;
+  --good-bg: rgba(52,199,89,0.12);
+  --good-text: #1a7a34;
+  --warn: #ff9f0a;
+  --warn-bg: rgba(255,159,10,0.12);
+  --warn-text: #8a5500;
+  --danger: #ff3b30;
+  --danger-bg: rgba(255,59,48,0.1);
+  --danger-text: #a21d16;
+  --radius: 10px;
+  --radius-sm: 6px;
+  --mono: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+  --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1c1c1e;
+    --surface: #2c2c2e;
+    --surface-2: #3a3a3c;
+    --border: #48484a;
+    --border-2: #636366;
+    --text-1: #f5f5f7;
+    --text-2: #a1a1a6;
+    --text-3: #636366;
+    --good-bg: rgba(52,199,89,0.18);
+    --good-text: #5fd97e;
+    --warn-bg: rgba(255,159,10,0.18);
+    --warn-text: #ffb340;
+    --danger-bg: rgba(255,59,48,0.15);
+    --danger-text: #ff6961;
+  }
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text-1);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.container { max-width: 960px; margin: 0 auto; }
+
+h1 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.subtitle {
+  font-size: 12px;
+  color: var(--text-2);
+  margin-bottom: 20px;
+}
+
+/* ─── OP Header ─── */
+.op-bar {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr 1fr 1.2fr;
+  gap: 10px;
+  padding: 14px 16px;
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  margin-bottom: 20px;
+}
+
+.fl { display: flex; flex-direction: column; gap: 4px; }
+.fl label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-2);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.fl input, .fld input {
+  width: 100%;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--text-1);
+  font-family: var(--sans);
+  font-size: 13px;
+  transition: border-color 0.2s;
+}
+.fl input:focus, .fld input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(0,113,227,0.15);
+}
+
+/* ─── Columns ─── */
+.cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.comp-hd {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-2);
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lbl {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+.lbl.f { background: rgba(0,113,227,0.1); color: var(--accent); }
+.lbl.s { background: var(--good-bg); color: var(--good-text); }
+
+/* ─── Stage Cards ─── */
+.sc {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  margin-bottom: 8px;
+}
+.sh {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 10px;
+}
+.sn { font-size: 13px; font-weight: 600; }
+.sm input {
+  width: 130px;
+  font-size: 11px;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--text-2);
+  font-family: var(--sans);
+}
+.sm input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.ir { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+.ir.t3 { grid-template-columns: 1fr 1fr 1fr; }
+
+.fld { display: flex; flex-direction: column; gap: 3px; }
+.fld label {
+  font-size: 10px;
+  color: var(--text-2);
+  font-weight: 500;
+}
+.fld input { font-size: 12px; padding: 5px 8px; }
+
+.or {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  border-top: 1px solid var(--border);
+  padding-top: 8px;
+  margin-top: 4px;
+}
+.or.t4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+
+.ov .ol { font-size: 10px; color: var(--text-2); margin-bottom: 2px; }
+.ov .ovv {
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--mono);
+}
+
+/* ─── Badges ─── */
+.bdg {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--mono);
+  background: var(--surface-2);
+  color: var(--text-2);
+}
+.bdg.g { background: var(--good-bg); color: var(--good-text); }
+.bdg.a { background: var(--warn-bg); color: var(--warn-text); }
+.bdg.r { background: var(--danger-bg); color: var(--danger-text); }
+
+/* ─── Component Summary ─── */
+.cs {
+  background: var(--surface-2);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  margin-top: 8px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 6px;
+  text-align: center;
+  border: 1px solid var(--border);
+}
+.cs .cl { font-size: 10px; color: var(--text-2); }
+.cs .cv { font-size: 16px; font-weight: 600; font-family: var(--mono); }
+
+.note {
+  font-size: 10px;
+  color: var(--text-3);
+  margin-top: 6px;
+  font-style: italic;
+}
+
+/* ─── Formatação ─── */
+.fc {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 16px;
+}
+.fc .fct {
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--text-2);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ─── Summary Table ─── */
+.sg {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 16px;
+}
+.sg h3 {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-2);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th {
+  text-align: left;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-2);
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--border);
+}
+th:not(:first-child) { text-align: right; }
+td {
+  padding: 7px 8px;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 12px;
+  text-align: right;
+}
+td:first-child {
+  font-family: var(--sans);
+  text-align: left;
+  color: var(--text-1);
+}
+tr.tot td {
+  font-weight: 600;
+  background: var(--surface-2);
+  border-top: 2px solid var(--border-2);
+}
+tr.sub td {
+  font-weight: 600;
+  background: var(--surface-2);
+  font-size: 11px;
+}
+
+/* ─── Metric Cards ─── */
+.mg {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 16px;
+}
+.mc {
+  background: var(--surface-2);
+  border-radius: var(--radius);
+  padding: 14px;
+  text-align: center;
+}
+.mc .ml {
+  font-size: 10px;
+  color: var(--text-2);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+.mc .mv {
+  font-size: 22px;
+  font-weight: 600;
+  font-family: var(--mono);
+}
+
+/* ─── Buttons ─── */
+.pbr {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 8px;
+}
+.pbr button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text-1);
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.pbr button:hover {
+  background: var(--surface-2);
+  border-color: var(--border-2);
+}
+.pbr button:active { transform: scale(0.98); }
+.pbr button svg { width: 16px; height: 16px; }
+
+/* ─── Responsive ─── */
+@media (max-width: 700px) {
+  .op-bar { grid-template-columns: 1fr 1fr; }
+  .cols { grid-template-columns: 1fr; }
+  .mg { grid-template-columns: 1fr 1fr; }
+  .or.t4 { grid-template-columns: 1fr 1fr; }
+  .fc .ir { grid-template-columns: 1fr 1fr !important; }
+}
+
+/* ─── Print ─── */
+@media print {
+  body { background: #fff; padding: 10px; font-size: 11px; }
+  .pbr { display: none; }
+  .sc, .fc, .sg, .op-bar, .cs, .mc { border-color: #ccc; break-inside: avoid; }
+  input {
+    border: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    font-weight: 600;
+  }
+  .bdg { border: 1px solid #ccc; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Apontamento de apara por OP</h1>
+  <p class="subtitle">Frente + Sanfona — % de contribuição por etapa sobre o útil geral do componente</p>
+
+  <div class="op-bar">
+    <div class="fl"><label>Cliente</label><input id="op-cli" type="text" placeholder="Nome do cliente"></div>
+    <div class="fl"><label>Produto</label><input id="op-prod" type="text" placeholder="Nome do produto"></div>
+    <div class="fl"><label>Código</label><input id="op-cod" type="text" placeholder="000000 / 000000"></div>
+    <div class="fl"><label>Data</label><input id="op-data" type="date"></div>
+    <div class="fl"><label>Custo material (R$/kg)</label><input id="custo" type="number" step="0.01" min="0" placeholder="0,00" oninput="calc()"></div>
+  </div>
+
+  <div class="cols">
+    <div>
+      <div class="comp-hd"><span class="lbl f">FRENTE</span> Filme impresso + laminado</div>
+      <div id="frente-stages"></div>
+      <div class="cs">
+        <div><div class="cl">Útil geral frente</div><div class="cv" id="f-util-tot">—</div></div>
+        <div><div class="cl">Apara total</div><div class="cv" id="f-apara-tot">—</div></div>
+        <div><div class="cl">% geral frente</div><div class="cv" id="f-pct-tot">—</div></div>
+      </div>
+      <div class="note">% de cada etapa = apara da etapa ÷ útil geral frente</div>
+    </div>
+    <div>
+      <div class="comp-hd"><span class="lbl s">SANFONA</span> Filme impresso + laminado</div>
+      <div id="sanfona-stages"></div>
+      <div class="cs">
+        <div><div class="cl">Útil geral sanfona</div><div class="cv" id="s-util-tot">—</div></div>
+        <div><div class="cl">Apara total</div><div class="cv" id="s-apara-tot">—</div></div>
+        <div><div class="cl">% geral sanfona</div><div class="cv" id="s-pct-tot">—</div></div>
+      </div>
+      <div class="note">% de cada etapa = apara da etapa ÷ útil geral sanfona</div>
+    </div>
+  </div>
+
+  <div class="fc">
+    <div class="fct">Formatação</div>
+    <div class="ir" style="grid-template-columns:1fr 1fr 1fr 1fr">
+      <div class="fld"><label>Máquina</label><input type="text" id="fmt-maq" placeholder="Totani IV"></div>
+      <div class="fld"><label>Qtd. unidades</label><input type="number" id="fmt-qtd" oninput="calc()"></div>
+      <div class="fld"><label>Peso zíper (kg)</label><input type="number" id="fmt-zip" step="0.01" oninput="calc()"></div>
+      <div class="fld"><label>Metragem (m)</label><input type="number" id="fmt-met" oninput="calc()"></div>
+    </div>
+    <div class="ir">
+      <div class="fld"><label>Peso útil — frente + sanfona + zíper (kg)</label><input type="number" id="fmt-util" step="0.01" oninput="calc()"></div>
+      <div class="fld"><label>Peso final (kg)</label><input type="number" id="fmt-final" step="0.01" oninput="calc()"></div>
+    </div>
+    <div class="or">
+      <div class="ov"><div class="ol">Apara (kg)</div><div class="ovv" id="fmt-apara-kg">—</div></div>
+      <div class="ov"><div class="ol">% sobre útil geral</div><span class="bdg" id="fmt-apara-pct">—</span></div>
+    </div>
+    <div class="note">% formatação = apara formatação ÷ útil geral total (frente + sanfona + zíper)</div>
+  </div>
+
+  <div class="sg">
+    <h3>Apara geral — contribuição por etapa</h3>
+    <table>
+      <thead><tr><th>Etapa</th><th>Apara (kg)</th><th>% contribuição</th><th>Custo (R$)</th></tr></thead>
+      <tbody id="summary-tbody"></tbody>
+    </table>
+    <div class="mg">
+      <div class="mc"><div class="ml">Útil total</div><div class="mv" id="ov-util">—</div></div>
+      <div class="mc"><div class="ml">Apara total</div><div class="mv" id="ov-apara">—</div></div>
+      <div class="mc"><div class="ml">% Apara geral</div><div class="mv" id="ov-pct">—</div></div>
+      <div class="mc"><div class="ml">Custo total (R$)</div><div class="mv" id="ov-custo">—</div></div>
+    </div>
+  </div>
+
+  <div class="pbr">
+    <button onclick="doClear()">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+      Limpar
+    </button>
+    <button onclick="window.print()">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      Imprimir
+    </button>
+  </div>
+</div>
+
+<script>
+const stages = [
+  { id: 'imp', label: 'Impressão' },
+  { id: 'l1',  label: 'Laminação 1' },
+  { id: 'l2',  label: 'Laminação 2' },
+  { id: 'reb', label: 'Rebobinamento', reb: true }
+];
+
+function makeCard(c, st) {
+  const p = c + '-' + st.id;
+  const isR = st.reb;
+  const rebX = isR ? '<div class="ir t3">' +
+    '<div class="fld"><label>Metragem (m)</label><input type="number" id="' + p + '-met" oninput="calc()"></div>' +
+    '<div class="fld"><label>Largura refile (mm)</label><input type="number" id="' + p + '-lar" step="0.1" oninput="calc()"></div>' +
+    '<div class="fld"><label>Gram. refile (g/m²)</label><input type="number" id="' + p + '-gram" step="0.1" oninput="calc()"></div>' +
+    '</div>' : '';
+  const out = isR ?
+    '<div class="or t4">' +
+    '<div class="ov"><div class="ol">Apara total (kg)</div><div class="ovv" id="' + p + '-akg">—</div></div>' +
+    '<div class="ov"><div class="ol">Refile (kg)</div><div class="ovv" id="' + p + '-rkgv">—</div></div>' +
+    '<div class="ov"><div class="ol">% c/ refile</div><span class="bdg" id="' + p + '-pct">—</span></div>' +
+    '<div class="ov"><div class="ol">% s/ refile</div><span class="bdg" id="' + p + '-pct2">—</span></div>' +
+    '</div>' :
+    '<div class="or">' +
+    '<div class="ov"><div class="ol">Apara (kg)</div><div class="ovv" id="' + p + '-akg">—</div></div>' +
+    '<div class="ov"><div class="ol">% sobre útil geral</div><span class="bdg" id="' + p + '-pct">—</span></div>' +
+    '</div>';
+  return '<div class="sc"><div class="sh"><span class="sn">' + st.label + '</span><span class="sm"><input type="text" id="' + p + '-maq" placeholder="Máquina"></span></div>' +
+    rebX +
+    '<div class="ir">' +
+    '<div class="fld"><label>Peso útil (kg)</label><input type="number" id="' + p + '-util" step="0.01" oninput="calc()"></div>' +
+    '<div class="fld"><label>Peso final (kg)</label><input type="number" id="' + p + '-final" step="0.01" oninput="calc()"></div>' +
+    '</div>' + out + '</div>';
+}
+
+['frente', 'sanfona'].forEach(function(comp) {
+  var c = comp === 'frente' ? 'f' : 's';
+  document.getElementById(comp + '-stages').innerHTML = stages.map(function(st) { return makeCard(c, st); }).join('');
+});
+
+function v(id) { return parseFloat(document.getElementById(id)?.value) || 0; }
+function el(id) { return document.getElementById(id); }
+function fmt2(n) { return isNaN(n) || !isFinite(n) ? '—' : n.toFixed(2); }
+function fmt1(n) { return isNaN(n) || !isFinite(n) ? '—' : n.toFixed(1); }
+function fmtR(n) { return isNaN(n) || !isFinite(n) ? '—' : 'R$ ' + n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+function bc(p) { if (isNaN(p) || !isFinite(p)) return ''; return p < 3 ? 'g' : p < 7 ? 'a' : 'r'; }
+
+function setBdg(id, pct) {
+  var e = el(id); if (!e) return;
+  e.className = 'bdg ' + bc(pct);
+  e.textContent = isNaN(pct) || !isFinite(pct) ? '—' : pct.toFixed(2) + '%';
+}
+
+var compData = {};
+
+function calcComp(comp) {
+  var c = comp === 'frente' ? 'f' : 's';
+  var aparas = [];
+  var rebFinal = 0;
+
+  ['imp', 'l1', 'l2'].forEach(function(sid) {
+    var p = c + '-' + sid;
+    var util = v(p + '-util'), fin = v(p + '-final');
+    var ap = util > 0 && fin > 0 ? util - fin : 0;
+    aparas.push({ sid: sid, ap: Math.max(0, ap) });
+  });
+
+  var p = c + '-reb';
+  var ru = v(p + '-util'), rf = v(p + '-final');
+  var rm = v(p + '-met'), rl = v(p + '-lar'), rg = v(p + '-gram');
+  var rAp = ru > 0 && rf > 0 ? ru - rf : 0;
+  var refile = rm > 0 && rl > 0 && rg > 0 ? (rl / 1000) * rm * (rg / 1000) : 0;
+  aparas.push({ sid: 'reb', ap: Math.max(0, rAp), refile: refile });
+  rebFinal = rf;
+
+  var totalApara = aparas.reduce(function(s, a) { return s + a.ap; }, 0);
+  var utilGeral = rebFinal + totalApara;
+
+  aparas.forEach(function(a) {
+    var p2 = c + '-' + a.sid;
+    var pctG = utilGeral > 0 ? a.ap / utilGeral * 100 : NaN;
+    if (el(p2 + '-akg')) el(p2 + '-akg').textContent = a.ap > 0 ? fmt2(a.ap) + ' kg' : '—';
+    if (a.sid === 'reb') {
+      setBdg(p2 + '-pct', pctG);
+      var pctSem = utilGeral > 0 ? (a.ap - a.refile) / utilGeral * 100 : NaN;
+      setBdg(p2 + '-pct2', pctSem);
+      if (el(p2 + '-rkgv')) el(p2 + '-rkgv').textContent = a.refile > 0 ? fmt2(a.refile) + ' kg' : '—';
+    } else {
+      setBdg(p2 + '-pct', pctG);
+    }
+  });
+
+  var pctGeral = utilGeral > 0 ? totalApara / utilGeral * 100 : NaN;
+  el(c + '-util-tot').textContent = utilGeral > 0 ? fmt1(utilGeral) + ' kg' : '—';
+  el(c + '-apara-tot').textContent = totalApara > 0 ? fmt1(totalApara) + ' kg' : '—';
+  var pe = el(c + '-pct-tot');
+  pe.className = 'cv bdg ' + bc(pctGeral);
+  pe.textContent = utilGeral > 0 ? pctGeral.toFixed(1) + '%' : '—';
+
+  compData[comp] = { aparas: aparas, totalApara: totalApara, utilGeral: utilGeral };
+  return { totalApara: totalApara, utilGeral: utilGeral };
+}
+
+function calc() {
+  var rf = calcComp('frente'), rs = calcComp('sanfona');
+  var zip = v('fmt-zip');
+  var ovUtil = rf.utilGeral + rs.utilGeral + zip;
+
+  var fu = v('fmt-util'), ff = v('fmt-final');
+  var fmtAp = fu > 0 && ff > 0 ? Math.max(0, fu - ff) : 0;
+  var fmtPct = ovUtil > 0 ? fmtAp / ovUtil * 100 : NaN;
+  el('fmt-apara-kg').textContent = fmtAp > 0 ? fmt2(fmtAp) + ' kg' : '—';
+  setBdg('fmt-apara-pct', fmtPct);
+
+  var ovApara = rf.totalApara + rs.totalApara + fmtAp;
+  var ovPct = ovUtil > 0 ? ovApara / ovUtil * 100 : NaN;
+  var cu = v('custo'), ct = ovApara * cu;
+
+  el('ov-util').textContent = ovUtil > 0 ? fmt1(ovUtil) + ' kg' : '—';
+  el('ov-apara').textContent = ovApara > 0 ? fmt1(ovApara) + ' kg' : '—';
+  var op = el('ov-pct');
+  op.className = 'mv bdg ' + bc(ovPct);
+  op.textContent = ovUtil > 0 ? ovPct.toFixed(1) + '%' : '—';
+  el('ov-custo').textContent = cu > 0 && ovApara > 0 ? fmtR(ct) : '—';
+
+  buildTable(fmtAp, fmtPct, cu, ovUtil, ovApara, ovPct, ct);
+}
+
+function buildTable(fmtAp, fmtPct, cu, ovUtil, ovApara, ovPct, ct) {
+  var html = '';
+  var labels = { imp: 'Impressão', l1: 'Laminação 1', l2: 'Laminação 2', reb: 'Rebobinamento' };
+
+  ['frente', 'sanfona'].forEach(function(comp) {
+    var d = compData[comp]; if (!d) return;
+    var nm = comp === 'frente' ? 'Frente' : 'Sanfona';
+    var uG = d.utilGeral;
+    d.aparas.forEach(function(a) {
+      var pct = uG > 0 ? a.ap / uG * 100 : NaN;
+      var c2 = cu > 0 && a.ap > 0 ? a.ap * cu : NaN;
+      html += '<tr><td>' + nm + ' — ' + labels[a.sid] + '</td>' +
+        '<td>' + (a.ap > 0 ? fmt2(a.ap) : '—') + '</td>' +
+        '<td><span class="bdg ' + bc(pct) + '">' + (isNaN(pct) || !isFinite(pct) ? '—' : pct.toFixed(2) + '%') + '</span></td>' +
+        '<td>' + (!isNaN(c2) ? fmtR(c2) : '—') + '</td></tr>';
+    });
+    var subPct = uG > 0 ? d.totalApara / uG * 100 : NaN;
+    var subC = cu > 0 && d.totalApara > 0 ? d.totalApara * cu : NaN;
+    html += '<tr class="sub"><td>Subtotal ' + nm.toLowerCase() + '</td>' +
+      '<td>' + (d.totalApara > 0 ? fmt1(d.totalApara) : '—') + '</td>' +
+      '<td><span class="bdg ' + bc(subPct) + '">' + (!isNaN(subPct) ? subPct.toFixed(1) + '%' : '—') + '</span></td>' +
+      '<td>' + (!isNaN(subC) ? fmtR(subC) : '—') + '</td></tr>';
+  });
+
+  if (fmtAp > 0) {
+    var fc = cu > 0 ? fmtAp * cu : NaN;
+    html += '<tr><td>Formatação</td>' +
+      '<td>' + fmt2(fmtAp) + '</td>' +
+      '<td><span class="bdg ' + bc(fmtPct) + '">' + fmtPct.toFixed(2) + '%</span></td>' +
+      '<td>' + (!isNaN(fc) ? fmtR(fc) : '—') + '</td></tr>';
+  }
+
+  html += '<tr class="tot"><td>Total geral</td>' +
+    '<td>' + (ovApara > 0 ? fmt1(ovApara) : '—') + '</td>' +
+    '<td><span class="bdg ' + bc(ovPct) + '">' + (ovUtil > 0 ? ovPct.toFixed(1) + '%' : '—') + '</span></td>' +
+    '<td>' + (cu > 0 && ovApara > 0 ? fmtR(ct) : '—') + '</td></tr>';
+
+  el('summary-tbody').innerHTML = html;
+}
+
+function set(id, val) { var e = el(id); if (e) e.value = val; }
+
+function doClear() {
+  document.querySelectorAll('.container input').forEach(function(i) { i.value = ''; });
+  calc();
+}
+
+// Set today's date
+var today = new Date().toISOString().split('T')[0];
+el('op-data').value = today;
+calc();
+</script>
+
+</body>
+</html>
