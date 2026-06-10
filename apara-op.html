@@ -6,647 +6,205 @@
 <title>Apontamento de Apara por OP</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='14' font-size='14'>📊</text></svg>">
 <style>
-:root {
-  --bg: #f5f5f7;
-  --surface: #ffffff;
-  --surface-2: #f0f0f2;
-  --border: #d8d8dc;
-  --border-2: #c8c8cc;
-  --text-1: #1d1d1f;
-  --text-2: #6e6e73;
-  --text-3: #aeaeb2;
-  --accent: #0071e3;
-  --good: #34c759;
-  --good-bg: rgba(52,199,89,0.12);
-  --good-text: #1a7a34;
-  --warn: #ff9f0a;
-  --warn-bg: rgba(255,159,10,0.12);
-  --warn-text: #8a5500;
-  --danger: #ff3b30;
-  --danger-bg: rgba(255,59,48,0.1);
-  --danger-text: #a21d16;
-  --radius: 10px;
-  --radius-sm: 6px;
-  --mono: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
-  --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #1c1c1e;
-    --surface: #2c2c2e;
-    --surface-2: #3a3a3c;
-    --border: #48484a;
-    --border-2: #636366;
-    --text-1: #f5f5f7;
-    --text-2: #a1a1a6;
-    --text-3: #636366;
-    --good-bg: rgba(52,199,89,0.18);
-    --good-text: #5fd97e;
-    --warn-bg: rgba(255,159,10,0.18);
-    --warn-text: #ffb340;
-    --danger-bg: rgba(255,59,48,0.15);
-    --danger-text: #ff6961;
-  }
-}
-
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  background: var(--bg);
-  color: var(--text-1);
-  font-family: var(--sans);
-  font-size: 14px;
-  line-height: 1.5;
-  min-height: 100vh;
-  padding: 20px;
-}
-
-.container { max-width: 960px; margin: 0 auto; }
-
-h1 {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-.subtitle {
-  font-size: 12px;
-  color: var(--text-2);
-  margin-bottom: 20px;
-}
-
-/* ─── OP Header ─── */
-.op-bar {
-  display: grid;
-  grid-template-columns: 2fr 2fr 1fr 1fr 1.2fr;
-  gap: 10px;
-  padding: 14px 16px;
-  background: var(--surface);
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  margin-bottom: 20px;
-}
-
-.fl { display: flex; flex-direction: column; gap: 4px; }
-.fl label {
-  font-size: 10px;
-  font-weight: 600;
-  color: var(--text-2);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-.fl input, .fld input {
-  width: 100%;
-  padding: 6px 10px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background: var(--surface-2);
-  color: var(--text-1);
-  font-family: var(--sans);
-  font-size: 13px;
-  transition: border-color 0.2s;
-}
-.fl input:focus, .fld input:focus {
-  outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(0,113,227,0.15);
-}
-
-/* ─── Columns ─── */
-.cols {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin-bottom: 16px;
-}
-
-.comp-hd {
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--text-2);
-  padding-bottom: 8px;
-  margin-bottom: 10px;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.lbl {
-  font-size: 10px;
-  padding: 2px 8px;
-  border-radius: var(--radius-sm);
-  font-weight: 600;
-  letter-spacing: 0.3px;
-}
-.lbl.f { background: rgba(0,113,227,0.1); color: var(--accent); }
-.lbl.s { background: var(--good-bg); color: var(--good-text); }
-
-/* ─── Stage Cards ─── */
-.sc {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 12px 14px;
-  margin-bottom: 8px;
-}
-.sh {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 10px;
-}
-.sn { font-size: 13px; font-weight: 600; }
-.sm input {
-  width: 130px;
-  font-size: 11px;
-  padding: 4px 8px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background: var(--surface-2);
-  color: var(--text-2);
-  font-family: var(--sans);
-}
-.sm input:focus {
-  outline: none;
-  border-color: var(--accent);
-}
-
-.ir { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
-.ir.t3 { grid-template-columns: 1fr 1fr 1fr; }
-
-.fld { display: flex; flex-direction: column; gap: 3px; }
-.fld label {
-  font-size: 10px;
-  color: var(--text-2);
-  font-weight: 500;
-}
-.fld input { font-size: 12px; padding: 5px 8px; }
-
-.or {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  border-top: 1px solid var(--border);
-  padding-top: 8px;
-  margin-top: 4px;
-}
-.or.t4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
-
-.ov .ol { font-size: 10px; color: var(--text-2); margin-bottom: 2px; }
-.ov .ovv {
-  font-size: 14px;
-  font-weight: 600;
-  font-family: var(--mono);
-}
-
-/* ─── Badges ─── */
-.bdg {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: var(--radius-sm);
-  font-size: 12px;
-  font-weight: 600;
-  font-family: var(--mono);
-  background: var(--surface-2);
-  color: var(--text-2);
-}
-.bdg.g { background: var(--good-bg); color: var(--good-text); }
-.bdg.a { background: var(--warn-bg); color: var(--warn-text); }
-.bdg.r { background: var(--danger-bg); color: var(--danger-text); }
-
-/* ─── Component Summary ─── */
-.cs {
-  background: var(--surface-2);
-  border-radius: var(--radius);
-  padding: 10px 14px;
-  margin-top: 8px;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 6px;
-  text-align: center;
-  border: 1px solid var(--border);
-}
-.cs .cl { font-size: 10px; color: var(--text-2); }
-.cs .cv { font-size: 16px; font-weight: 600; font-family: var(--mono); }
-
-.note {
-  font-size: 10px;
-  color: var(--text-3);
-  margin-top: 6px;
-  font-style: italic;
-}
-
-/* ─── Formatação ─── */
-.fc {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 14px 16px;
-  margin-bottom: 16px;
-}
-.fc .fct {
-  font-size: 12px;
-  font-weight: 600;
-  margin-bottom: 12px;
-  color: var(--text-2);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-/* ─── Summary Table ─── */
-.sg {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 16px;
-  margin-bottom: 16px;
-}
-.sg h3 {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-2);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 12px;
-}
-
-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-th {
-  text-align: left;
-  font-size: 10px;
-  font-weight: 600;
-  color: var(--text-2);
-  padding: 6px 8px;
-  border-bottom: 1px solid var(--border);
-}
-th:not(:first-child) { text-align: right; }
-td {
-  padding: 7px 8px;
-  border-bottom: 1px solid var(--border);
-  font-family: var(--mono);
-  font-size: 12px;
-  text-align: right;
-}
-td:first-child {
-  font-family: var(--sans);
-  text-align: left;
-  color: var(--text-1);
-}
-tr.tot td {
-  font-weight: 600;
-  background: var(--surface-2);
-  border-top: 2px solid var(--border-2);
-}
-tr.sub td {
-  font-weight: 600;
-  background: var(--surface-2);
-  font-size: 11px;
-}
-
-/* ─── Metric Cards ─── */
-.mg {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  margin-top: 16px;
-}
-.mc {
-  background: var(--surface-2);
-  border-radius: var(--radius);
-  padding: 14px;
-  text-align: center;
-}
-.mc .ml {
-  font-size: 10px;
-  color: var(--text-2);
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-  margin-bottom: 6px;
-  font-weight: 600;
-}
-.mc .mv {
-  font-size: 22px;
-  font-weight: 600;
-  font-family: var(--mono);
-}
-
-/* ─── Buttons ─── */
-.pbr {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-top: 8px;
-}
-.pbr button {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background: var(--surface);
-  color: var(--text-1);
-  font-family: var(--sans);
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.15s;
-}
-.pbr button:hover {
-  background: var(--surface-2);
-  border-color: var(--border-2);
-}
-.pbr button:active { transform: scale(0.98); }
-.pbr button svg { width: 16px; height: 16px; }
-
-/* ─── Responsive ─── */
-@media (max-width: 700px) {
-  .op-bar { grid-template-columns: 1fr 1fr; }
-  .cols { grid-template-columns: 1fr; }
-  .mg { grid-template-columns: 1fr 1fr; }
-  .or.t4 { grid-template-columns: 1fr 1fr; }
-  .fc .ir { grid-template-columns: 1fr 1fr !important; }
-}
-
-/* ─── Print ─── */
-@media print {
-  body { background: #fff; padding: 10px; font-size: 11px; }
-  .pbr { display: none; }
-  .sc, .fc, .sg, .op-bar, .cs, .mc { border-color: #ccc; break-inside: avoid; }
-  input {
-    border: none !important;
-    background: transparent !important;
-    padding: 0 !important;
-    box-shadow: none !important;
-    font-weight: 600;
-  }
-  .bdg { border: 1px solid #ccc; }
-}
+:root{--bg:#f5f5f7;--sf:#fff;--sf2:#f0f0f2;--bd:#d8d8dc;--bd2:#c8c8cc;--t1:#1d1d1f;--t2:#6e6e73;--t3:#aeaeb2;--acc:#0071e3;--gg:#34c759;--gbg:rgba(52,199,89,.12);--gt:#1a7a34;--ww:#ff9f0a;--wbg:rgba(255,159,10,.12);--wt:#8a5500;--dd:#ff3b30;--dbg:rgba(255,59,48,.1);--dt:#a21d16;--r:10px;--rs:6px;--mo:'SF Mono','Fira Code','Consolas',monospace;--sn:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif}
+@media(prefers-color-scheme:dark){:root{--bg:#1c1c1e;--sf:#2c2c2e;--sf2:#3a3a3c;--bd:#48484a;--bd2:#636366;--t1:#f5f5f7;--t2:#a1a1a6;--t3:#636366;--gbg:rgba(52,199,89,.18);--gt:#5fd97e;--wbg:rgba(255,159,10,.18);--wt:#ffb340;--dbg:rgba(255,59,48,.15);--dt:#ff6961}}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--t1);font-family:var(--sn);font-size:14px;line-height:1.5;min-height:100vh}
+.container{max-width:980px;margin:0 auto;padding:12px 20px 20px}
+.app-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px}
+.app-header h1{font-size:18px;font-weight:600}
+.tabs{display:flex;gap:4px;background:var(--sf2);border-radius:var(--rs);padding:3px}
+.tabs button{padding:6px 16px;border:none;background:transparent;border-radius:4px;font-size:12px;font-weight:500;color:var(--t2);cursor:pointer;font-family:var(--sn);transition:.15s}
+.tabs button.active{background:var(--sf);color:var(--t1);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.tab-content{display:none}.tab-content.active{display:block}
+.config-bar{display:flex;gap:8px;align-items:end;margin-bottom:16px;padding:10px 14px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r)}
+.config-bar .fl{flex:1}
+.config-bar .status{font-size:11px;padding:6px 12px;border-radius:var(--rs);white-space:nowrap}
+.config-bar .status.ok{background:var(--gbg);color:var(--gt)}
+.config-bar .status.no{background:var(--dbg);color:var(--dt)}
+.fl{display:flex;flex-direction:column;gap:3px}
+.fl label,.fld label{font-size:10px;color:var(--t2);font-weight:600;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:2px}
+.fl input,.fld input{width:100%;padding:6px 10px;border:1px solid var(--bd);border-radius:var(--rs);background:var(--sf2);color:var(--t1);font-family:var(--sn);font-size:13px;transition:border-color .2s}
+.fl input:focus,.fld input:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px rgba(0,113,227,.15)}
+.op-bar{display:grid;grid-template-columns:2fr 2fr 1fr 1fr;gap:8px;padding:12px 14px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);margin-bottom:16px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.comp-hd{font-size:12px;font-weight:500;color:var(--t2);padding-bottom:8px;margin-bottom:10px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:6px}
+.lbl{font-size:10px;padding:2px 8px;border-radius:var(--rs);font-weight:600;letter-spacing:.3px}
+.lbl.f{background:rgba(0,113,227,.1);color:var(--acc)}.lbl.s{background:var(--gbg);color:var(--gt)}
+.sc{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:10px 12px;margin-bottom:7px}
+.sh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.sn-t{font-size:13px;font-weight:600}
+.sm input{width:130px;font-size:11px;padding:4px 8px;border:1px solid var(--bd);border-radius:var(--rs);background:var(--sf2);color:var(--t2)}
+.ir{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px}
+.ir.t3{grid-template-columns:1fr 1fr 1fr}
+.fld input{font-size:12px;padding:5px 8px}
+.or{display:grid;grid-template-columns:1fr 1fr;gap:6px;border-top:1px solid var(--bd);padding-top:7px;margin-top:4px}
+.or.t4{grid-template-columns:1fr 1fr 1fr 1fr}
+.ov .ol{font-size:10px;color:var(--t2);margin-bottom:2px}.ov .ovv{font-size:14px;font-weight:600;font-family:var(--mo)}
+.bdg{display:inline-block;padding:2px 8px;border-radius:var(--rs);font-size:12px;font-weight:600;font-family:var(--mo);background:var(--sf2);color:var(--t2)}
+.bdg.g{background:var(--gbg);color:var(--gt)}.bdg.a{background:var(--wbg);color:var(--wt)}.bdg.r{background:var(--dbg);color:var(--dt)}
+.cs{background:var(--sf2);border-radius:var(--r);padding:10px 14px;margin-top:8px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;text-align:center;border:1px solid var(--bd)}
+.cs .cl{font-size:10px;color:var(--t2)}.cs .cv{font-size:16px;font-weight:600;font-family:var(--mo)}
+.note{font-size:10px;color:var(--t3);margin-top:5px;font-style:italic}
+.fc{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:12px 14px;margin-bottom:14px}
+.fc .fct{font-size:12px;font-weight:600;margin-bottom:10px;color:var(--t2);text-transform:uppercase;letter-spacing:.5px}
+.sub-hd{font-size:11px;font-weight:500;color:var(--t2);margin:10px 0 8px;padding-top:8px;border-top:1px solid var(--bd)}
+.ref-cols{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ref-box{background:var(--sf2);border-radius:var(--r);padding:10px 12px;border:1px solid var(--bd)}
+.ref-box .rbt{font-size:10px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.3px;margin-bottom:8px}
+.dim-label{font-size:10px;color:var(--t2);margin-bottom:4px;font-weight:500}
+.dim-row{display:grid;grid-template-columns:1fr auto 1fr;gap:4px;align-items:end;margin-bottom:6px}
+.dim-row .x{font-size:11px;color:var(--t3);padding-bottom:6px;text-align:center}
+.ref-out{display:grid;grid-template-columns:1fr 1fr;gap:4px;text-align:center;padding-top:8px;margin-top:6px;border-top:1px solid var(--bd)}
+.ref-out .ro-l{font-size:9px;color:var(--t2)}.ref-out .ro-v{font-size:12px;font-weight:600;font-family:var(--mo)}
+.ref-summary{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;margin-top:10px;padding:8px 10px;background:var(--sf2);border-radius:var(--r);border:1px solid var(--bd)}
+.ref-summary .ov{text-align:center}
+.sg{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:14px}
+.sg h3{font-size:12px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{text-align:left;font-size:10px;font-weight:600;color:var(--t2);padding:6px 8px;border-bottom:1px solid var(--bd)}
+th:not(:first-child){text-align:right}
+td{padding:6px 8px;border-bottom:1px solid var(--bd);font-family:var(--mo);font-size:12px;text-align:right}
+td:first-child{font-family:var(--sn);text-align:left}
+tr.tot td{font-weight:600;background:var(--sf2);border-top:2px solid var(--bd2)}
+tr.sub td{font-weight:600;background:var(--sf2);font-size:11px}
+tr.avg td{font-weight:600;background:rgba(0,113,227,.06);border-top:2px solid var(--acc);color:var(--acc)}
+.mg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.mc{background:var(--sf2);border-radius:var(--r);padding:14px;text-align:center}
+.mc .ml{font-size:10px;color:var(--t2);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px;font-weight:600}
+.mc .mv{font-size:22px;font-weight:600;font-family:var(--mo)}
+.btn-row{display:flex;justify-content:flex-end;gap:8px;margin-top:8px;flex-wrap:wrap}
+button,.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border:1px solid var(--bd);border-radius:var(--rs);background:var(--sf);color:var(--t1);font-family:var(--sn);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s}
+button:hover{background:var(--sf2);border-color:var(--bd2)}
+button:active{transform:scale(.98)}
+button.primary{background:var(--acc);color:#fff;border-color:var(--acc)}
+button.primary:hover{opacity:.9;background:var(--acc)}
+.toast{position:fixed;bottom:20px;right:20px;padding:12px 20px;border-radius:var(--r);font-size:13px;font-weight:500;z-index:999;transform:translateY(100px);opacity:0;transition:.3s}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.ok{background:var(--gg);color:#fff}.toast.err{background:var(--dd);color:#fff}
+.hist-controls{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
+.hist-controls select{padding:6px 10px;border:1px solid var(--bd);border-radius:var(--rs);background:var(--sf2);color:var(--t1);font-size:12px;font-family:var(--sn)}
+.hist-empty{text-align:center;padding:40px;color:var(--t3);font-size:14px}
+.hist-table-wrap{overflow-x:auto}.hist-table-wrap table{min-width:700px}
+.hist-table-wrap td,.hist-table-wrap th{white-space:nowrap;padding:6px 10px}
+@media(max-width:700px){.op-bar{grid-template-columns:1fr 1fr}.cols{grid-template-columns:1fr}.mg{grid-template-columns:1fr 1fr}.or.t4{grid-template-columns:1fr 1fr}.ref-cols{grid-template-columns:1fr}.ref-summary{grid-template-columns:1fr 1fr}.config-bar{flex-direction:column}}
+@media print{body{background:#fff;padding:10px;font-size:11px}.btn-row,.config-bar,.tabs{display:none!important}.tab-content{display:block!important}.sc,.fc,.sg,.op-bar,.cs,.mc{border-color:#ccc;break-inside:avoid}input{border:none!important;background:transparent!important;padding:0!important;box-shadow:none!important;font-weight:600}.bdg{border:1px solid #ccc}}
 </style>
 </head>
 <body>
-
 <div class="container">
-  <h1>Apontamento de apara por OP</h1>
-  <p class="subtitle">Frente + Sanfona — % de contribuição por etapa sobre o útil geral do componente</p>
-
-  <div class="op-bar">
-    <div class="fl"><label>Cliente</label><input id="op-cli" type="text" placeholder="Nome do cliente"></div>
-    <div class="fl"><label>Produto</label><input id="op-prod" type="text" placeholder="Nome do produto"></div>
-    <div class="fl"><label>Código</label><input id="op-cod" type="text" placeholder="000000 / 000000"></div>
-    <div class="fl"><label>Data</label><input id="op-data" type="date"></div>
-    <div class="fl"><label>Custo material (R$/kg)</label><input id="custo" type="number" step="0.01" min="0" placeholder="0,00" oninput="calc()"></div>
+  <div class="app-header">
+    <h1>Apontamento de apara por OP</h1>
+    <div class="tabs">
+      <button class="active" onclick="switchTab('form')">Apontamento</button>
+      <button onclick="switchTab('hist')">Histórico</button>
+    </div>
+  </div>
+  <div class="config-bar">
+    <div class="fl" style="flex:1"><label>URL do Apps Script</label><input id="script-url" type="text" placeholder="https://script.google.com/macros/s/.../exec" oninput="saveConfig()"></div>
+    <span class="status no" id="conn-status">Não configurado</span>
   </div>
 
-  <div class="cols">
-    <div>
-      <div class="comp-hd"><span class="lbl f">FRENTE</span> Filme impresso + laminado</div>
-      <div id="frente-stages"></div>
-      <div class="cs">
-        <div><div class="cl">Útil geral frente</div><div class="cv" id="f-util-tot">—</div></div>
-        <div><div class="cl">Apara total</div><div class="cv" id="f-apara-tot">—</div></div>
-        <div><div class="cl">% geral frente</div><div class="cv" id="f-pct-tot">—</div></div>
+  <div id="tab-form" class="tab-content active">
+    <div class="op-bar">
+      <div class="fl"><label>Cliente</label><input id="op-cli" type="text" placeholder="Nome do cliente"></div>
+      <div class="fl"><label>Produto</label><input id="op-prod" type="text" placeholder="Nome do produto"></div>
+      <div class="fl"><label>Código</label><input id="op-cod" type="text" placeholder="000000 / 000000"></div>
+      <div class="fl"><label>Data</label><input id="op-data" type="date"></div>
+    </div>
+    <div class="cols">
+      <div>
+        <div class="comp-hd"><span class="lbl f">FRENTE</span></div>
+        <div id="frente-stages"></div>
+        <div class="cs"><div><div class="cl">Útil geral</div><div class="cv" id="f-util-tot">—</div></div><div><div class="cl">Apara total</div><div class="cv" id="f-apara-tot">—</div></div><div><div class="cl">% geral</div><div class="cv" id="f-pct-tot">—</div></div></div>
+        <div class="note">% = apara da etapa ÷ útil geral frente</div>
       </div>
-      <div class="note">% de cada etapa = apara da etapa ÷ útil geral frente</div>
-    </div>
-    <div>
-      <div class="comp-hd"><span class="lbl s">SANFONA</span> Filme impresso + laminado</div>
-      <div id="sanfona-stages"></div>
-      <div class="cs">
-        <div><div class="cl">Útil geral sanfona</div><div class="cv" id="s-util-tot">—</div></div>
-        <div><div class="cl">Apara total</div><div class="cv" id="s-apara-tot">—</div></div>
-        <div><div class="cl">% geral sanfona</div><div class="cv" id="s-pct-tot">—</div></div>
+      <div>
+        <div class="comp-hd"><span class="lbl s">SANFONA</span></div>
+        <div id="sanfona-stages"></div>
+        <div class="cs"><div><div class="cl">Útil geral</div><div class="cv" id="s-util-tot">—</div></div><div><div class="cl">Apara total</div><div class="cv" id="s-apara-tot">—</div></div><div><div class="cl">% geral</div><div class="cv" id="s-pct-tot">—</div></div></div>
+        <div class="note">% = apara da etapa ÷ útil geral sanfona</div>
       </div>
-      <div class="note">% de cada etapa = apara da etapa ÷ útil geral sanfona</div>
     </div>
+    <div class="fc">
+      <div class="fct">Formatação</div>
+      <div class="ir t3"><div class="fld"><label>Máquina</label><input type="text" id="fmt-maq"></div><div class="fld"><label>Qtd. unidades</label><input type="number" id="fmt-qtd" oninput="calc()"></div><div class="fld"><label>Peso zíper (kg)</label><input type="number" id="fmt-zip" step="0.01" oninput="calc()"></div></div>
+      <div class="ir"><div class="fld"><label>Peso útil — frente + sanfona + zíper (kg)</label><input type="number" id="fmt-util" step="0.01" oninput="calc()"></div><div class="fld"><label>Peso final (kg)</label><input type="number" id="fmt-final" step="0.01" oninput="calc()"></div></div>
+      <div class="or"><div class="ov"><div class="ol">Apara total (kg)</div><div class="ovv" id="fmt-apara-kg">—</div></div><div class="ov"><div class="ol">% sobre útil geral</div><span class="bdg" id="fmt-apara-pct">—</span></div></div>
+      <div class="sub-hd">Refile formatação</div>
+      <div class="ref-cols">
+        <div class="ref-box"><div class="rbt">Frente</div><div class="fld" style="margin-bottom:6px"><label>Gramatura final (g/m²)</label><input type="number" id="rf-gf" step="0.01" oninput="calc()"></div><div class="dim-label">Inicial — com refile (mm)</div><div class="dim-row"><div class="fld"><label>Altura</label><input type="number" id="rf-afi" step="0.1" oninput="calc()"></div><div class="x">×</div><div class="fld"><label>Largura</label><input type="number" id="rf-lfi" step="0.1" oninput="calc()"></div></div><div class="dim-label">Final — sem refile (mm)</div><div class="dim-row"><div class="fld"><label>Altura</label><input type="number" id="rf-aff" step="0.1" oninput="calc()"></div><div class="x">×</div><div class="fld"><label>Largura</label><input type="number" id="rf-lff" step="0.1" oninput="calc()"></div></div><div class="ref-out"><div><div class="ro-l">m² refile total</div><div class="ro-v" id="ro-m2f">—</div></div><div><div class="ro-l">Refile (kg)</div><div class="ro-v" id="ro-kgf">—</div></div></div></div>
+        <div class="ref-box"><div class="rbt">Sanfona</div><div class="fld" style="margin-bottom:6px"><label>Gramatura final (g/m²)</label><input type="number" id="rf-gs" step="0.01" oninput="calc()"></div><div class="dim-label">Inicial — com refile (mm)</div><div class="dim-row"><div class="fld"><label>Altura</label><input type="number" id="rf-asi" step="0.1" oninput="calc()"></div><div class="x">×</div><div class="fld"><label>Largura</label><input type="number" id="rf-lsi" step="0.1" oninput="calc()"></div></div><div class="dim-label">Final — sem refile (mm)</div><div class="dim-row"><div class="fld"><label>Altura</label><input type="number" id="rf-asf" step="0.1" oninput="calc()"></div><div class="x">×</div><div class="fld"><label>Largura</label><input type="number" id="rf-lsf" step="0.1" oninput="calc()"></div></div><div class="ref-out"><div><div class="ro-l">m² refile total</div><div class="ro-v" id="ro-m2s">—</div></div><div><div class="ro-l">Refile (kg)</div><div class="ro-v" id="ro-kgs">—</div></div></div></div>
+      </div>
+      <div class="ref-summary"><div class="ov"><div class="ol">Refile total (kg)</div><div class="ovv" id="ref-kg-tot">—</div></div><div class="ov"><div class="ol">Refile total (m²)</div><div class="ovv" id="ref-m2-tot">—</div></div><div class="ov"><div class="ol">% c/ refile</div><span class="bdg" id="fmt-pct-cr">—</span></div><div class="ov"><div class="ol">% s/ refile</div><span class="bdg" id="fmt-pct-sr">—</span></div></div>
+      <div class="note">Refile/un = (alt ini × larg ini) − (alt fin × larg fin) | Total = refile/un × qtd | kg = m² × gram ÷ 1000</div>
+    </div>
+    <div class="sg"><h3>Apara geral — contribuição por etapa</h3><table><thead><tr><th>Etapa</th><th>Apara (kg)</th><th>% contribuição</th></tr></thead><tbody id="summary-tbody"></tbody></table><div class="mg"><div class="mc"><div class="ml">Útil total</div><div class="mv" id="ov-util">—</div></div><div class="mc"><div class="ml">Apara total</div><div class="mv" id="ov-apara">—</div></div><div class="mc"><div class="ml">% Apara geral</div><div class="mv" id="ov-pct">—</div></div></div></div>
+    <div class="btn-row"><button onclick="doClear()">Limpar</button><button onclick="window.print()">Imprimir</button><button class="primary" onclick="saveOP()">Salvar OP</button></div>
   </div>
 
-  <div class="fc">
-    <div class="fct">Formatação</div>
-    <div class="ir" style="grid-template-columns:1fr 1fr 1fr 1fr">
-      <div class="fld"><label>Máquina</label><input type="text" id="fmt-maq" placeholder="Totani IV"></div>
-      <div class="fld"><label>Qtd. unidades</label><input type="number" id="fmt-qtd" oninput="calc()"></div>
-      <div class="fld"><label>Peso zíper (kg)</label><input type="number" id="fmt-zip" step="0.01" oninput="calc()"></div>
-      <div class="fld"><label>Metragem (m)</label><input type="number" id="fmt-met" oninput="calc()"></div>
-    </div>
-    <div class="ir">
-      <div class="fld"><label>Peso útil — frente + sanfona + zíper (kg)</label><input type="number" id="fmt-util" step="0.01" oninput="calc()"></div>
-      <div class="fld"><label>Peso final (kg)</label><input type="number" id="fmt-final" step="0.01" oninput="calc()"></div>
-    </div>
-    <div class="or">
-      <div class="ov"><div class="ol">Apara (kg)</div><div class="ovv" id="fmt-apara-kg">—</div></div>
-      <div class="ov"><div class="ol">% sobre útil geral</div><span class="bdg" id="fmt-apara-pct">—</span></div>
-    </div>
-    <div class="note">% formatação = apara formatação ÷ útil geral total (frente + sanfona + zíper)</div>
-  </div>
-
-  <div class="sg">
-    <h3>Apara geral — contribuição por etapa</h3>
-    <table>
-      <thead><tr><th>Etapa</th><th>Apara (kg)</th><th>% contribuição</th><th>Custo (R$)</th></tr></thead>
-      <tbody id="summary-tbody"></tbody>
-    </table>
-    <div class="mg">
-      <div class="mc"><div class="ml">Útil total</div><div class="mv" id="ov-util">—</div></div>
-      <div class="mc"><div class="ml">Apara total</div><div class="mv" id="ov-apara">—</div></div>
-      <div class="mc"><div class="ml">% Apara geral</div><div class="mv" id="ov-pct">—</div></div>
-      <div class="mc"><div class="ml">Custo total (R$)</div><div class="mv" id="ov-custo">—</div></div>
-    </div>
-  </div>
-
-  <div class="pbr">
-    <button onclick="doClear()">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
-      Limpar
-    </button>
-    <button onclick="window.print()">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-      Imprimir
-    </button>
+  <div id="tab-hist" class="tab-content">
+    <div class="hist-controls"><button onclick="loadHistory()">Atualizar</button><select id="hist-filter-cli"><option value="">Todos os clientes</option></select><select id="hist-filter-prod"><option value="">Todos os produtos</option></select><span id="hist-count" style="font-size:11px;color:var(--t2);margin-left:auto"></span></div>
+    <div class="sg"><h3>Comparativo de OPs</h3><div class="hist-table-wrap"><table><thead><tr><th>Data</th><th>Produto</th><th>F Imp</th><th>F L1</th><th>F L2</th><th>F Reb</th><th>F Total</th><th>S Imp</th><th>S L1</th><th>S L2</th><th>S Reb</th><th>S Total</th><th>Fmt</th><th>Geral</th></tr></thead><tbody id="hist-tbody"></tbody></table></div><div id="hist-empty" class="hist-empty">Clique em "Atualizar" para carregar o histórico</div></div>
+    <div class="sg" id="avg-section" style="display:none"><h3>Médias por etapa</h3><table><thead><tr><th>Etapa</th><th>Apara média (kg)</th><th>% média</th><th>Nº OPs</th></tr></thead><tbody id="avg-tbody"></tbody></table></div>
   </div>
 </div>
+<div class="toast" id="toast"></div>
 
 <script>
-const stages = [
-  { id: 'imp', label: 'Impressão' },
-  { id: 'l1',  label: 'Laminação 1' },
-  { id: 'l2',  label: 'Laminação 2' },
-  { id: 'reb', label: 'Rebobinamento', reb: true }
-];
+function switchTab(t){document.querySelectorAll('.tabs button').forEach(function(b,i){b.classList.toggle('active',i===(t==='form'?0:1))});document.getElementById('tab-form').classList.toggle('active',t==='form');document.getElementById('tab-hist').classList.toggle('active',t==='hist');if(t==='hist')loadHistory();}
+function saveConfig(){localStorage.setItem('apara_script_url',document.getElementById('script-url').value.trim());updateStatus();}
+function loadConfig(){document.getElementById('script-url').value=localStorage.getItem('apara_script_url')||'';updateStatus();}
+function updateStatus(){var u=document.getElementById('script-url').value.trim(),s=document.getElementById('conn-status');if(u&&u.startsWith('https://script.google.com')){s.textContent='Configurado';s.className='status ok';}else{s.textContent='Não configurado';s.className='status no';}}
+function getScriptUrl(){return(document.getElementById('script-url').value||'').trim();}
+function toast(msg,type){var t=document.getElementById('toast');t.textContent=msg;t.className='toast '+(type||'ok')+' show';setTimeout(function(){t.classList.remove('show')},3000);}
 
-function makeCard(c, st) {
-  const p = c + '-' + st.id;
-  const isR = st.reb;
-  const rebX = isR ? '<div class="ir t3">' +
-    '<div class="fld"><label>Metragem (m)</label><input type="number" id="' + p + '-met" oninput="calc()"></div>' +
-    '<div class="fld"><label>Largura refile (mm)</label><input type="number" id="' + p + '-lar" step="0.1" oninput="calc()"></div>' +
-    '<div class="fld"><label>Gram. refile (g/m²)</label><input type="number" id="' + p + '-gram" step="0.1" oninput="calc()"></div>' +
-    '</div>' : '';
-  const out = isR ?
-    '<div class="or t4">' +
-    '<div class="ov"><div class="ol">Apara total (kg)</div><div class="ovv" id="' + p + '-akg">—</div></div>' +
-    '<div class="ov"><div class="ol">Refile (kg)</div><div class="ovv" id="' + p + '-rkgv">—</div></div>' +
-    '<div class="ov"><div class="ol">% c/ refile</div><span class="bdg" id="' + p + '-pct">—</span></div>' +
-    '<div class="ov"><div class="ol">% s/ refile</div><span class="bdg" id="' + p + '-pct2">—</span></div>' +
-    '</div>' :
-    '<div class="or">' +
-    '<div class="ov"><div class="ol">Apara (kg)</div><div class="ovv" id="' + p + '-akg">—</div></div>' +
-    '<div class="ov"><div class="ol">% sobre útil geral</div><span class="bdg" id="' + p + '-pct">—</span></div>' +
-    '</div>';
-  return '<div class="sc"><div class="sh"><span class="sn">' + st.label + '</span><span class="sm"><input type="text" id="' + p + '-maq" placeholder="Máquina"></span></div>' +
-    rebX +
-    '<div class="ir">' +
-    '<div class="fld"><label>Peso útil (kg)</label><input type="number" id="' + p + '-util" step="0.01" oninput="calc()"></div>' +
-    '<div class="fld"><label>Peso final (kg)</label><input type="number" id="' + p + '-final" step="0.01" oninput="calc()"></div>' +
-    '</div>' + out + '</div>';
-}
+var stages=[{id:'imp',label:'Impressão'},{id:'l1',label:'Laminação 1'},{id:'l2',label:'Laminação 2'},{id:'reb',label:'Rebobinamento',reb:true}];
+function makeCard(c,st){var p=c+'-'+st.id,isR=st.reb;var rebX=isR?'<div class="ir t3"><div class="fld"><label>Metragem (m)</label><input type="number" id="'+p+'-met" oninput="calc()"></div><div class="fld"><label>Larg. refile (mm)</label><input type="number" id="'+p+'-lar" step="0.1" oninput="calc()"></div><div class="fld"><label>Gram. refile (g/m²)</label><input type="number" id="'+p+'-gram" step="0.1" oninput="calc()"></div></div>':'';var out=isR?'<div class="or t4"><div class="ov"><div class="ol">Apara total (kg)</div><div class="ovv" id="'+p+'-akg">—</div></div><div class="ov"><div class="ol">Refile (kg)</div><div class="ovv" id="'+p+'-rkgv">—</div></div><div class="ov"><div class="ol">% c/ refile</div><span class="bdg" id="'+p+'-pct">—</span></div><div class="ov"><div class="ol">% s/ refile</div><span class="bdg" id="'+p+'-pct2">—</span></div></div>':'<div class="or"><div class="ov"><div class="ol">Apara (kg)</div><div class="ovv" id="'+p+'-akg">—</div></div><div class="ov"><div class="ol">% sobre útil geral</div><span class="bdg" id="'+p+'-pct">—</span></div></div>';return '<div class="sc"><div class="sh"><span class="sn-t">'+st.label+'</span><span class="sm"><input type="text" id="'+p+'-maq" placeholder="Máquina"></span></div>'+rebX+'<div class="ir"><div class="fld"><label>Peso útil (kg)</label><input type="number" id="'+p+'-util" step="0.01" oninput="calc()"></div><div class="fld"><label>Peso final (kg)</label><input type="number" id="'+p+'-final" step="0.01" oninput="calc()"></div></div>'+out+'</div>';}
+['frente','sanfona'].forEach(function(comp){var c=comp==='frente'?'f':'s';document.getElementById(comp+'-stages').innerHTML=stages.map(function(st){return makeCard(c,st)}).join('');});
 
-['frente', 'sanfona'].forEach(function(comp) {
-  var c = comp === 'frente' ? 'f' : 's';
-  document.getElementById(comp + '-stages').innerHTML = stages.map(function(st) { return makeCard(c, st); }).join('');
-});
+function v(id){return parseFloat(document.getElementById(id)?.value)||0;}
+function el(id){return document.getElementById(id);}
+function fmt2(n){return isNaN(n)||!isFinite(n)?'—':n.toFixed(2);}
+function fmt1(n){return isNaN(n)||!isFinite(n)?'—':n.toFixed(1);}
+function fmtM2(n){return isNaN(n)||!isFinite(n)||n===0?'—':n.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+' m²';}
+function bc(p){if(isNaN(p)||!isFinite(p))return '';return p<3?'g':p<7?'a':'r';}
+function setBdg(id,pct){var e=el(id);if(!e)return;e.className='bdg '+bc(pct);e.textContent=isNaN(pct)||!isFinite(pct)?'—':pct.toFixed(2)+'%';}
 
-function v(id) { return parseFloat(document.getElementById(id)?.value) || 0; }
-function el(id) { return document.getElementById(id); }
-function fmt2(n) { return isNaN(n) || !isFinite(n) ? '—' : n.toFixed(2); }
-function fmt1(n) { return isNaN(n) || !isFinite(n) ? '—' : n.toFixed(1); }
-function fmtR(n) { return isNaN(n) || !isFinite(n) ? '—' : 'R$ ' + n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
-function bc(p) { if (isNaN(p) || !isFinite(p)) return ''; return p < 3 ? 'g' : p < 7 ? 'a' : 'r'; }
+var compData={},calcResults={};
+function calcComp(comp){var c=comp==='frente'?'f':'s';var aparas=[],rebFinal=0;['imp','l1','l2'].forEach(function(sid){var p=c+'-'+sid,ut=v(p+'-util'),fn=v(p+'-final');var ap=ut>0&&fn>0?ut-fn:0;aparas.push({sid:sid,ap:Math.max(0,ap)});});var p=c+'-reb',ru=v(p+'-util'),rf=v(p+'-final');var rm=v(p+'-met'),rl=v(p+'-lar'),rg=v(p+'-gram');var rAp=ru>0&&rf>0?ru-rf:0;var refile=rm>0&&rl>0&&rg>0?(rl/1000)*rm*(rg/1000):0;aparas.push({sid:'reb',ap:Math.max(0,rAp),refile:refile});rebFinal=rf;var totalApara=aparas.reduce(function(s,a){return s+a.ap},0);var utilGeral=rebFinal+totalApara;aparas.forEach(function(a){var p2=c+'-'+a.sid;var pG=utilGeral>0?a.ap/utilGeral*100:NaN;if(el(p2+'-akg'))el(p2+'-akg').textContent=a.ap>0?fmt2(a.ap)+' kg':'—';if(a.sid==='reb'){setBdg(p2+'-pct',pG);var pS=utilGeral>0?(a.ap-a.refile)/utilGeral*100:NaN;setBdg(p2+'-pct2',pS);if(el(p2+'-rkgv'))el(p2+'-rkgv').textContent=a.refile>0?fmt2(a.refile)+' kg':'—';}else{setBdg(p2+'-pct',pG);}});var pctG=utilGeral>0?totalApara/utilGeral*100:NaN;el(c+'-util-tot').textContent=utilGeral>0?fmt1(utilGeral)+' kg':'—';el(c+'-apara-tot').textContent=totalApara>0?fmt1(totalApara)+' kg':'—';var pe=el(c+'-pct-tot');pe.className='cv bdg '+bc(pctG);pe.textContent=utilGeral>0?pctG.toFixed(1)+'%':'—';compData[comp]={aparas:aparas,totalApara:totalApara,utilGeral:utilGeral};return{totalApara:totalApara,utilGeral:utilGeral};}
 
-function setBdg(id, pct) {
-  var e = el(id); if (!e) return;
-  e.className = 'bdg ' + bc(pct);
-  e.textContent = isNaN(pct) || !isFinite(pct) ? '—' : pct.toFixed(2) + '%';
-}
+function calc(){var rf=calcComp('frente'),rs=calcComp('sanfona');var zip=v('fmt-zip');var ovUtil=rf.utilGeral+rs.utilGeral+zip;var fu=v('fmt-util'),ff=v('fmt-final');var fmtAp=fu>0&&ff>0?Math.max(0,fu-ff):0;var fmtPct=ovUtil>0?fmtAp/ovUtil*100:NaN;el('fmt-apara-kg').textContent=fmtAp>0?fmt2(fmtAp)+' kg':'—';setBdg('fmt-apara-pct',fmtPct);
+var qtd=v('fmt-qtd');var afi=v('rf-afi'),lfi=v('rf-lfi'),aff=v('rf-aff'),lff=v('rf-lff'),gf=v('rf-gf');var m2uniF=(afi*lfi)/1e6,m2unfF=(aff*lff)/1e6;var m2refUF=m2uniF>0&&m2unfF>0?m2uniF-m2unfF:0;var m2refTotF=m2refUF>0&&qtd>0?m2refUF*qtd:0;var refKgF=m2refTotF>0&&gf>0?m2refTotF*(gf/1000):0;
+var asi=v('rf-asi'),lsi=v('rf-lsi'),asf=v('rf-asf'),lsf=v('rf-lsf'),gs=v('rf-gs');var m2uniS=(asi*lsi)/1e6,m2unfS=(asf*lsf)/1e6;var m2refUS=m2uniS>0&&m2unfS>0?m2uniS-m2unfS:0;var m2refTotS=m2refUS>0&&qtd>0?m2refUS*qtd:0;var refKgS=m2refTotS>0&&gs>0?m2refTotS*(gs/1000):0;
+el('ro-m2f').textContent=fmtM2(m2refTotF);el('ro-kgf').textContent=refKgF>0?fmt2(refKgF)+' kg':'—';el('ro-m2s').textContent=fmtM2(m2refTotS);el('ro-kgs').textContent=refKgS>0?fmt2(refKgS)+' kg':'—';
+var refKgTot=refKgF+refKgS;el('ref-kg-tot').textContent=refKgTot>0?fmt2(refKgTot)+' kg':'—';el('ref-m2-tot').textContent=fmtM2(m2refTotF+m2refTotS);
+setBdg('fmt-pct-cr',fmtPct);var aparaSR=fmtAp-refKgTot;var pctSR=ovUtil>0&&aparaSR>=0?aparaSR/ovUtil*100:NaN;setBdg('fmt-pct-sr',pctSR);
+var ovApara=rf.totalApara+rs.totalApara+fmtAp;var ovPct=ovUtil>0?ovApara/ovUtil*100:NaN;el('ov-util').textContent=ovUtil>0?fmt1(ovUtil)+' kg':'—';el('ov-apara').textContent=ovApara>0?fmt1(ovApara)+' kg':'—';var op=el('ov-pct');op.className='mv bdg '+bc(ovPct);op.textContent=ovUtil>0?ovPct.toFixed(1)+'%':'—';
+calcResults={f_imp_apara:compData.frente?compData.frente.aparas[0].ap:0,f_imp_pct:compData.frente&&compData.frente.utilGeral>0?compData.frente.aparas[0].ap/compData.frente.utilGeral*100:0,f_l1_apara:compData.frente?compData.frente.aparas[1].ap:0,f_l1_pct:compData.frente&&compData.frente.utilGeral>0?compData.frente.aparas[1].ap/compData.frente.utilGeral*100:0,f_l2_apara:compData.frente?compData.frente.aparas[2].ap:0,f_l2_pct:compData.frente&&compData.frente.utilGeral>0?compData.frente.aparas[2].ap/compData.frente.utilGeral*100:0,f_reb_apara:compData.frente?compData.frente.aparas[3].ap:0,f_reb_pct_cr:compData.frente&&compData.frente.utilGeral>0?compData.frente.aparas[3].ap/compData.frente.utilGeral*100:0,f_reb_pct_sr:compData.frente&&compData.frente.utilGeral>0?(compData.frente.aparas[3].ap-(compData.frente.aparas[3].refile||0))/compData.frente.utilGeral*100:0,f_reb_refile:compData.frente?compData.frente.aparas[3].refile||0:0,f_util_geral:compData.frente?compData.frente.utilGeral:0,f_apara_total:compData.frente?compData.frente.totalApara:0,f_pct_geral:compData.frente&&compData.frente.utilGeral>0?compData.frente.totalApara/compData.frente.utilGeral*100:0,s_imp_apara:compData.sanfona?compData.sanfona.aparas[0].ap:0,s_imp_pct:compData.sanfona&&compData.sanfona.utilGeral>0?compData.sanfona.aparas[0].ap/compData.sanfona.utilGeral*100:0,s_l1_apara:compData.sanfona?compData.sanfona.aparas[1].ap:0,s_l1_pct:compData.sanfona&&compData.sanfona.utilGeral>0?compData.sanfona.aparas[1].ap/compData.sanfona.utilGeral*100:0,s_l2_apara:compData.sanfona?compData.sanfona.aparas[2].ap:0,s_l2_pct:compData.sanfona&&compData.sanfona.utilGeral>0?compData.sanfona.aparas[2].ap/compData.sanfona.utilGeral*100:0,s_reb_apara:compData.sanfona?compData.sanfona.aparas[3].ap:0,s_reb_pct_cr:compData.sanfona&&compData.sanfona.utilGeral>0?compData.sanfona.aparas[3].ap/compData.sanfona.utilGeral*100:0,s_reb_pct_sr:compData.sanfona&&compData.sanfona.utilGeral>0?(compData.sanfona.aparas[3].ap-(compData.sanfona.aparas[3].refile||0))/compData.sanfona.utilGeral*100:0,s_reb_refile:compData.sanfona?compData.sanfona.aparas[3].refile||0:0,s_util_geral:compData.sanfona?compData.sanfona.utilGeral:0,s_apara_total:compData.sanfona?compData.sanfona.totalApara:0,s_pct_geral:compData.sanfona&&compData.sanfona.utilGeral>0?compData.sanfona.totalApara/compData.sanfona.utilGeral*100:0,fmt_qtd:qtd,fmt_apara:fmtAp,fmt_pct:isNaN(fmtPct)?0:fmtPct,fmt_refile_kg:refKgTot,total_util:ovUtil,total_apara:ovApara,total_pct:isNaN(ovPct)?0:ovPct};
+buildTable(fmtAp,fmtPct,ovUtil,ovApara,ovPct);}
 
-var compData = {};
+function buildTable(fmtAp,fmtPct,ovUtil,ovApara,ovPct){var html='',labels={imp:'Impressão',l1:'Laminação 1',l2:'Laminação 2',reb:'Rebobinamento'};['frente','sanfona'].forEach(function(comp){var d=compData[comp];if(!d)return;var nm=comp==='frente'?'Frente':'Sanfona',uG=d.utilGeral;d.aparas.forEach(function(a){var pct=uG>0?a.ap/uG*100:NaN;html+='<tr><td>'+nm+' — '+labels[a.sid]+'</td><td>'+(a.ap>0?fmt2(a.ap):'—')+'</td><td><span class="bdg '+bc(pct)+'">'+(isNaN(pct)||!isFinite(pct)?'—':pct.toFixed(2)+'%')+'</span></td></tr>';});var sp=uG>0?d.totalApara/uG*100:NaN;html+='<tr class="sub"><td>Subtotal '+nm.toLowerCase()+'</td><td>'+(d.totalApara>0?fmt1(d.totalApara):'—')+'</td><td><span class="bdg '+bc(sp)+'">'+(!isNaN(sp)?sp.toFixed(1)+'%':'—')+'</span></td></tr>';});if(fmtAp>0){html+='<tr><td>Formatação</td><td>'+fmt2(fmtAp)+'</td><td><span class="bdg '+bc(fmtPct)+'">'+fmtPct.toFixed(2)+'%</span></td></tr>';}html+='<tr class="tot"><td>Total geral</td><td>'+(ovApara>0?fmt1(ovApara):'—')+'</td><td><span class="bdg '+bc(ovPct)+'">'+(ovUtil>0?ovPct.toFixed(1)+'%':'—')+'</span></td></tr>';el('summary-tbody').innerHTML=html;}
 
-function calcComp(comp) {
-  var c = comp === 'frente' ? 'f' : 's';
-  var aparas = [];
-  var rebFinal = 0;
+function saveOP(){var url=getScriptUrl();if(!url){toast('Configure a URL do Apps Script primeiro','err');return;}var data=Object.assign({data:el('op-data').value,cliente:el('op-cli').value,produto:el('op-prod').value,codigo:el('op-cod').value},calcResults);if(!data.cliente&&!data.produto){toast('Preencha ao menos cliente ou produto','err');return;}var btn=document.querySelector('.btn-row .primary');btn.textContent='Salvando...';btn.disabled=true;fetch(url,{method:'POST',body:JSON.stringify(data),headers:{'Content-Type':'text/plain'}}).then(function(r){return r.json()}).then(function(res){if(res.status==='ok'){toast('OP salva com sucesso!','ok');}else{toast('Erro: '+res.message,'err');}}).catch(function(err){toast('Erro de conexão: '+err.message,'err');}).finally(function(){btn.textContent='Salvar OP';btn.disabled=false;});}
 
-  ['imp', 'l1', 'l2'].forEach(function(sid) {
-    var p = c + '-' + sid;
-    var util = v(p + '-util'), fin = v(p + '-final');
-    var ap = util > 0 && fin > 0 ? util - fin : 0;
-    aparas.push({ sid: sid, ap: Math.max(0, ap) });
-  });
+var allOps=[];
+function loadHistory(){var url=getScriptUrl();if(!url){toast('Configure a URL do Apps Script','err');return;}el('hist-empty').textContent='Carregando...';el('hist-empty').style.display='block';fetch(url).then(function(r){return r.json()}).then(function(res){if(res.status==='ok'){allOps=res.ops||[];populateFilters();renderHistory();}else{el('hist-empty').textContent='Erro: '+res.message;}}).catch(function(err){el('hist-empty').textContent='Erro de conexão: '+err.message;});}
+function populateFilters(){var clis={},prods={};allOps.forEach(function(op){if(op.cliente)clis[op.cliente]=true;if(op.produto)prods[op.produto]=true;});var sC=el('hist-filter-cli'),sP=el('hist-filter-prod');sC.innerHTML='<option value="">Todos os clientes</option>';sP.innerHTML='<option value="">Todos os produtos</option>';Object.keys(clis).sort().forEach(function(c){sC.innerHTML+='<option>'+c+'</option>';});Object.keys(prods).sort().forEach(function(p){sP.innerHTML+='<option>'+p+'</option>';});sC.onchange=renderHistory;sP.onchange=renderHistory;}
+function renderHistory(){var fc=el('hist-filter-cli').value,fpd=el('hist-filter-prod').value;var ops=allOps.filter(function(op){if(fc&&op.cliente!==fc)return false;if(fpd&&op.produto!==fpd)return false;return true;});el('hist-count').textContent=ops.length+' OP'+(ops.length!==1?'s':'');if(ops.length===0){el('hist-empty').style.display='block';el('hist-empty').textContent='Nenhuma OP encontrada';el('hist-tbody').innerHTML='';el('avg-section').style.display='none';return;}el('hist-empty').style.display='none';
+var html='';ops.forEach(function(op){var d=op.data?String(op.data).substring(0,10):'—';html+='<tr><td>'+d+'</td><td style="font-family:var(--sn)">'+((op.produto||'')+(op.cliente?' ('+op.cliente+')':''))+'</td><td><span class="bdg '+bc(n(op.f_imp_pct))+'">'+fpv(op.f_imp_pct)+'</span></td><td><span class="bdg '+bc(n(op.f_l1_pct))+'">'+fpv(op.f_l1_pct)+'</span></td><td><span class="bdg '+bc(n(op.f_l2_pct))+'">'+fpv(op.f_l2_pct)+'</span></td><td><span class="bdg '+bc(n(op.f_reb_pct_cr))+'">'+fpv(op.f_reb_pct_cr)+'</span></td><td><span class="bdg '+bc(n(op.f_pct_geral))+'">'+fpv(op.f_pct_geral)+'</span></td><td><span class="bdg '+bc(n(op.s_imp_pct))+'">'+fpv(op.s_imp_pct)+'</span></td><td><span class="bdg '+bc(n(op.s_l1_pct))+'">'+fpv(op.s_l1_pct)+'</span></td><td><span class="bdg '+bc(n(op.s_l2_pct))+'">'+fpv(op.s_l2_pct)+'</span></td><td><span class="bdg '+bc(n(op.s_reb_pct_cr))+'">'+fpv(op.s_reb_pct_cr)+'</span></td><td><span class="bdg '+bc(n(op.s_pct_geral))+'">'+fpv(op.s_pct_geral)+'</span></td><td><span class="bdg '+bc(n(op.fmt_pct))+'">'+fpv(op.fmt_pct)+'</span></td><td><span class="bdg '+bc(n(op.total_pct))+'">'+fpv(op.total_pct)+'</span></td></tr>';});
+var avgFields=['f_imp_pct','f_l1_pct','f_l2_pct','f_reb_pct_cr','f_pct_geral','s_imp_pct','s_l1_pct','s_l2_pct','s_reb_pct_cr','s_pct_geral','fmt_pct','total_pct'];html+='<tr class="avg"><td>Média</td><td></td>';avgFields.forEach(function(f){var sum=0,cnt=0;ops.forEach(function(op){var vl=n(op[f]);if(vl>0){sum+=vl;cnt++;}});var avg=cnt>0?sum/cnt:NaN;html+='<td>'+fpv2(avg)+'</td>';});html+='</tr>';el('hist-tbody').innerHTML=html;renderAverages(ops);}
+function renderAverages(ops){el('avg-section').style.display='block';var rows=[{label:'Frente — Impressão',kg:'f_imp_apara',pct:'f_imp_pct'},{label:'Frente — Laminação 1',kg:'f_l1_apara',pct:'f_l1_pct'},{label:'Frente — Laminação 2',kg:'f_l2_apara',pct:'f_l2_pct'},{label:'Frente — Rebobinamento',kg:'f_reb_apara',pct:'f_reb_pct_cr'},{label:'Subtotal frente',kg:'f_apara_total',pct:'f_pct_geral',sub:true},{label:'Sanfona — Impressão',kg:'s_imp_apara',pct:'s_imp_pct'},{label:'Sanfona — Laminação 1',kg:'s_l1_apara',pct:'s_l1_pct'},{label:'Sanfona — Laminação 2',kg:'s_l2_apara',pct:'s_l2_pct'},{label:'Sanfona — Rebobinamento',kg:'s_reb_apara',pct:'s_reb_pct_cr'},{label:'Subtotal sanfona',kg:'s_apara_total',pct:'s_pct_geral',sub:true},{label:'Formatação',kg:'fmt_apara',pct:'fmt_pct'},{label:'Total geral',kg:'total_apara',pct:'total_pct',tot:true}];var html='';rows.forEach(function(r){var sumKg=0,sumPct=0,cnt=0;ops.forEach(function(op){var vkg=n(op[r.kg]),vp=n(op[r.pct]);if(vkg>0||vp>0){sumKg+=vkg;sumPct+=vp;cnt++;}});var avgKg=cnt>0?sumKg/cnt:NaN,avgPct=cnt>0?sumPct/cnt:NaN;var cls=r.tot?'tot':r.sub?'sub':'';html+='<tr class="'+cls+'"><td>'+r.label+'</td><td>'+(!isNaN(avgKg)?avgKg.toFixed(2):'—')+'</td><td><span class="bdg '+bc(avgPct)+'">'+fpv2(avgPct)+'</span></td><td>'+cnt+'</td></tr>';});el('avg-tbody').innerHTML=html;}
 
-  var p = c + '-reb';
-  var ru = v(p + '-util'), rf = v(p + '-final');
-  var rm = v(p + '-met'), rl = v(p + '-lar'), rg = v(p + '-gram');
-  var rAp = ru > 0 && rf > 0 ? ru - rf : 0;
-  var refile = rm > 0 && rl > 0 && rg > 0 ? (rl / 1000) * rm * (rg / 1000) : 0;
-  aparas.push({ sid: 'reb', ap: Math.max(0, rAp), refile: refile });
-  rebFinal = rf;
+function n(v){return parseFloat(v)||0;}
+function fpv(v){var x=n(v);return x>0?x.toFixed(1)+'%':'—';}
+function fpv2(v){return isNaN(v)||!isFinite(v)?'—':v.toFixed(2)+'%';}
+function set(id,vl){var e=el(id);if(e)e.value=vl;}
+function doClear(){document.querySelectorAll('#tab-form input').forEach(function(i){if(i.id!=='script-url')i.value=''});el('op-data').value=new Date().toISOString().split('T')[0];calc();}
 
-  var totalApara = aparas.reduce(function(s, a) { return s + a.ap; }, 0);
-  var utilGeral = rebFinal + totalApara;
-
-  aparas.forEach(function(a) {
-    var p2 = c + '-' + a.sid;
-    var pctG = utilGeral > 0 ? a.ap / utilGeral * 100 : NaN;
-    if (el(p2 + '-akg')) el(p2 + '-akg').textContent = a.ap > 0 ? fmt2(a.ap) + ' kg' : '—';
-    if (a.sid === 'reb') {
-      setBdg(p2 + '-pct', pctG);
-      var pctSem = utilGeral > 0 ? (a.ap - a.refile) / utilGeral * 100 : NaN;
-      setBdg(p2 + '-pct2', pctSem);
-      if (el(p2 + '-rkgv')) el(p2 + '-rkgv').textContent = a.refile > 0 ? fmt2(a.refile) + ' kg' : '—';
-    } else {
-      setBdg(p2 + '-pct', pctG);
-    }
-  });
-
-  var pctGeral = utilGeral > 0 ? totalApara / utilGeral * 100 : NaN;
-  el(c + '-util-tot').textContent = utilGeral > 0 ? fmt1(utilGeral) + ' kg' : '—';
-  el(c + '-apara-tot').textContent = totalApara > 0 ? fmt1(totalApara) + ' kg' : '—';
-  var pe = el(c + '-pct-tot');
-  pe.className = 'cv bdg ' + bc(pctGeral);
-  pe.textContent = utilGeral > 0 ? pctGeral.toFixed(1) + '%' : '—';
-
-  compData[comp] = { aparas: aparas, totalApara: totalApara, utilGeral: utilGeral };
-  return { totalApara: totalApara, utilGeral: utilGeral };
-}
-
-function calc() {
-  var rf = calcComp('frente'), rs = calcComp('sanfona');
-  var zip = v('fmt-zip');
-  var ovUtil = rf.utilGeral + rs.utilGeral + zip;
-
-  var fu = v('fmt-util'), ff = v('fmt-final');
-  var fmtAp = fu > 0 && ff > 0 ? Math.max(0, fu - ff) : 0;
-  var fmtPct = ovUtil > 0 ? fmtAp / ovUtil * 100 : NaN;
-  el('fmt-apara-kg').textContent = fmtAp > 0 ? fmt2(fmtAp) + ' kg' : '—';
-  setBdg('fmt-apara-pct', fmtPct);
-
-  var ovApara = rf.totalApara + rs.totalApara + fmtAp;
-  var ovPct = ovUtil > 0 ? ovApara / ovUtil * 100 : NaN;
-  var cu = v('custo'), ct = ovApara * cu;
-
-  el('ov-util').textContent = ovUtil > 0 ? fmt1(ovUtil) + ' kg' : '—';
-  el('ov-apara').textContent = ovApara > 0 ? fmt1(ovApara) + ' kg' : '—';
-  var op = el('ov-pct');
-  op.className = 'mv bdg ' + bc(ovPct);
-  op.textContent = ovUtil > 0 ? ovPct.toFixed(1) + '%' : '—';
-  el('ov-custo').textContent = cu > 0 && ovApara > 0 ? fmtR(ct) : '—';
-
-  buildTable(fmtAp, fmtPct, cu, ovUtil, ovApara, ovPct, ct);
-}
-
-function buildTable(fmtAp, fmtPct, cu, ovUtil, ovApara, ovPct, ct) {
-  var html = '';
-  var labels = { imp: 'Impressão', l1: 'Laminação 1', l2: 'Laminação 2', reb: 'Rebobinamento' };
-
-  ['frente', 'sanfona'].forEach(function(comp) {
-    var d = compData[comp]; if (!d) return;
-    var nm = comp === 'frente' ? 'Frente' : 'Sanfona';
-    var uG = d.utilGeral;
-    d.aparas.forEach(function(a) {
-      var pct = uG > 0 ? a.ap / uG * 100 : NaN;
-      var c2 = cu > 0 && a.ap > 0 ? a.ap * cu : NaN;
-      html += '<tr><td>' + nm + ' — ' + labels[a.sid] + '</td>' +
-        '<td>' + (a.ap > 0 ? fmt2(a.ap) : '—') + '</td>' +
-        '<td><span class="bdg ' + bc(pct) + '">' + (isNaN(pct) || !isFinite(pct) ? '—' : pct.toFixed(2) + '%') + '</span></td>' +
-        '<td>' + (!isNaN(c2) ? fmtR(c2) : '—') + '</td></tr>';
-    });
-    var subPct = uG > 0 ? d.totalApara / uG * 100 : NaN;
-    var subC = cu > 0 && d.totalApara > 0 ? d.totalApara * cu : NaN;
-    html += '<tr class="sub"><td>Subtotal ' + nm.toLowerCase() + '</td>' +
-      '<td>' + (d.totalApara > 0 ? fmt1(d.totalApara) : '—') + '</td>' +
-      '<td><span class="bdg ' + bc(subPct) + '">' + (!isNaN(subPct) ? subPct.toFixed(1) + '%' : '—') + '</span></td>' +
-      '<td>' + (!isNaN(subC) ? fmtR(subC) : '—') + '</td></tr>';
-  });
-
-  if (fmtAp > 0) {
-    var fc = cu > 0 ? fmtAp * cu : NaN;
-    html += '<tr><td>Formatação</td>' +
-      '<td>' + fmt2(fmtAp) + '</td>' +
-      '<td><span class="bdg ' + bc(fmtPct) + '">' + fmtPct.toFixed(2) + '%</span></td>' +
-      '<td>' + (!isNaN(fc) ? fmtR(fc) : '—') + '</td></tr>';
-  }
-
-  html += '<tr class="tot"><td>Total geral</td>' +
-    '<td>' + (ovApara > 0 ? fmt1(ovApara) : '—') + '</td>' +
-    '<td><span class="bdg ' + bc(ovPct) + '">' + (ovUtil > 0 ? ovPct.toFixed(1) + '%' : '—') + '</span></td>' +
-    '<td>' + (cu > 0 && ovApara > 0 ? fmtR(ct) : '—') + '</td></tr>';
-
-  el('summary-tbody').innerHTML = html;
-}
-
-function set(id, val) { var e = el(id); if (e) e.value = val; }
-
-function doClear() {
-  document.querySelectorAll('.container input').forEach(function(i) { i.value = ''; });
-  calc();
-}
-
-// Set today's date
-var today = new Date().toISOString().split('T')[0];
-el('op-data').value = today;
+el('op-data').value=new Date().toISOString().split('T')[0];
+loadConfig();
 calc();
 </script>
-
 </body>
 </html>
