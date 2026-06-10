@@ -22,6 +22,9 @@ body{background:var(--bg);color:var(--t1);font-family:var(--sn);font-size:14px;l
 .config-bar .status{font-size:11px;padding:6px 12px;border-radius:var(--rs);white-space:nowrap}
 .config-bar .status.ok{background:var(--gbg);color:var(--gt)}
 .config-bar .status.no{background:var(--dbg);color:var(--dt)}
+.edit-banner{padding:10px 14px;margin-bottom:14px;border-radius:var(--r);background:var(--wbg);color:var(--wt);font-size:13px;font-weight:500;display:none;align-items:center;justify-content:space-between}
+.edit-banner.show{display:flex}
+.edit-banner button{padding:4px 12px;border:1px solid var(--wt);border-radius:var(--rs);background:transparent;color:var(--wt);font-size:12px;cursor:pointer}
 .fl{display:flex;flex-direction:column;gap:3px}
 .fl label,.fld label{font-size:10px;color:var(--t2);font-weight:600;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:2px}
 .fl input,.fld input{width:100%;padding:6px 10px;border:1px solid var(--bd);border-radius:var(--rs);background:var(--sf2);color:var(--t1);font-family:var(--sn);font-size:13px;transition:border-color .2s}
@@ -79,16 +82,17 @@ button:hover{background:var(--sf2);border-color:var(--bd2)}
 button:active{transform:scale(.98)}
 button.primary{background:var(--acc);color:#fff;border-color:var(--acc)}
 button.primary:hover{opacity:.9;background:var(--acc)}
+button.sm{padding:4px 10px;font-size:11px}
 .toast{position:fixed;bottom:20px;right:20px;padding:12px 20px;border-radius:var(--r);font-size:13px;font-weight:500;z-index:999;transform:translateY(100px);opacity:0;transition:.3s}
 .toast.show{transform:translateY(0);opacity:1}
 .toast.ok{background:var(--gg);color:#fff}.toast.err{background:var(--dd);color:#fff}
 .hist-controls{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
 .hist-controls select{padding:6px 10px;border:1px solid var(--bd);border-radius:var(--rs);background:var(--sf2);color:var(--t1);font-size:12px;font-family:var(--sn)}
 .hist-empty{text-align:center;padding:40px;color:var(--t3);font-size:14px}
-.hist-table-wrap{overflow-x:auto}.hist-table-wrap table{min-width:700px}
+.hist-table-wrap{overflow-x:auto}.hist-table-wrap table{min-width:750px}
 .hist-table-wrap td,.hist-table-wrap th{white-space:nowrap;padding:6px 10px}
 @media(max-width:700px){.op-bar{grid-template-columns:1fr 1fr}.cols{grid-template-columns:1fr}.mg{grid-template-columns:1fr 1fr}.or.t4{grid-template-columns:1fr 1fr}.ref-cols{grid-template-columns:1fr}.ref-summary{grid-template-columns:1fr 1fr}.config-bar{flex-direction:column}}
-@media print{body{background:#fff;padding:10px;font-size:11px}.btn-row,.config-bar,.tabs{display:none!important}.tab-content{display:block!important}.sc,.fc,.sg,.op-bar,.cs,.mc{border-color:#ccc;break-inside:avoid}input{border:none!important;background:transparent!important;padding:0!important;box-shadow:none!important;font-weight:600}.bdg{border:1px solid #ccc}}
+@media print{body{background:#fff;padding:10px;font-size:11px}.btn-row,.config-bar,.tabs,.edit-banner{display:none!important}.tab-content{display:none!important}.tab-content.active{display:block!important}.sc,.fc,.sg,.op-bar,.cs,.mc{border-color:#ccc;break-inside:avoid}input{border:none!important;background:transparent!important;padding:0!important;box-shadow:none!important;font-weight:600}.bdg{border:1px solid #ccc}}
 </style>
 </head>
 <body>
@@ -106,6 +110,10 @@ button.primary:hover{opacity:.9;background:var(--acc)}
   </div>
 
   <div id="tab-form" class="tab-content active">
+    <div class="edit-banner" id="edit-banner">
+      <span>Editando OP — <strong id="edit-label"></strong></span>
+      <button onclick="cancelEdit()">Cancelar edição</button>
+    </div>
     <div class="op-bar">
       <div class="fl"><label>Cliente</label><input id="op-cli" type="text" placeholder="Nome do cliente"></div>
       <div class="fl"><label>Produto</label><input id="op-prod" type="text" placeholder="Nome do produto"></div>
@@ -140,29 +148,61 @@ button.primary:hover{opacity:.9;background:var(--acc)}
       <div class="note">Refile/un = (alt ini × larg ini) − (alt fin × larg fin) | Total = refile/un × qtd | kg = m² × gram ÷ 1000</div>
     </div>
     <div class="sg"><h3>Apara geral — contribuição por etapa</h3><table><thead><tr><th>Etapa</th><th>Apara (kg)</th><th>% contribuição</th></tr></thead><tbody id="summary-tbody"></tbody></table><div class="mg"><div class="mc"><div class="ml">Útil total</div><div class="mv" id="ov-util">—</div></div><div class="mc"><div class="ml">Apara total</div><div class="mv" id="ov-apara">—</div></div><div class="mc"><div class="ml">% Apara geral</div><div class="mv" id="ov-pct">—</div></div></div></div>
-    <div class="btn-row"><button onclick="doClear()">Limpar</button><button onclick="window.print()">Imprimir</button><button class="primary" onclick="saveOP()">Salvar OP</button></div>
+    <div class="btn-row"><button onclick="doClear()">Limpar</button><button onclick="window.print()">Imprimir</button><button class="primary" id="save-btn" onclick="saveOP()">Salvar OP</button></div>
   </div>
 
   <div id="tab-hist" class="tab-content">
     <div class="hist-controls"><button onclick="loadHistory()">Atualizar</button><select id="hist-filter-cli"><option value="">Todos os clientes</option></select><select id="hist-filter-prod"><option value="">Todos os produtos</option></select><span id="hist-count" style="font-size:11px;color:var(--t2);margin-left:auto"></span></div>
-    <div class="sg"><h3>Comparativo de OPs</h3><div class="hist-table-wrap"><table><thead><tr><th>Data</th><th>Produto</th><th>F Imp</th><th>F L1</th><th>F L2</th><th>F Reb</th><th>F Total</th><th>S Imp</th><th>S L1</th><th>S L2</th><th>S Reb</th><th>S Total</th><th>Fmt</th><th>Geral</th></tr></thead><tbody id="hist-tbody"></tbody></table></div><div id="hist-empty" class="hist-empty">Clique em "Atualizar" para carregar o histórico</div></div>
+    <div class="sg"><h3>Comparativo de OPs</h3><div class="hist-table-wrap"><table><thead><tr><th></th><th>Data</th><th>Produto</th><th>F Imp</th><th>F L1</th><th>F L2</th><th>F Reb</th><th>F Total</th><th>S Imp</th><th>S L1</th><th>S L2</th><th>S Reb</th><th>S Total</th><th>Fmt</th><th>Geral</th></tr></thead><tbody id="hist-tbody"></tbody></table></div><div id="hist-empty" class="hist-empty">Clique em "Atualizar" para carregar o histórico</div></div>
     <div class="sg" id="avg-section" style="display:none"><h3>Médias por etapa</h3><table><thead><tr><th>Etapa</th><th>Apara média (kg)</th><th>% média</th><th>Nº OPs</th></tr></thead><tbody id="avg-tbody"></tbody></table></div>
   </div>
 </div>
 <div class="toast" id="toast"></div>
 
 <script>
+/* TABS */
 function switchTab(t){document.querySelectorAll('.tabs button').forEach(function(b,i){b.classList.toggle('active',i===(t==='form'?0:1))});document.getElementById('tab-form').classList.toggle('active',t==='form');document.getElementById('tab-hist').classList.toggle('active',t==='hist');if(t==='hist')loadHistory();}
+
+/* CONFIG */
 function saveConfig(){localStorage.setItem('apara_script_url',document.getElementById('script-url').value.trim());updateStatus();}
 function loadConfig(){document.getElementById('script-url').value=localStorage.getItem('apara_script_url')||'';updateStatus();}
 function updateStatus(){var u=document.getElementById('script-url').value.trim(),s=document.getElementById('conn-status');if(u&&u.startsWith('https://script.google.com')){s.textContent='Configurado';s.className='status ok';}else{s.textContent='Não configurado';s.className='status no';}}
 function getScriptUrl(){return(document.getElementById('script-url').value||'').trim();}
 function toast(msg,type){var t=document.getElementById('toast');t.textContent=msg;t.className='toast '+(type||'ok')+' show';setTimeout(function(){t.classList.remove('show')},3000);}
 
+/* EDIT STATE */
+var editingRow=null;
+var INPUT_IDS=['op-cli','op-prod','op-cod','op-data','f-imp-maq','f-imp-util','f-imp-final','f-l1-maq','f-l1-util','f-l1-final','f-l2-maq','f-l2-util','f-l2-final','f-reb-maq','f-reb-met','f-reb-lar','f-reb-gram','f-reb-util','f-reb-final','s-imp-maq','s-imp-util','s-imp-final','s-l1-maq','s-l1-util','s-l1-final','s-l2-maq','s-l2-util','s-l2-final','s-reb-maq','s-reb-met','s-reb-lar','s-reb-gram','s-reb-util','s-reb-final','fmt-maq','fmt-qtd','fmt-zip','fmt-util','fmt-final','rf-gf','rf-afi','rf-lfi','rf-aff','rf-lff','rf-gs','rf-asi','rf-lsi','rf-asf','rf-lsf'];
+
+function collectInputs(){var o={};INPUT_IDS.forEach(function(id){var e=el(id);if(e)o[id]=e.value;});return o;}
+function restoreInputs(o){if(!o)return;INPUT_IDS.forEach(function(id){var e=el(id);if(e&&o[id]!==undefined)e.value=o[id];});calc();}
+
+function startEdit(op){
+  var inputs={};
+  try{inputs=JSON.parse(op.inputs_json||'{}');}catch(e){inputs={};}
+  if(!Object.keys(inputs).length){toast('OP sem dados de input para restaurar','err');return;}
+  editingRow=op._row;
+  restoreInputs(inputs);
+  el('edit-banner').classList.add('show');
+  el('edit-label').textContent=(op.produto||'')+(op.data?' — '+String(op.data).substring(0,10):'');
+  el('save-btn').textContent='Atualizar OP';
+  switchTab('form');
+  window.scrollTo(0,0);
+}
+
+function cancelEdit(){
+  editingRow=null;
+  el('edit-banner').classList.remove('show');
+  el('save-btn').textContent='Salvar OP';
+  doClear();
+}
+
+/* STAGE CARDS */
 var stages=[{id:'imp',label:'Impressão'},{id:'l1',label:'Laminação 1'},{id:'l2',label:'Laminação 2'},{id:'reb',label:'Rebobinamento',reb:true}];
 function makeCard(c,st){var p=c+'-'+st.id,isR=st.reb;var rebX=isR?'<div class="ir t3"><div class="fld"><label>Metragem (m)</label><input type="number" id="'+p+'-met" oninput="calc()"></div><div class="fld"><label>Larg. refile (mm)</label><input type="number" id="'+p+'-lar" step="0.1" oninput="calc()"></div><div class="fld"><label>Gram. refile (g/m²)</label><input type="number" id="'+p+'-gram" step="0.1" oninput="calc()"></div></div>':'';var out=isR?'<div class="or t4"><div class="ov"><div class="ol">Apara total (kg)</div><div class="ovv" id="'+p+'-akg">—</div></div><div class="ov"><div class="ol">Refile (kg)</div><div class="ovv" id="'+p+'-rkgv">—</div></div><div class="ov"><div class="ol">% c/ refile</div><span class="bdg" id="'+p+'-pct">—</span></div><div class="ov"><div class="ol">% s/ refile</div><span class="bdg" id="'+p+'-pct2">—</span></div></div>':'<div class="or"><div class="ov"><div class="ol">Apara (kg)</div><div class="ovv" id="'+p+'-akg">—</div></div><div class="ov"><div class="ol">% sobre útil geral</div><span class="bdg" id="'+p+'-pct">—</span></div></div>';return '<div class="sc"><div class="sh"><span class="sn-t">'+st.label+'</span><span class="sm"><input type="text" id="'+p+'-maq" placeholder="Máquina"></span></div>'+rebX+'<div class="ir"><div class="fld"><label>Peso útil (kg)</label><input type="number" id="'+p+'-util" step="0.01" oninput="calc()"></div><div class="fld"><label>Peso final (kg)</label><input type="number" id="'+p+'-final" step="0.01" oninput="calc()"></div></div>'+out+'</div>';}
 ['frente','sanfona'].forEach(function(comp){var c=comp==='frente'?'f':'s';document.getElementById(comp+'-stages').innerHTML=stages.map(function(st){return makeCard(c,st)}).join('');});
 
+/* CALC */
 function v(id){return parseFloat(document.getElementById(id)?.value)||0;}
 function el(id){return document.getElementById(id);}
 function fmt2(n){return isNaN(n)||!isFinite(n)?'—':n.toFixed(2);}
@@ -186,21 +226,27 @@ buildTable(fmtAp,fmtPct,ovUtil,ovApara,ovPct);}
 
 function buildTable(fmtAp,fmtPct,ovUtil,ovApara,ovPct){var html='',labels={imp:'Impressão',l1:'Laminação 1',l2:'Laminação 2',reb:'Rebobinamento'};['frente','sanfona'].forEach(function(comp){var d=compData[comp];if(!d)return;var nm=comp==='frente'?'Frente':'Sanfona',uG=d.utilGeral;d.aparas.forEach(function(a){var pct=uG>0?a.ap/uG*100:NaN;html+='<tr><td>'+nm+' — '+labels[a.sid]+'</td><td>'+(a.ap>0?fmt2(a.ap):'—')+'</td><td><span class="bdg '+bc(pct)+'">'+(isNaN(pct)||!isFinite(pct)?'—':pct.toFixed(2)+'%')+'</span></td></tr>';});var sp=uG>0?d.totalApara/uG*100:NaN;html+='<tr class="sub"><td>Subtotal '+nm.toLowerCase()+'</td><td>'+(d.totalApara>0?fmt1(d.totalApara):'—')+'</td><td><span class="bdg '+bc(sp)+'">'+(!isNaN(sp)?sp.toFixed(1)+'%':'—')+'</span></td></tr>';});if(fmtAp>0){html+='<tr><td>Formatação</td><td>'+fmt2(fmtAp)+'</td><td><span class="bdg '+bc(fmtPct)+'">'+fmtPct.toFixed(2)+'%</span></td></tr>';}html+='<tr class="tot"><td>Total geral</td><td>'+(ovApara>0?fmt1(ovApara):'—')+'</td><td><span class="bdg '+bc(ovPct)+'">'+(ovUtil>0?ovPct.toFixed(1)+'%':'—')+'</span></td></tr>';el('summary-tbody').innerHTML=html;}
 
-function saveOP(){var url=getScriptUrl();if(!url){toast('Configure a URL do Apps Script primeiro','err');return;}var data=Object.assign({data:el('op-data').value,cliente:el('op-cli').value,produto:el('op-prod').value,codigo:el('op-cod').value},calcResults);if(!data.cliente&&!data.produto){toast('Preencha ao menos cliente ou produto','err');return;}var btn=document.querySelector('.btn-row .primary');btn.textContent='Salvando...';btn.disabled=true;fetch(url,{method:'POST',body:JSON.stringify(data),headers:{'Content-Type':'text/plain'}}).then(function(r){return r.json()}).then(function(res){if(res.status==='ok'){toast('OP salva com sucesso!','ok');}else{toast('Erro: '+res.message,'err');}}).catch(function(err){toast('Erro de conexão: '+err.message,'err');}).finally(function(){btn.textContent='Salvar OP';btn.disabled=false;});}
+/* SAVE */
+function saveOP(){var url=getScriptUrl();if(!url){toast('Configure a URL do Apps Script primeiro','err');return;}var data=Object.assign({data:el('op-data').value,cliente:el('op-cli').value,produto:el('op-prod').value,codigo:el('op-cod').value},calcResults);if(!data.cliente&&!data.produto){toast('Preencha ao menos cliente ou produto','err');return;}
+data._inputs_json=JSON.stringify(collectInputs());
+if(editingRow){data._action='update';data._row=editingRow;}else{data._action='save';}
+var btn=el('save-btn');var origText=btn.textContent;btn.textContent='Salvando...';btn.disabled=true;
+fetch(url,{method:'POST',body:JSON.stringify(data),headers:{'Content-Type':'text/plain'}}).then(function(r){return r.json()}).then(function(res){if(res.status==='ok'){toast(editingRow?'OP atualizada com sucesso!':'OP salva com sucesso!','ok');if(editingRow)cancelEdit();}else{toast('Erro: '+res.message,'err');}}).catch(function(err){toast('Erro de conexão: '+err.message,'err');}).finally(function(){btn.textContent=editingRow?'Atualizar OP':'Salvar OP';btn.disabled=false;});}
 
+/* HISTORY */
 var allOps=[];
-function loadHistory(){var url=getScriptUrl();if(!url){toast('Configure a URL do Apps Script','err');return;}el('hist-empty').textContent='Carregando...';el('hist-empty').style.display='block';fetch(url).then(function(r){return r.json()}).then(function(res){if(res.status==='ok'){allOps=res.ops||[];populateFilters();renderHistory();}else{el('hist-empty').textContent='Erro: '+res.message;}}).catch(function(err){el('hist-empty').textContent='Erro de conexão: '+err.message;});}
+function loadHistory(){var url=getScriptUrl();if(!url){toast('Configure a URL do Apps Script','err');return;}el('hist-empty').textContent='Carregando...';el('hist-empty').style.display='block';fetch(url).then(function(r){return r.json()}).then(function(res){if(res.status==='ok'){allOps=res.ops||[];populateFilters();renderHistory();}else{el('hist-empty').textContent='Erro: '+res.message;}}).catch(function(err){el('hist-empty').textContent='Erro: '+err.message;});}
 function populateFilters(){var clis={},prods={};allOps.forEach(function(op){if(op.cliente)clis[op.cliente]=true;if(op.produto)prods[op.produto]=true;});var sC=el('hist-filter-cli'),sP=el('hist-filter-prod');sC.innerHTML='<option value="">Todos os clientes</option>';sP.innerHTML='<option value="">Todos os produtos</option>';Object.keys(clis).sort().forEach(function(c){sC.innerHTML+='<option>'+c+'</option>';});Object.keys(prods).sort().forEach(function(p){sP.innerHTML+='<option>'+p+'</option>';});sC.onchange=renderHistory;sP.onchange=renderHistory;}
 function renderHistory(){var fc=el('hist-filter-cli').value,fpd=el('hist-filter-prod').value;var ops=allOps.filter(function(op){if(fc&&op.cliente!==fc)return false;if(fpd&&op.produto!==fpd)return false;return true;});el('hist-count').textContent=ops.length+' OP'+(ops.length!==1?'s':'');if(ops.length===0){el('hist-empty').style.display='block';el('hist-empty').textContent='Nenhuma OP encontrada';el('hist-tbody').innerHTML='';el('avg-section').style.display='none';return;}el('hist-empty').style.display='none';
-var html='';ops.forEach(function(op){var d=op.data?String(op.data).substring(0,10):'—';html+='<tr><td>'+d+'</td><td style="font-family:var(--sn)">'+((op.produto||'')+(op.cliente?' ('+op.cliente+')':''))+'</td><td><span class="bdg '+bc(n(op.f_imp_pct))+'">'+fpv(op.f_imp_pct)+'</span></td><td><span class="bdg '+bc(n(op.f_l1_pct))+'">'+fpv(op.f_l1_pct)+'</span></td><td><span class="bdg '+bc(n(op.f_l2_pct))+'">'+fpv(op.f_l2_pct)+'</span></td><td><span class="bdg '+bc(n(op.f_reb_pct_cr))+'">'+fpv(op.f_reb_pct_cr)+'</span></td><td><span class="bdg '+bc(n(op.f_pct_geral))+'">'+fpv(op.f_pct_geral)+'</span></td><td><span class="bdg '+bc(n(op.s_imp_pct))+'">'+fpv(op.s_imp_pct)+'</span></td><td><span class="bdg '+bc(n(op.s_l1_pct))+'">'+fpv(op.s_l1_pct)+'</span></td><td><span class="bdg '+bc(n(op.s_l2_pct))+'">'+fpv(op.s_l2_pct)+'</span></td><td><span class="bdg '+bc(n(op.s_reb_pct_cr))+'">'+fpv(op.s_reb_pct_cr)+'</span></td><td><span class="bdg '+bc(n(op.s_pct_geral))+'">'+fpv(op.s_pct_geral)+'</span></td><td><span class="bdg '+bc(n(op.fmt_pct))+'">'+fpv(op.fmt_pct)+'</span></td><td><span class="bdg '+bc(n(op.total_pct))+'">'+fpv(op.total_pct)+'</span></td></tr>';});
-var avgFields=['f_imp_pct','f_l1_pct','f_l2_pct','f_reb_pct_cr','f_pct_geral','s_imp_pct','s_l1_pct','s_l2_pct','s_reb_pct_cr','s_pct_geral','fmt_pct','total_pct'];html+='<tr class="avg"><td>Média</td><td></td>';avgFields.forEach(function(f){var sum=0,cnt=0;ops.forEach(function(op){var vl=n(op[f]);if(vl>0){sum+=vl;cnt++;}});var avg=cnt>0?sum/cnt:NaN;html+='<td>'+fpv2(avg)+'</td>';});html+='</tr>';el('hist-tbody').innerHTML=html;renderAverages(ops);}
+var html='';ops.forEach(function(op,i){var d=op.data?String(op.data).substring(0,10):'—';html+='<tr><td style="text-align:center"><button class="sm" onclick="startEdit(allOps['+allOps.indexOf(op)+'])">Editar</button></td><td>'+d+'</td><td style="font-family:var(--sn)">'+((op.produto||'')+(op.cliente?' ('+op.cliente+')':''))+'</td><td><span class="bdg '+bc(n(op.f_imp_pct))+'">'+fpv(op.f_imp_pct)+'</span></td><td><span class="bdg '+bc(n(op.f_l1_pct))+'">'+fpv(op.f_l1_pct)+'</span></td><td><span class="bdg '+bc(n(op.f_l2_pct))+'">'+fpv(op.f_l2_pct)+'</span></td><td><span class="bdg '+bc(n(op.f_reb_pct_cr))+'">'+fpv(op.f_reb_pct_cr)+'</span></td><td><span class="bdg '+bc(n(op.f_pct_geral))+'">'+fpv(op.f_pct_geral)+'</span></td><td><span class="bdg '+bc(n(op.s_imp_pct))+'">'+fpv(op.s_imp_pct)+'</span></td><td><span class="bdg '+bc(n(op.s_l1_pct))+'">'+fpv(op.s_l1_pct)+'</span></td><td><span class="bdg '+bc(n(op.s_l2_pct))+'">'+fpv(op.s_l2_pct)+'</span></td><td><span class="bdg '+bc(n(op.s_reb_pct_cr))+'">'+fpv(op.s_reb_pct_cr)+'</span></td><td><span class="bdg '+bc(n(op.s_pct_geral))+'">'+fpv(op.s_pct_geral)+'</span></td><td><span class="bdg '+bc(n(op.fmt_pct))+'">'+fpv(op.fmt_pct)+'</span></td><td><span class="bdg '+bc(n(op.total_pct))+'">'+fpv(op.total_pct)+'</span></td></tr>';});
+var avgFields=['f_imp_pct','f_l1_pct','f_l2_pct','f_reb_pct_cr','f_pct_geral','s_imp_pct','s_l1_pct','s_l2_pct','s_reb_pct_cr','s_pct_geral','fmt_pct','total_pct'];html+='<tr class="avg"><td></td><td>Média</td><td></td>';avgFields.forEach(function(f){var sum=0,cnt=0;ops.forEach(function(op){var vl=n(op[f]);if(vl>0){sum+=vl;cnt++;}});var avg=cnt>0?sum/cnt:NaN;html+='<td>'+fpv2(avg)+'</td>';});html+='</tr>';el('hist-tbody').innerHTML=html;renderAverages(ops);}
 function renderAverages(ops){el('avg-section').style.display='block';var rows=[{label:'Frente — Impressão',kg:'f_imp_apara',pct:'f_imp_pct'},{label:'Frente — Laminação 1',kg:'f_l1_apara',pct:'f_l1_pct'},{label:'Frente — Laminação 2',kg:'f_l2_apara',pct:'f_l2_pct'},{label:'Frente — Rebobinamento',kg:'f_reb_apara',pct:'f_reb_pct_cr'},{label:'Subtotal frente',kg:'f_apara_total',pct:'f_pct_geral',sub:true},{label:'Sanfona — Impressão',kg:'s_imp_apara',pct:'s_imp_pct'},{label:'Sanfona — Laminação 1',kg:'s_l1_apara',pct:'s_l1_pct'},{label:'Sanfona — Laminação 2',kg:'s_l2_apara',pct:'s_l2_pct'},{label:'Sanfona — Rebobinamento',kg:'s_reb_apara',pct:'s_reb_pct_cr'},{label:'Subtotal sanfona',kg:'s_apara_total',pct:'s_pct_geral',sub:true},{label:'Formatação',kg:'fmt_apara',pct:'fmt_pct'},{label:'Total geral',kg:'total_apara',pct:'total_pct',tot:true}];var html='';rows.forEach(function(r){var sumKg=0,sumPct=0,cnt=0;ops.forEach(function(op){var vkg=n(op[r.kg]),vp=n(op[r.pct]);if(vkg>0||vp>0){sumKg+=vkg;sumPct+=vp;cnt++;}});var avgKg=cnt>0?sumKg/cnt:NaN,avgPct=cnt>0?sumPct/cnt:NaN;var cls=r.tot?'tot':r.sub?'sub':'';html+='<tr class="'+cls+'"><td>'+r.label+'</td><td>'+(!isNaN(avgKg)?avgKg.toFixed(2):'—')+'</td><td><span class="bdg '+bc(avgPct)+'">'+fpv2(avgPct)+'</span></td><td>'+cnt+'</td></tr>';});el('avg-tbody').innerHTML=html;}
 
 function n(v){return parseFloat(v)||0;}
 function fpv(v){var x=n(v);return x>0?x.toFixed(1)+'%':'—';}
 function fpv2(v){return isNaN(v)||!isFinite(v)?'—':v.toFixed(2)+'%';}
 function set(id,vl){var e=el(id);if(e)e.value=vl;}
-function doClear(){document.querySelectorAll('#tab-form input').forEach(function(i){if(i.id!=='script-url')i.value=''});el('op-data').value=new Date().toISOString().split('T')[0];calc();}
+function doClear(){editingRow=null;el('edit-banner').classList.remove('show');el('save-btn').textContent='Salvar OP';document.querySelectorAll('#tab-form input').forEach(function(i){if(i.id!=='script-url')i.value=''});el('op-data').value=new Date().toISOString().split('T')[0];calc();}
 
 el('op-data').value=new Date().toISOString().split('T')[0];
 loadConfig();
