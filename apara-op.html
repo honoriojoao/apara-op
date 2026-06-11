@@ -180,9 +180,17 @@ function restoreInputs(o){if(!o)return;INPUT_IDS.forEach(function(id){var e=el(i
 function startEdit(op){
   var inputs={};
   try{inputs=JSON.parse(op.inputs_json||'{}');}catch(e){inputs={};}
-  if(!Object.keys(inputs).length){toast('OP sem dados de input para restaurar','err');return;}
+  doClear();
   editingRow=op._row;
-  restoreInputs(inputs);
+  if(Object.keys(inputs).length){
+    restoreInputs(inputs);
+  }else{
+    if(op.cliente)el('op-cli').value=op.cliente;
+    if(op.produto)el('op-prod').value=op.produto;
+    if(op.codigo)el('op-cod').value=op.codigo;
+    if(op.data)el('op-data').value=String(op.data).substring(0,10);
+    toast('OP antiga — somente dados básicos carregados. Preencha os campos restantes.','err');
+  }
   el('edit-banner').classList.add('show');
   el('edit-label').textContent=(op.produto||'')+(op.data?' — '+String(op.data).substring(0,10):'');
   el('save-btn').textContent='Atualizar OP';
