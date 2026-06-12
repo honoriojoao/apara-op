@@ -89,83 +89,29 @@ button.sm{padding:4px 10px;font-size:11px}
 .hist-controls{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
 .hist-controls select{padding:6px 10px;border:1px solid var(--bd);border-radius:var(--rs);background:var(--sf2);color:var(--t1);font-size:12px;font-family:var(--sn)}
 .hist-empty{text-align:center;padding:40px;color:var(--t3);font-size:14px}
-.op-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);margin-bottom:12px;overflow:hidden}
-.op-card-hd{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--bd);gap:8px;flex-wrap:wrap}
-.op-card-hd .op-info{flex:1}
-.op-card-hd .op-name{font-size:14px;font-weight:600}
-.op-card-hd .op-meta{font-size:11px;color:var(--t2);margin-top:2px}
-.op-card-body{display:grid;grid-template-columns:1fr 1fr}
-.op-card-col{padding:12px 14px}
-.op-card-col+.op-card-col{border-left:1px solid var(--bd)}
-.col-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-.col-hd .col-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:2px 8px;border-radius:var(--rs)}
-.col-hd .col-lbl.f{background:rgba(0,113,227,.1);color:var(--acc)}
-.col-hd .col-lbl.s{background:var(--gbg);color:var(--gt)}
-.col-hd .col-tot{font-family:var(--mo);font-weight:700;font-size:15px}
-.st-row{margin-bottom:8px}
-.st-row:last-child{margin-bottom:0}
-.st-info{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:3px}
-.st-info .st-name{font-size:11px;color:var(--t2)}
-.st-info .st-pct{font-size:12px;font-weight:600;font-family:var(--mo)}
-.st-bar{height:6px;border-radius:3px;background:var(--sf2);overflow:hidden}
-.st-bar .bar-f{height:100%;border-radius:3px;min-width:2px}
-.bar-c-b{background:var(--acc)}.bar-c-g{background:var(--gg)}.bar-c-w{background:var(--ww)}.bar-c-r{background:var(--dd)}
-.st-pcts{display:flex;gap:6px;align-items:baseline;flex-wrap:wrap}
-.st-pcts .st-tag{font-size:12px;font-weight:700;font-family:var(--mo);color:var(--t1)}
-.st-pcts .st-tag-lbl{font-size:9px;font-weight:600;color:var(--t2);margin-left:2px;font-family:var(--sn);text-transform:uppercase;letter-spacing:.3px}
-.ft-row{display:flex;flex-direction:column;gap:3px}
-.ft-line{display:flex;justify-content:space-between;align-items:center}
-.ft-line .ft-val{font-size:13px;font-weight:700;font-family:var(--mo);color:var(--t1)}
-.ft-line .ft-val-lbl{font-size:9px;font-weight:600;color:var(--t2);margin-left:3px;text-transform:uppercase;letter-spacing:.3px}
-.op-card-ft{border-top:1px solid var(--bd)}
-.ft-pair{display:grid;grid-template-columns:1fr 1fr;gap:0}
-.ft-pair>div{padding:10px 14px}
-.ft-pair>div+div{border-left:1px solid var(--bd)}
-.ft-lbl2{font-size:10px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px}
-.ft-vals{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.ft-val-box{padding:6px 8px;border-radius:var(--rs);text-align:center}
-.ft-val-box.cr{background:rgba(0,113,227,.08);border:1px solid rgba(0,113,227,.15)}
-.ft-val-box.sr{background:var(--sf2);border:1px solid var(--bd)}
-.ft-val-box .fvb-n{font-size:9px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.3px;margin-bottom:2px}
-.ft-val-box .fvb-v{font-size:15px;font-weight:700;font-family:var(--mo);color:var(--t1)}
-.avg-reb-wrap{background:var(--sf2);border-radius:var(--rs);padding:8px 10px;margin-bottom:6px;border:1px solid var(--bd)}
-.avg-reb-hd{font-size:11px;font-weight:600;color:var(--t2);margin-bottom:6px}
-.avg-reb-rows{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.avg-reb-box{padding:5px 8px;border-radius:var(--rs);text-align:center}
-.avg-reb-box.cr{background:rgba(0,113,227,.08);border:1px solid rgba(0,113,227,.12)}
-.avg-reb-box.sr{background:var(--sf);border:1px solid var(--bd)}
-.avg-reb-box .arb-lbl{font-size:9px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.3px;margin-bottom:2px}
-.avg-reb-box .arb-val{font-size:14px;font-weight:700;font-family:var(--mo);color:var(--t1)}
-.avg-reb-box .arb-bar{height:4px;border-radius:2px;background:var(--bd);overflow:hidden;margin-top:4px}
-.avg-reb-box .arb-bar-f{height:100%;border-radius:2px}
-.avg-ft-pair{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:14px;padding-top:14px;border-top:1px solid var(--bd)}
-.avg-ft-box{background:var(--sf2);border-radius:var(--r);padding:12px;border:1px solid var(--bd)}
-.avg-ft-box .afb-lbl{font-size:10px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px}
-.avg-ft-box .afb-vals{display:grid;grid-template-columns:1fr 1fr;gap:4px}
-.avg-ft-box .afb-item{padding:5px 6px;border-radius:var(--rs);text-align:center}
-.avg-ft-box .afb-item.cr{background:rgba(0,113,227,.08);border:1px solid rgba(0,113,227,.12)}
-.avg-ft-box .afb-item.sr{background:var(--sf);border:1px solid var(--bd)}
-.avg-ft-box .afb-item .afb-n{font-size:9px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.3px}
-.avg-ft-box .afb-item .afb-v{font-size:15px;font-weight:700;font-family:var(--mo);color:var(--t1)}
-.avg-ft-box.single{display:flex;flex-direction:column;align-items:center;justify-content:center}
-.avg-ft-box.single .afb-big{font-size:26px;font-weight:700;font-family:var(--mo)}
-.op-card-ft{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--bd)}
-.op-card-ft>div{padding:10px 14px;display:flex;justify-content:space-between;align-items:center}
-.op-card-ft>div+div{border-left:1px solid var(--bd)}
-.ft-lbl{font-size:11px;color:var(--t2);font-weight:500}
-.avg-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:16px;margin-bottom:14px}
-.avg-card h3{font-size:12px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:14px}
-.avg-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.avg-group .avg-hd{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:2px 8px;border-radius:var(--rs);display:inline-block;margin-bottom:10px}
-.avg-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
-.avg-row .avg-name{font-size:11px;color:var(--t2);width:90px;flex-shrink:0}
-.avg-row .avg-bar-wrap{flex:1;height:8px;background:var(--sf2);border-radius:4px;overflow:hidden}
-.avg-row .avg-bar-fill{height:100%;border-radius:4px;min-width:2px}
-.avg-row .avg-val{font-size:12px;font-weight:600;font-family:var(--mo);width:55px;text-align:right;flex-shrink:0}
-.avg-ft{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:14px;padding-top:14px;border-top:1px solid var(--bd)}
-.avg-ft-item{text-align:center}
-.avg-ft-item .avg-ft-lbl{font-size:10px;color:var(--t2);text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px}
-.avg-ft-item .avg-ft-val{font-size:20px;font-weight:600;font-family:var(--mo)}
+/* OP Card */
+.op-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);margin-bottom:14px;overflow:hidden}
+.op-card-hd{display:flex;justify-content:space-between;align-items:flex-start;padding:12px 14px;border-bottom:1px solid var(--bd);gap:8px}
+.op-card-hd .op-name{font-size:14px;font-weight:600;margin-bottom:3px}
+.op-card-hd .op-meta{font-size:11px;color:var(--t2)}
+/* History table — same style as summary table in form */
+.ht{width:100%;border-collapse:collapse;font-size:12px}
+.ht th{text-align:left;font-size:10px;font-weight:600;color:var(--t2);padding:6px 14px;border-bottom:1px solid var(--bd);text-transform:uppercase;letter-spacing:.3px}
+.ht th:not(:first-child){text-align:right}
+.ht td{padding:6px 14px;border-bottom:1px solid var(--bd);font-family:var(--mo);font-size:12px;text-align:right;color:var(--t1)}
+.ht td:first-child{font-family:var(--sn);text-align:left}
+.ht tr.ht-sec td{background:var(--sf2);font-weight:700;font-size:11px;color:var(--t2);text-transform:uppercase;letter-spacing:.4px;font-family:var(--sn);padding:5px 14px}
+.ht tr.ht-sub td{font-weight:600;background:var(--sf2);border-top:1px solid var(--bd2)}
+.ht tr.ht-sub td:first-child{padding-left:14px}
+.ht tr.ht-sr td{color:var(--t2)}
+.ht tr.ht-sr td:first-child{padding-left:26px;font-size:11px}
+.ht tr.ht-tot td{font-weight:700;font-size:13px;border-top:2px solid var(--bd2)}
+.ht tr.ht-tot.sr td{font-weight:600;font-size:12px;color:var(--t2);border-top:none}
+.ht tr.ht-tot.sr td:first-child{padding-left:26px}
+/* Averages card */
+.avg-wrap{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);margin-bottom:14px;overflow:hidden}
+.avg-wrap-hd{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid var(--bd)}
+.avg-wrap-hd h3{font-size:12px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.5px}
 @media(max-width:700px){.op-bar{grid-template-columns:1fr 1fr}.cols{grid-template-columns:1fr}.mg{grid-template-columns:1fr 1fr}.or.t4{grid-template-columns:1fr 1fr}.ref-cols{grid-template-columns:1fr}.ref-summary{grid-template-columns:1fr 1fr}.config-bar{flex-direction:column}}
 @media print{body{background:#fff;padding:10px;font-size:11px}.btn-row,.config-bar,.tabs,.edit-banner{display:none!important}.tab-content{display:none!important}.tab-content.active{display:block!important}.sc,.fc,.sg,.op-bar,.cs,.mc{border-color:#ccc;break-inside:avoid}input{border:none!important;background:transparent!important;padding:0!important;box-shadow:none!important;font-weight:600}.bdg{border:1px solid #ccc}}
 </style>
@@ -321,57 +267,85 @@ var allOps=[];
 function loadHistory(){var url=getScriptUrl();if(!url){toast('Configure a URL do Apps Script','err');return;}el('hist-empty').textContent='Carregando...';el('hist-empty').style.display='block';fetch(url).then(function(r){return r.json()}).then(function(res){if(res.status==='ok'){allOps=res.ops||[];populateFilters();renderHistory();}else{el('hist-empty').textContent='Erro: '+res.message;}}).catch(function(err){el('hist-empty').textContent='Erro: '+err.message;});}
 function populateFilters(){var clis={},prods={};allOps.forEach(function(op){if(op.cliente)clis[op.cliente]=true;if(op.produto)prods[op.produto]=true;});var sC=el('hist-filter-cli'),sP=el('hist-filter-prod');sC.innerHTML='<option value="">Todos os clientes</option>';sP.innerHTML='<option value="">Todos os produtos</option>';Object.keys(clis).sort().forEach(function(c){sC.innerHTML+='<option>'+c+'</option>';});Object.keys(prods).sort().forEach(function(p){sP.innerHTML+='<option>'+p+'</option>';});sC.onchange=renderHistory;sP.onchange=renderHistory;}
 function renderHistory(){var fc=el('hist-filter-cli').value,fpd=el('hist-filter-prod').value;var ops=allOps.filter(function(op){if(fc&&op.cliente!==fc)return false;if(fpd&&op.produto!==fpd)return false;return true;});el('hist-count').textContent=ops.length+' OP'+(ops.length!==1?'s':'');if(ops.length===0){el('hist-empty').style.display='block';el('hist-empty').textContent='Nenhuma OP encontrada';el('hist-cards').innerHTML='';el('avg-section').style.display='none';return;}el('hist-empty').style.display='none';
-var stNames=['Impressão','Laminação 1','Laminação 2','Rebobinamento'];
-var fKeys=['f_imp_pct','f_l1_pct','f_l2_pct','f_reb_pct_cr'];
-var sKeys=['s_imp_pct','s_l1_pct','s_l2_pct','s_reb_pct_cr'];
-var html='';ops.forEach(function(op,i){
-  var d=op.data?String(op.data).substring(0,10):'—';
+var html='';
+ops.forEach(function(op){
   var idx=allOps.indexOf(op);
-  html+='<div class="op-card"><div class="op-card-hd"><div class="op-info"><div class="op-name">'+(op.produto||'Sem produto')+'</div><div class="op-meta">'+d+(op.cliente?' · '+op.cliente:'')+(op.codigo?' · '+op.codigo:'')+'</div></div><button class="sm" onclick="startEdit(allOps['+idx+'])">Editar</button></div>';
-  html+='<div class="op-card-body"><div class="op-card-col">';
-  html+='<div class="col-hd"><span class="col-lbl f">Frente</span><span class="col-tot bdg '+bc(n(op.f_pct_geral))+'">'+fpv(op.f_pct_geral)+'</span></div>';
-  fKeys.forEach(function(k,j){var pct=n(op[k]);var sub=j===3?n(op.f_reb_pct_sr):null;html+=mkBar(stNames[j],pct,'b',sub);});
-  html+='</div><div class="op-card-col">';
-  html+='<div class="col-hd"><span class="col-lbl s">Sanfona</span><span class="col-tot bdg '+bc(n(op.s_pct_geral))+'">'+fpv(op.s_pct_geral)+'</span></div>';
-  sKeys.forEach(function(k,j){var pct=n(op[k]);var sub=j===3?n(op.s_reb_pct_sr):null;html+=mkBar(stNames[j],pct,'g',sub);});
-  html+='</div></div>';
-  var fmtSr=n(op.total_util)>0?(n(op.fmt_apara)-n(op.fmt_refile_kg))/n(op.total_util)*100:0;
+  var d=op.data?String(op.data).substring(0,10):'—';
+  var qtd=n(op.fmt_qtd);
+  var fRebSrKg=n(op.f_reb_apara)-n(op.f_reb_refile);
+  var sRebSrKg=n(op.s_reb_apara)-n(op.s_reb_refile);
+  var fmtSrKg=n(op.fmt_apara)-n(op.fmt_refile_kg);
+  var fmtUtil=n(op.total_util);
+  var fmtSrPct=fmtUtil>0?fmtSrKg/fmtUtil*100:0;
   var totRefKg=n(op.f_reb_refile)+n(op.s_reb_refile)+n(op.fmt_refile_kg);
-  var totSr=n(op.total_util)>0?(n(op.total_apara)-totRefKg)/n(op.total_util)*100:0;
-  html+='<div class="op-card-ft"><div class="ft-pair">';
-  html+='<div><div class="ft-lbl2">Formatação</div><div class="ft-vals"><div class="ft-val-box cr"><div class="fvb-n">C/ refile</div><div class="fvb-v">'+fpv(op.fmt_pct)+'</div></div><div class="ft-val-box sr"><div class="fvb-n">S/ refile</div><div class="fvb-v">'+(n(op.fmt_refile_kg)>0?fpv(fmtSr):'—')+'</div></div></div></div>';
-  html+='<div><div class="ft-lbl2">Total geral</div><div class="ft-vals"><div class="ft-val-box cr"><div class="fvb-n">C/ refile</div><div class="fvb-v">'+fpv(op.total_pct)+'</div></div><div class="ft-val-box sr"><div class="fvb-n">S/ refile</div><div class="fvb-v">'+(totRefKg>0?fpv(totSr):'—')+'</div></div></div></div>';
-  html+='</div></div></div>';
+  var totSrKg=n(op.total_apara)-totRefKg;
+  var totSrPct=fmtUtil>0?totSrKg/fmtUtil*100:0;
+  html+='<div class="op-card">';
+  html+='<div class="op-card-hd"><div><div class="op-name">'+(op.produto||'Sem produto')+'</div><div class="op-meta">'+d+(op.cliente?' &middot; '+op.cliente:'')+(op.codigo?' &middot; '+op.codigo:'')+(qtd>0?' &middot; '+qtd.toLocaleString('pt-BR')+' un':'')+'</div></div><button class="sm" onclick="startEdit(allOps['+idx+'])">Editar</button></div>';
+  html+='<table class="ht"><thead><tr><th>Etapa</th><th>Apara (kg)</th><th>%</th></tr></thead><tbody>';
+  html+=htSec('Frente');
+  html+=htRow('Impressão',n(op.f_imp_apara),n(op.f_imp_pct));
+  html+=htRow('Laminação 1',n(op.f_l1_apara),n(op.f_l1_pct));
+  html+=htRow('Laminação 2',n(op.f_l2_apara),n(op.f_l2_pct));
+  html+=htRow('Rebobinamento c/ refile',n(op.f_reb_apara),n(op.f_reb_pct_cr));
+  html+=htRowSr('↳ s/ refile',fRebSrKg,n(op.f_reb_pct_sr));
+  html+=htSub('Subtotal frente',n(op.f_apara_total),n(op.f_pct_geral));
+  html+=htSec('Sanfona');
+  html+=htRow('Impressão',n(op.s_imp_apara),n(op.s_imp_pct));
+  html+=htRow('Laminação 1',n(op.s_l1_apara),n(op.s_l1_pct));
+  html+=htRow('Laminação 2',n(op.s_l2_apara),n(op.s_l2_pct));
+  html+=htRow('Rebobinamento c/ refile',n(op.s_reb_apara),n(op.s_reb_pct_cr));
+  html+=htRowSr('↳ s/ refile',sRebSrKg,n(op.s_reb_pct_sr));
+  html+=htSub('Subtotal sanfona',n(op.s_apara_total),n(op.s_pct_geral));
+  html+=htSec('Formatação');
+  html+=htRow('c/ refile',n(op.fmt_apara),n(op.fmt_pct));
+  html+=htRowSr('↳ s/ refile',fmtSrKg,fmtSrPct);
+  html+=htTot('Total geral c/ refile',n(op.total_apara),n(op.total_pct));
+  html+=htTotSr('Total geral s/ refile',totSrKg,totSrPct);
+  html+='</tbody></table></div>';
 });
 el('hist-cards').innerHTML=html;renderAverages(ops);}
-function mkBar(name,pct,color,subPct){var w=Math.min(pct/10*100,100);var cc=pct<3?'bar-c-'+color:pct<7?'bar-c-w':'bar-c-r';var pctHtml;if(subPct!==null&&subPct!==undefined){pctHtml='<div class="st-pcts"><span class="st-tag">'+fpv(pct)+'<span class="st-tag-lbl">c/ refile</span></span><span class="st-tag">'+fpv(subPct)+'<span class="st-tag-lbl">s/ refile</span></span></div>';}else{pctHtml='<span style="font-size:12px;font-weight:700;font-family:var(--mo)">'+fpv(pct)+'</span>';}return '<div class="st-row"><div class="st-info"><span class="st-name">'+name+'</span>'+pctHtml+'</div><div class="st-bar"><div class="bar-f '+cc+'" style="width:'+w+'%"></div></div></div>';}
+function htSec(name){return '<tr class="ht-sec"><td colspan="3">'+name+'</td></tr>';}
+function htRow(name,kg,pct){return '<tr><td>'+name+'</td><td>'+fmt2(kg)+' kg</td><td><span class="bdg '+bc(pct)+'">'+fpv2(pct)+'</span></td></tr>';}
+function htRowSr(name,kg,pct){return '<tr class="ht-sr"><td>'+name+'</td><td>'+fmt2(kg)+' kg</td><td><span class="bdg '+bc(pct)+'">'+fpv2(pct)+'</span></td></tr>';}
+function htSub(name,kg,pct){return '<tr class="ht-sub"><td>'+name+'</td><td>'+fmt1(kg)+' kg</td><td><span class="bdg '+bc(pct)+'">'+fpv2(pct)+'</span></td></tr>';}
+function htTot(name,kg,pct){return '<tr class="ht-tot"><td>'+name+'</td><td>'+fmt1(kg)+' kg</td><td><span class="bdg '+bc(pct)+'">'+fpv2(pct)+'</span></td></tr>';}
+function htTotSr(name,kg,pct){return '<tr class="ht-tot sr"><td>'+name+'</td><td>'+fmt1(kg)+' kg</td><td><span class="bdg '+bc(pct)+'">'+fpv2(pct)+'</span></td></tr>';}
 function renderAverages(ops){el('avg-section').style.display='block';
-var stNames=['Impressão','Laminação 1','Laminação 2','Rebobinamento'];
-var fDefs=[{kg:'f_imp_apara',pct:'f_imp_pct'},{kg:'f_l1_apara',pct:'f_l1_pct'},{kg:'f_l2_apara',pct:'f_l2_pct'},{kg:'f_reb_apara',pct:'f_reb_pct_cr'}];
-var sDefs=[{kg:'s_imp_apara',pct:'s_imp_pct'},{kg:'s_l1_apara',pct:'s_l1_pct'},{kg:'s_l2_apara',pct:'s_l2_pct'},{kg:'s_reb_apara',pct:'s_reb_pct_cr'}];
-function avgOf(field){var sum=0,cnt=0;ops.forEach(function(op){var v=n(op[field]);if(v>0){sum+=v;cnt++;}});return cnt>0?sum/cnt:NaN;}
-var html='<div class="avg-card"><h3>Médias por etapa ('+ops.length+' OPs)</h3><div class="avg-cols"><div class="avg-group"><div class="avg-hd col-lbl f">Frente</div>';
-fDefs.forEach(function(d,i){var avg=avgOf(d.pct);var sub=i===3?avgOf('f_reb_pct_sr'):null;html+=mkAvgRow(stNames[i],avg,'b',sub);});
-var fTot=avgOf('f_pct_geral');html+=mkAvgRow('Total frente',fTot,'b');
-html+='</div><div class="avg-group"><div class="avg-hd col-lbl s">Sanfona</div>';
-sDefs.forEach(function(d,i){var avg=avgOf(d.pct);var sub=i===3?avgOf('s_reb_pct_sr'):null;html+=mkAvgRow(stNames[i],avg,'g',sub);});
-var sTot=avgOf('s_pct_geral');html+=mkAvgRow('Total sanfona',sTot,'g');
-html+='</div></div>';
-var fmtAvg=avgOf('fmt_pct'),totAvg=avgOf('total_pct');
-var fmtSrAvg=(function(){var sum=0,cnt=0;ops.forEach(function(op){var u=n(op.total_util),a=n(op.fmt_apara),r=n(op.fmt_refile_kg);if(u>0&&a>0){sum+=(a-r)/u*100;cnt++;}});return cnt>0?sum/cnt:NaN;})();
-var totSrAvg=(function(){var sum=0,cnt=0;ops.forEach(function(op){var u=n(op.total_util),a=n(op.total_apara),rf=n(op.f_reb_refile)+n(op.s_reb_refile)+n(op.fmt_refile_kg);if(u>0&&a>0){sum+=(a-rf)/u*100;cnt++;}});return cnt>0?sum/cnt:NaN;})();
-html+='<div class="avg-ft-pair">';
-html+='<div class="avg-ft-box"><div class="afb-lbl">Formatação</div><div class="afb-vals"><div class="afb-item cr"><div class="afb-n">C/ refile</div><div class="afb-v">'+fpv2(fmtAvg)+'</div></div><div class="afb-item sr"><div class="afb-n">S/ refile</div><div class="afb-v">'+fpv2(fmtSrAvg)+'</div></div></div></div>';
-html+='<div class="avg-ft-box"><div class="afb-lbl">Total geral</div><div class="afb-vals"><div class="afb-item cr"><div class="afb-n">C/ refile</div><div class="afb-v">'+fpv2(totAvg)+'</div></div><div class="afb-item sr"><div class="afb-n">S/ refile</div><div class="afb-v">'+fpv2(totSrAvg)+'</div></div></div></div>';
-html+='<div class="avg-ft-box single"><div class="afb-lbl">Nº OPs</div><div class="afb-big">'+ops.length+'</div></div>';
-html+='</div></div>';
+function avgOf(field){var s=0,c=0;ops.forEach(function(op){var v=n(op[field]);if(v>0){s+=v;c++;}});return c>0?s/c:NaN;}
+function avgKgOf(field){var s=0,c=0;ops.forEach(function(op){var v=n(op[field]);s+=v;c++;});return c>0?s/c:NaN;}
+var fRebSrPctAvg=(function(){var s=0,c=0;ops.forEach(function(op){var v=n(op.f_reb_pct_sr);if(v>0){s+=v;c++;}});return c>0?s/c:NaN;})();
+var sRebSrPctAvg=(function(){var s=0,c=0;ops.forEach(function(op){var v=n(op.s_reb_pct_sr);if(v>0){s+=v;c++;}});return c>0?s/c:NaN;})();
+var fRebSrKgAvg=(function(){var s=0,c=0;ops.forEach(function(op){var v=n(op.f_reb_apara)-n(op.f_reb_refile);s+=v;c++;});return c>0?s/c:NaN;})();
+var sRebSrKgAvg=(function(){var s=0,c=0;ops.forEach(function(op){var v=n(op.s_reb_apara)-n(op.s_reb_refile);s+=v;c++;});return c>0?s/c:NaN;})();
+var fmtSrKgAvg=(function(){var s=0,c=0;ops.forEach(function(op){var v=n(op.fmt_apara)-n(op.fmt_refile_kg);s+=v;c++;});return c>0?s/c:NaN;})();
+var fmtSrPctAvg=(function(){var s=0,c=0;ops.forEach(function(op){var u=n(op.total_util),a=n(op.fmt_apara),r=n(op.fmt_refile_kg);if(u>0&&a>0){s+=(a-r)/u*100;c++;}});return c>0?s/c:NaN;})();
+var totSrKgAvg=(function(){var s=0,c=0;ops.forEach(function(op){var rf=n(op.f_reb_refile)+n(op.s_reb_refile)+n(op.fmt_refile_kg);var v=n(op.total_apara)-rf;s+=v;c++;});return c>0?s/c:NaN;})();
+var totSrPctAvg=(function(){var s=0,c=0;ops.forEach(function(op){var u=n(op.total_util),a=n(op.total_apara),rf=n(op.f_reb_refile)+n(op.s_reb_refile)+n(op.fmt_refile_kg);if(u>0&&a>0){s+=(a-rf)/u*100;c++;}});return c>0?s/c:NaN;})();
+var html='<div class="avg-wrap"><div class="avg-wrap-hd"><h3>Médias por etapa</h3><span style="font-size:11px;color:var(--t2)">'+ops.length+' OP'+(ops.length!==1?'s':'')+'</span></div>';
+html+='<table class="ht"><thead><tr><th>Etapa</th><th>Apara média (kg)</th><th>% média</th></tr></thead><tbody>';
+html+=htSec('Frente');
+html+=htRow('Impressão',avgKgOf('f_imp_apara'),avgOf('f_imp_pct'));
+html+=htRow('Laminação 1',avgKgOf('f_l1_apara'),avgOf('f_l1_pct'));
+html+=htRow('Laminação 2',avgKgOf('f_l2_apara'),avgOf('f_l2_pct'));
+html+=htRow('Rebobinamento c/ refile',avgKgOf('f_reb_apara'),avgOf('f_reb_pct_cr'));
+html+=htRowSr('↳ s/ refile',fRebSrKgAvg,fRebSrPctAvg);
+html+=htSub('Subtotal frente',avgKgOf('f_apara_total'),avgOf('f_pct_geral'));
+html+=htSec('Sanfona');
+html+=htRow('Impressão',avgKgOf('s_imp_apara'),avgOf('s_imp_pct'));
+html+=htRow('Laminação 1',avgKgOf('s_l1_apara'),avgOf('s_l1_pct'));
+html+=htRow('Laminação 2',avgKgOf('s_l2_apara'),avgOf('s_l2_pct'));
+html+=htRow('Rebobinamento c/ refile',avgKgOf('s_reb_apara'),avgOf('s_reb_pct_cr'));
+html+=htRowSr('↳ s/ refile',sRebSrKgAvg,sRebSrPctAvg);
+html+=htSub('Subtotal sanfona',avgKgOf('s_apara_total'),avgOf('s_pct_geral'));
+html+=htSec('Formatação');
+html+=htRow('c/ refile',avgKgOf('fmt_apara'),avgOf('fmt_pct'));
+html+=htRowSr('↳ s/ refile',fmtSrKgAvg,fmtSrPctAvg);
+html+=htTot('Total geral c/ refile',avgKgOf('total_apara'),avgOf('total_pct'));
+html+=htTotSr('Total geral s/ refile',totSrKgAvg,totSrPctAvg);
+html+='</tbody></table></div>';
 el('avg-section').innerHTML=html;}
-function mkAvgRow(name,pct,color,subPct){var w=Math.min((isNaN(pct)?0:pct)/10*100,100);var cc=isNaN(pct)?'bar-c-'+color:pct<3?'bar-c-'+color:pct<7?'bar-c-w':'bar-c-r';
-if(subPct!==null&&subPct!==undefined&&!isNaN(subPct)){
-  var w2=Math.min(subPct/10*100,100);var cc2=subPct<3?'bar-c-'+color:subPct<7?'bar-c-w':'bar-c-r';
-  return '<div class="avg-reb-wrap"><div class="avg-reb-hd">'+name+'</div><div class="avg-reb-rows"><div class="avg-reb-box cr"><div class="arb-lbl">C/ refile</div><div class="arb-val">'+fpv2(pct)+'</div><div class="arb-bar"><div class="arb-bar-f '+cc+'" style="width:'+w+'%"></div></div></div><div class="avg-reb-box sr"><div class="arb-lbl">S/ refile</div><div class="arb-val">'+fpv2(subPct)+'</div><div class="arb-bar"><div class="arb-bar-f '+cc2+'" style="width:'+w2+'%"></div></div></div></div></div>';
-}
-return '<div class="avg-row"><span class="avg-name">'+name+'</span><div class="avg-bar-wrap"><div class="avg-bar-fill '+cc+'" style="width:'+w+'%"></div></div><span class="avg-val" style="font-weight:700;color:var(--t1)">'+fpv2(pct)+'</span></div>';}
+
 
 function n(v){return parseFloat(v)||0;}
 function fpv(v){var x=n(v);return x>0?x.toFixed(1)+'%':'—';}
