@@ -117,6 +117,38 @@ button.sm{padding:4px 10px;font-size:11px}
 .ft-line{display:flex;justify-content:space-between;align-items:center}
 .ft-line .ft-val{font-size:13px;font-weight:700;font-family:var(--mo);color:var(--t1)}
 .ft-line .ft-val-lbl{font-size:9px;font-weight:600;color:var(--t2);margin-left:3px;text-transform:uppercase;letter-spacing:.3px}
+.op-card-ft{border-top:1px solid var(--bd)}
+.ft-pair{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.ft-pair>div{padding:10px 14px}
+.ft-pair>div+div{border-left:1px solid var(--bd)}
+.ft-lbl2{font-size:10px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px}
+.ft-vals{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.ft-val-box{padding:6px 8px;border-radius:var(--rs);text-align:center}
+.ft-val-box.cr{background:rgba(0,113,227,.08);border:1px solid rgba(0,113,227,.15)}
+.ft-val-box.sr{background:var(--sf2);border:1px solid var(--bd)}
+.ft-val-box .fvb-n{font-size:9px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.3px;margin-bottom:2px}
+.ft-val-box .fvb-v{font-size:15px;font-weight:700;font-family:var(--mo);color:var(--t1)}
+.avg-reb-wrap{background:var(--sf2);border-radius:var(--rs);padding:8px 10px;margin-bottom:6px;border:1px solid var(--bd)}
+.avg-reb-hd{font-size:11px;font-weight:600;color:var(--t2);margin-bottom:6px}
+.avg-reb-rows{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.avg-reb-box{padding:5px 8px;border-radius:var(--rs);text-align:center}
+.avg-reb-box.cr{background:rgba(0,113,227,.08);border:1px solid rgba(0,113,227,.12)}
+.avg-reb-box.sr{background:var(--sf);border:1px solid var(--bd)}
+.avg-reb-box .arb-lbl{font-size:9px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.3px;margin-bottom:2px}
+.avg-reb-box .arb-val{font-size:14px;font-weight:700;font-family:var(--mo);color:var(--t1)}
+.avg-reb-box .arb-bar{height:4px;border-radius:2px;background:var(--bd);overflow:hidden;margin-top:4px}
+.avg-reb-box .arb-bar-f{height:100%;border-radius:2px}
+.avg-ft-pair{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:14px;padding-top:14px;border-top:1px solid var(--bd)}
+.avg-ft-box{background:var(--sf2);border-radius:var(--r);padding:12px;border:1px solid var(--bd)}
+.avg-ft-box .afb-lbl{font-size:10px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px}
+.avg-ft-box .afb-vals{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.avg-ft-box .afb-item{padding:5px 6px;border-radius:var(--rs);text-align:center}
+.avg-ft-box .afb-item.cr{background:rgba(0,113,227,.08);border:1px solid rgba(0,113,227,.12)}
+.avg-ft-box .afb-item.sr{background:var(--sf);border:1px solid var(--bd)}
+.avg-ft-box .afb-item .afb-n{font-size:9px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.3px}
+.avg-ft-box .afb-item .afb-v{font-size:15px;font-weight:700;font-family:var(--mo);color:var(--t1)}
+.avg-ft-box.single{display:flex;flex-direction:column;align-items:center;justify-content:center}
+.avg-ft-box.single .afb-big{font-size:26px;font-weight:700;font-family:var(--mo)}
 .op-card-ft{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--bd)}
 .op-card-ft>div{padding:10px 14px;display:flex;justify-content:space-between;align-items:center}
 .op-card-ft>div+div{border-left:1px solid var(--bd)}
@@ -303,14 +335,13 @@ var html='';ops.forEach(function(op,i){
   html+='<div class="col-hd"><span class="col-lbl s">Sanfona</span><span class="col-tot bdg '+bc(n(op.s_pct_geral))+'">'+fpv(op.s_pct_geral)+'</span></div>';
   sKeys.forEach(function(k,j){var pct=n(op[k]);var sub=j===3?n(op.s_reb_pct_sr):null;html+=mkBar(stNames[j],pct,'g',sub);});
   html+='</div></div>';
-  html+='<div class="op-card-ft"><div><div class="ft-row"><div class="ft-line"><span class="ft-lbl">Formatação</span><span class="ft-val">'+fpv(op.fmt_pct)+'<span class="ft-val-lbl">c/ refile</span></span></div>';
   var fmtSr=n(op.total_util)>0?(n(op.fmt_apara)-n(op.fmt_refile_kg))/n(op.total_util)*100:0;
-  if(n(op.fmt_refile_kg)>0){html+='<div class="ft-line"><span class="ft-lbl"></span><span class="ft-val">'+fpv(fmtSr)+'<span class="ft-val-lbl">s/ refile</span></span></div>';}
-  html+='</div></div><div><div class="ft-row"><div class="ft-line"><span class="ft-lbl">Total geral</span><span class="ft-val">'+fpv(op.total_pct)+'<span class="ft-val-lbl">c/ refile</span></span></div>';
   var totRefKg=n(op.f_reb_refile)+n(op.s_reb_refile)+n(op.fmt_refile_kg);
   var totSr=n(op.total_util)>0?(n(op.total_apara)-totRefKg)/n(op.total_util)*100:0;
-  if(totRefKg>0){html+='<div class="ft-line"><span class="ft-lbl"></span><span class="ft-val">'+fpv(totSr)+'<span class="ft-val-lbl">s/ refile</span></span></div>';}
-  html+='</div></div></div></div>';
+  html+='<div class="op-card-ft"><div class="ft-pair">';
+  html+='<div><div class="ft-lbl2">Formatação</div><div class="ft-vals"><div class="ft-val-box cr"><div class="fvb-n">C/ refile</div><div class="fvb-v">'+fpv(op.fmt_pct)+'</div></div><div class="ft-val-box sr"><div class="fvb-n">S/ refile</div><div class="fvb-v">'+(n(op.fmt_refile_kg)>0?fpv(fmtSr):'—')+'</div></div></div></div>';
+  html+='<div><div class="ft-lbl2">Total geral</div><div class="ft-vals"><div class="ft-val-box cr"><div class="fvb-n">C/ refile</div><div class="fvb-v">'+fpv(op.total_pct)+'</div></div><div class="ft-val-box sr"><div class="fvb-n">S/ refile</div><div class="fvb-v">'+(totRefKg>0?fpv(totSr):'—')+'</div></div></div></div>';
+  html+='</div></div></div>';
 });
 el('hist-cards').innerHTML=html;renderAverages(ops);}
 function mkBar(name,pct,color,subPct){var w=Math.min(pct/10*100,100);var cc=pct<3?'bar-c-'+color:pct<7?'bar-c-w':'bar-c-r';var pctHtml;if(subPct!==null&&subPct!==undefined){pctHtml='<div class="st-pcts"><span class="st-tag">'+fpv(pct)+'<span class="st-tag-lbl">c/ refile</span></span><span class="st-tag">'+fpv(subPct)+'<span class="st-tag-lbl">s/ refile</span></span></div>';}else{pctHtml='<span style="font-size:12px;font-weight:700;font-family:var(--mo)">'+fpv(pct)+'</span>';}return '<div class="st-row"><div class="st-info"><span class="st-name">'+name+'</span>'+pctHtml+'</div><div class="st-bar"><div class="bar-f '+cc+'" style="width:'+w+'%"></div></div></div>';}
@@ -329,9 +360,18 @@ html+='</div></div>';
 var fmtAvg=avgOf('fmt_pct'),totAvg=avgOf('total_pct');
 var fmtSrAvg=(function(){var sum=0,cnt=0;ops.forEach(function(op){var u=n(op.total_util),a=n(op.fmt_apara),r=n(op.fmt_refile_kg);if(u>0&&a>0){sum+=(a-r)/u*100;cnt++;}});return cnt>0?sum/cnt:NaN;})();
 var totSrAvg=(function(){var sum=0,cnt=0;ops.forEach(function(op){var u=n(op.total_util),a=n(op.total_apara),rf=n(op.f_reb_refile)+n(op.s_reb_refile)+n(op.fmt_refile_kg);if(u>0&&a>0){sum+=(a-rf)/u*100;cnt++;}});return cnt>0?sum/cnt:NaN;})();
-html+='<div class="avg-ft"><div class="avg-ft-item"><div class="avg-ft-lbl">Formatação</div><div class="avg-ft-val" style="color:var(--t1)">'+fpv2(fmtAvg)+'</div><div style="font-size:10px;font-weight:600;color:var(--t1);margin-top:2px">'+fpv2(fmtSrAvg)+' <span style="font-size:9px;color:var(--t2);font-weight:600;text-transform:uppercase;letter-spacing:.3px">s/ refile</span></div></div><div class="avg-ft-item"><div class="avg-ft-lbl">Total geral</div><div class="avg-ft-val" style="color:var(--t1)">'+fpv2(totAvg)+'</div><div style="font-size:10px;font-weight:600;color:var(--t1);margin-top:2px">'+fpv2(totSrAvg)+' <span style="font-size:9px;color:var(--t2);font-weight:600;text-transform:uppercase;letter-spacing:.3px">s/ refile</span></div></div><div class="avg-ft-item"><div class="avg-ft-lbl">Nº OPs</div><div class="avg-ft-val">'+ops.length+'</div></div></div></div>';
+html+='<div class="avg-ft-pair">';
+html+='<div class="avg-ft-box"><div class="afb-lbl">Formatação</div><div class="afb-vals"><div class="afb-item cr"><div class="afb-n">C/ refile</div><div class="afb-v">'+fpv2(fmtAvg)+'</div></div><div class="afb-item sr"><div class="afb-n">S/ refile</div><div class="afb-v">'+fpv2(fmtSrAvg)+'</div></div></div></div>';
+html+='<div class="avg-ft-box"><div class="afb-lbl">Total geral</div><div class="afb-vals"><div class="afb-item cr"><div class="afb-n">C/ refile</div><div class="afb-v">'+fpv2(totAvg)+'</div></div><div class="afb-item sr"><div class="afb-n">S/ refile</div><div class="afb-v">'+fpv2(totSrAvg)+'</div></div></div></div>';
+html+='<div class="avg-ft-box single"><div class="afb-lbl">Nº OPs</div><div class="afb-big">'+ops.length+'</div></div>';
+html+='</div></div>';
 el('avg-section').innerHTML=html;}
-function mkAvgRow(name,pct,color,subPct){var w=Math.min((isNaN(pct)?0:pct)/10*100,100);var cc=isNaN(pct)?'bar-c-'+color:pct<3?'bar-c-'+color:pct<7?'bar-c-w':'bar-c-r';var html='<div class="avg-row"><span class="avg-name">'+name+'</span><div class="avg-bar-wrap"><div class="avg-bar-fill '+cc+'" style="width:'+w+'%"></div></div><span class="avg-val" style="font-weight:700;color:var(--t1)">'+fpv2(pct)+'</span></div>';if(subPct!==null&&subPct!==undefined&&!isNaN(subPct)){var w2=Math.min(subPct/10*100,100);var cc2=subPct<3?'bar-c-'+color:subPct<7?'bar-c-w':'bar-c-r';html+='<div class="avg-row" style="margin-top:-2px"><span class="avg-name" style="font-size:10px;color:var(--t2)">└ s/ refile</span><div class="avg-bar-wrap"><div class="avg-bar-fill '+cc2+'" style="width:'+w2+'%"></div></div><span class="avg-val" style="font-weight:700;color:var(--t1)">'+fpv2(subPct)+'</span></div>';}return html;}
+function mkAvgRow(name,pct,color,subPct){var w=Math.min((isNaN(pct)?0:pct)/10*100,100);var cc=isNaN(pct)?'bar-c-'+color:pct<3?'bar-c-'+color:pct<7?'bar-c-w':'bar-c-r';
+if(subPct!==null&&subPct!==undefined&&!isNaN(subPct)){
+  var w2=Math.min(subPct/10*100,100);var cc2=subPct<3?'bar-c-'+color:subPct<7?'bar-c-w':'bar-c-r';
+  return '<div class="avg-reb-wrap"><div class="avg-reb-hd">'+name+'</div><div class="avg-reb-rows"><div class="avg-reb-box cr"><div class="arb-lbl">C/ refile</div><div class="arb-val">'+fpv2(pct)+'</div><div class="arb-bar"><div class="arb-bar-f '+cc+'" style="width:'+w+'%"></div></div></div><div class="avg-reb-box sr"><div class="arb-lbl">S/ refile</div><div class="arb-val">'+fpv2(subPct)+'</div><div class="arb-bar"><div class="arb-bar-f '+cc2+'" style="width:'+w2+'%"></div></div></div></div></div>';
+}
+return '<div class="avg-row"><span class="avg-name">'+name+'</span><div class="avg-bar-wrap"><div class="avg-bar-fill '+cc+'" style="width:'+w+'%"></div></div><span class="avg-val" style="font-weight:700;color:var(--t1)">'+fpv2(pct)+'</span></div>';}
 
 function n(v){return parseFloat(v)||0;}
 function fpv(v){var x=n(v);return x>0?x.toFixed(1)+'%':'—';}
