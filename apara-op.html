@@ -112,6 +112,12 @@ button.sm{padding:4px 10px;font-size:11px}
 .avg-wrap{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);margin-bottom:14px;overflow:hidden}
 .avg-wrap-hd{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid var(--bd)}
 .avg-wrap-hd h3{font-size:12px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.5px}
+/* OP total summary block — same style as .mg in form */
+.op-tot{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:2px solid var(--bd2);background:var(--sf2)}
+.op-tot .ot{padding:12px 10px;text-align:center;border-right:1px solid var(--bd)}
+.op-tot .ot:last-child{border-right:none}
+.op-tot .ot-l{font-size:10px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px}
+.op-tot .ot-v{font-size:16px;font-weight:600;font-family:var(--mo);color:var(--t1)}
 @media(max-width:700px){.op-bar{grid-template-columns:1fr 1fr}.cols{grid-template-columns:1fr}.mg{grid-template-columns:1fr 1fr}.or.t4{grid-template-columns:1fr 1fr}.ref-cols{grid-template-columns:1fr}.ref-summary{grid-template-columns:1fr 1fr}.config-bar{flex-direction:column}}
 @media print{body{background:#fff;padding:10px;font-size:11px}.btn-row,.config-bar,.tabs,.edit-banner{display:none!important}.tab-content{display:none!important}.tab-content.active{display:block!important}.sc,.fc,.sg,.op-bar,.cs,.mc{border-color:#ccc;break-inside:avoid}input{border:none!important;background:transparent!important;padding:0!important;box-shadow:none!important;font-weight:600}.bdg{border:1px solid #ccc}}
 </style>
@@ -300,9 +306,15 @@ ops.forEach(function(op){
   html+=htSec('Formatação');
   html+=htRow('c/ refile',n(op.fmt_apara),n(op.fmt_pct));
   html+=htRowSr('↳ s/ refile',fmtSrKg,fmtSrPct);
-  html+=htTot('Total geral c/ refile',n(op.total_apara),n(op.total_pct));
-  html+=htTotSr('Total geral s/ refile',totSrKg,totSrPct);
-  html+='</tbody></table></div>';
+  html+='</tbody></table>';
+  var pesoFinal=n(op.total_util)-n(op.total_apara);
+  html+='<div class="op-tot">';
+  html+='<div class="ot"><div class="ot-l">Útil total</div><div class="ot-v">'+fmt1(n(op.total_util))+' kg</div></div>';
+  html+='<div class="ot"><div class="ot-l">Peso final</div><div class="ot-v">'+fmt1(pesoFinal)+' kg</div></div>';
+  html+='<div class="ot"><div class="ot-l">Apara total</div><div class="ot-v">'+fmt1(n(op.total_apara))+' kg</div></div>';
+  html+='<div class="ot"><div class="ot-l">% c/ refile</div><div class="ot-v"><span class="bdg '+bc(n(op.total_pct))+'">'+fpv2(n(op.total_pct))+'</span></div></div>';
+  html+='<div class="ot"><div class="ot-l">% s/ refile</div><div class="ot-v"><span class="bdg '+bc(totSrPct)+'">'+fpv2(totSrPct)+'</span></div></div>';
+  html+='</div></div>';
 });
 el('hist-cards').innerHTML=html;renderAverages(ops);}
 function htSec(name){return '<tr class="ht-sec"><td colspan="3">'+name+'</td></tr>';}
@@ -341,9 +353,15 @@ html+=htSub('Subtotal sanfona',avgKgOf('s_apara_total'),avgOf('s_pct_geral'));
 html+=htSec('Formatação');
 html+=htRow('c/ refile',avgKgOf('fmt_apara'),avgOf('fmt_pct'));
 html+=htRowSr('↳ s/ refile',fmtSrKgAvg,fmtSrPctAvg);
-html+=htTot('Total geral c/ refile',avgKgOf('total_apara'),avgOf('total_pct'));
-html+=htTotSr('Total geral s/ refile',totSrKgAvg,totSrPctAvg);
-html+='</tbody></table></div>';
+html+='</tbody></table>';
+var pesoFinalAvg=(function(){var s=0,c=0;ops.forEach(function(op){s+=n(op.total_util)-n(op.total_apara);c++;});return c>0?s/c:NaN;})();
+html+='<div class="op-tot">';
+html+='<div class="ot"><div class="ot-l">Útil médio</div><div class="ot-v">'+fmt1(avgKgOf('total_util'))+' kg</div></div>';
+html+='<div class="ot"><div class="ot-l">Peso final médio</div><div class="ot-v">'+fmt1(pesoFinalAvg)+' kg</div></div>';
+html+='<div class="ot"><div class="ot-l">Apara média</div><div class="ot-v">'+fmt1(avgKgOf('total_apara'))+' kg</div></div>';
+html+='<div class="ot"><div class="ot-l">% média c/ refile</div><div class="ot-v"><span class="bdg '+bc(avgOf('total_pct'))+'">'+fpv2(avgOf('total_pct'))+'</span></div></div>';
+html+='<div class="ot"><div class="ot-l">% média s/ refile</div><div class="ot-v"><span class="bdg '+bc(totSrPctAvg)+'">'+fpv2(totSrPctAvg)+'</span></div></div>';
+html+='</div></div>';
 el('avg-section').innerHTML=html;}
 
 
