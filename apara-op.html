@@ -111,13 +111,12 @@ button.sm{padding:4px 10px;font-size:11px}
 .st-bar .bar-f{height:100%;border-radius:3px;min-width:2px}
 .bar-c-b{background:var(--acc)}.bar-c-g{background:var(--gg)}.bar-c-w{background:var(--ww)}.bar-c-r{background:var(--dd)}
 .st-pcts{display:flex;gap:6px;align-items:baseline;flex-wrap:wrap}
-.st-pcts .st-tag{font-size:11px;font-weight:600;font-family:var(--mo);padding:1px 6px;border-radius:var(--rs);background:var(--sf2);color:var(--t2)}
-.st-pcts .st-tag-lbl{font-size:9px;font-weight:500;color:var(--t3);margin-left:2px;font-family:var(--sn)}
-.avg-sub-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;margin-top:-2px}
-.avg-sub-row .avg-name{font-size:10px;color:var(--t3);width:90px;flex-shrink:0;font-style:italic}
-.avg-sub-row .avg-val{font-size:11px;color:var(--t3);width:55px;text-align:right;flex-shrink:0}
-.ft-pcts{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
-.ft-pcts .ft-tag{font-size:10px;font-weight:500;color:var(--t3);font-family:var(--mo)}
+.st-pcts .st-tag{font-size:12px;font-weight:700;font-family:var(--mo);color:var(--t1)}
+.st-pcts .st-tag-lbl{font-size:9px;font-weight:600;color:var(--t2);margin-left:2px;font-family:var(--sn);text-transform:uppercase;letter-spacing:.3px}
+.ft-row{display:flex;flex-direction:column;gap:3px}
+.ft-line{display:flex;justify-content:space-between;align-items:center}
+.ft-line .ft-val{font-size:13px;font-weight:700;font-family:var(--mo);color:var(--t1)}
+.ft-line .ft-val-lbl{font-size:9px;font-weight:600;color:var(--t2);margin-left:3px;text-transform:uppercase;letter-spacing:.3px}
 .op-card-ft{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--bd)}
 .op-card-ft>div{padding:10px 14px;display:flex;justify-content:space-between;align-items:center}
 .op-card-ft>div+div{border-left:1px solid var(--bd)}
@@ -304,13 +303,17 @@ var html='';ops.forEach(function(op,i){
   html+='<div class="col-hd"><span class="col-lbl s">Sanfona</span><span class="col-tot bdg '+bc(n(op.s_pct_geral))+'">'+fpv(op.s_pct_geral)+'</span></div>';
   sKeys.forEach(function(k,j){var pct=n(op[k]);var sub=j===3?n(op.s_reb_pct_sr):null;html+=mkBar(stNames[j],pct,'g',sub);});
   html+='</div></div>';
-  html+='<div class="op-card-ft"><div><span class="ft-lbl">Formatação</span><div class="ft-pcts"><span class="bdg '+bc(n(op.fmt_pct))+'">'+fpv(op.fmt_pct)+'</span>';
+  html+='<div class="op-card-ft"><div><div class="ft-row"><div class="ft-line"><span class="ft-lbl">Formatação</span><span class="ft-val">'+fpv(op.fmt_pct)+'<span class="ft-val-lbl">c/ refile</span></span></div>';
   var fmtSr=n(op.total_util)>0?(n(op.fmt_apara)-n(op.fmt_refile_kg))/n(op.total_util)*100:0;
-  if(n(op.fmt_refile_kg)>0){html+='<span class="ft-tag">'+fpv(fmtSr)+' s/ refile</span>';}
-  html+='</div></div><div><span class="ft-lbl">Total geral</span><span class="bdg '+bc(n(op.total_pct))+'">'+fpv(op.total_pct)+'</span></div></div></div>';
+  if(n(op.fmt_refile_kg)>0){html+='<div class="ft-line"><span class="ft-lbl"></span><span class="ft-val">'+fpv(fmtSr)+'<span class="ft-val-lbl">s/ refile</span></span></div>';}
+  html+='</div></div><div><div class="ft-row"><div class="ft-line"><span class="ft-lbl">Total geral</span><span class="ft-val">'+fpv(op.total_pct)+'<span class="ft-val-lbl">c/ refile</span></span></div>';
+  var totRefKg=n(op.f_reb_refile)+n(op.s_reb_refile)+n(op.fmt_refile_kg);
+  var totSr=n(op.total_util)>0?(n(op.total_apara)-totRefKg)/n(op.total_util)*100:0;
+  if(totRefKg>0){html+='<div class="ft-line"><span class="ft-lbl"></span><span class="ft-val">'+fpv(totSr)+'<span class="ft-val-lbl">s/ refile</span></span></div>';}
+  html+='</div></div></div></div>';
 });
 el('hist-cards').innerHTML=html;renderAverages(ops);}
-function mkBar(name,pct,color,subPct){var w=Math.min(pct/10*100,100);var cc=pct<3?'bar-c-'+color:pct<7?'bar-c-w':'bar-c-r';var pctHtml;if(subPct!==null&&subPct!==undefined){pctHtml='<div class="st-pcts"><span class="st-tag bdg '+bc(pct)+'">'+fpv(pct)+'<span class="st-tag-lbl">c/ refile</span></span><span class="st-tag bdg '+bc(subPct)+'">'+fpv(subPct)+'<span class="st-tag-lbl">s/ refile</span></span></div>';}else{pctHtml='<span class="st-pct" style="font-size:12px;font-weight:600;font-family:var(--mo)">'+fpv(pct)+'</span>';}return '<div class="st-row"><div class="st-info"><span class="st-name">'+name+'</span>'+pctHtml+'</div><div class="st-bar"><div class="bar-f '+cc+'" style="width:'+w+'%"></div></div></div>';}
+function mkBar(name,pct,color,subPct){var w=Math.min(pct/10*100,100);var cc=pct<3?'bar-c-'+color:pct<7?'bar-c-w':'bar-c-r';var pctHtml;if(subPct!==null&&subPct!==undefined){pctHtml='<div class="st-pcts"><span class="st-tag">'+fpv(pct)+'<span class="st-tag-lbl">c/ refile</span></span><span class="st-tag">'+fpv(subPct)+'<span class="st-tag-lbl">s/ refile</span></span></div>';}else{pctHtml='<span style="font-size:12px;font-weight:700;font-family:var(--mo)">'+fpv(pct)+'</span>';}return '<div class="st-row"><div class="st-info"><span class="st-name">'+name+'</span>'+pctHtml+'</div><div class="st-bar"><div class="bar-f '+cc+'" style="width:'+w+'%"></div></div></div>';}
 function renderAverages(ops){el('avg-section').style.display='block';
 var stNames=['Impressão','Laminação 1','Laminação 2','Rebobinamento'];
 var fDefs=[{kg:'f_imp_apara',pct:'f_imp_pct'},{kg:'f_l1_apara',pct:'f_l1_pct'},{kg:'f_l2_apara',pct:'f_l2_pct'},{kg:'f_reb_apara',pct:'f_reb_pct_cr'}];
@@ -325,9 +328,10 @@ var sTot=avgOf('s_pct_geral');html+=mkAvgRow('Total sanfona',sTot,'g');
 html+='</div></div>';
 var fmtAvg=avgOf('fmt_pct'),totAvg=avgOf('total_pct');
 var fmtSrAvg=(function(){var sum=0,cnt=0;ops.forEach(function(op){var u=n(op.total_util),a=n(op.fmt_apara),r=n(op.fmt_refile_kg);if(u>0&&a>0){sum+=(a-r)/u*100;cnt++;}});return cnt>0?sum/cnt:NaN;})();
-html+='<div class="avg-ft"><div class="avg-ft-item"><div class="avg-ft-lbl">Formatação</div><div class="avg-ft-val"><span class="bdg '+bc(fmtAvg)+'">'+fpv2(fmtAvg)+'</span></div>'+(fmtSrAvg>0?'<div style="font-size:10px;color:var(--t3);margin-top:2px">'+fpv2(fmtSrAvg)+' s/ refile</div>':'')+'</div><div class="avg-ft-item"><div class="avg-ft-lbl">Total geral</div><div class="avg-ft-val"><span class="bdg '+bc(totAvg)+'">'+fpv2(totAvg)+'</span></div></div><div class="avg-ft-item"><div class="avg-ft-lbl">Nº OPs</div><div class="avg-ft-val">'+ops.length+'</div></div></div></div>';
+var totSrAvg=(function(){var sum=0,cnt=0;ops.forEach(function(op){var u=n(op.total_util),a=n(op.total_apara),rf=n(op.f_reb_refile)+n(op.s_reb_refile)+n(op.fmt_refile_kg);if(u>0&&a>0){sum+=(a-rf)/u*100;cnt++;}});return cnt>0?sum/cnt:NaN;})();
+html+='<div class="avg-ft"><div class="avg-ft-item"><div class="avg-ft-lbl">Formatação</div><div class="avg-ft-val" style="color:var(--t1)">'+fpv2(fmtAvg)+'</div><div style="font-size:10px;font-weight:600;color:var(--t1);margin-top:2px">'+fpv2(fmtSrAvg)+' <span style="font-size:9px;color:var(--t2);font-weight:600;text-transform:uppercase;letter-spacing:.3px">s/ refile</span></div></div><div class="avg-ft-item"><div class="avg-ft-lbl">Total geral</div><div class="avg-ft-val" style="color:var(--t1)">'+fpv2(totAvg)+'</div><div style="font-size:10px;font-weight:600;color:var(--t1);margin-top:2px">'+fpv2(totSrAvg)+' <span style="font-size:9px;color:var(--t2);font-weight:600;text-transform:uppercase;letter-spacing:.3px">s/ refile</span></div></div><div class="avg-ft-item"><div class="avg-ft-lbl">Nº OPs</div><div class="avg-ft-val">'+ops.length+'</div></div></div></div>';
 el('avg-section').innerHTML=html;}
-function mkAvgRow(name,pct,color,subPct){var w=Math.min((isNaN(pct)?0:pct)/10*100,100);var cc=isNaN(pct)?'bar-c-'+color:pct<3?'bar-c-'+color:pct<7?'bar-c-w':'bar-c-r';var html='<div class="avg-row"><span class="avg-name">'+name+'</span><div class="avg-bar-wrap"><div class="avg-bar-fill '+cc+'" style="width:'+w+'%"></div></div><span class="avg-val"><span class="bdg '+bc(pct)+'" style="font-size:11px">'+fpv2(pct)+'</span></span></div>';if(subPct!==null&&subPct!==undefined&&!isNaN(subPct)){var w2=Math.min(subPct/10*100,100);var cc2=subPct<3?'bar-c-'+color:subPct<7?'bar-c-w':'bar-c-r';html+='<div class="avg-sub-row"><span class="avg-name">↳ s/ refile</span><div class="avg-bar-wrap"><div class="avg-bar-fill '+cc2+'" style="width:'+w2+'%;opacity:.6"></div></div><span class="avg-val">'+fpv2(subPct)+'</span></div>';}return html;}
+function mkAvgRow(name,pct,color,subPct){var w=Math.min((isNaN(pct)?0:pct)/10*100,100);var cc=isNaN(pct)?'bar-c-'+color:pct<3?'bar-c-'+color:pct<7?'bar-c-w':'bar-c-r';var html='<div class="avg-row"><span class="avg-name">'+name+'</span><div class="avg-bar-wrap"><div class="avg-bar-fill '+cc+'" style="width:'+w+'%"></div></div><span class="avg-val" style="font-weight:700;color:var(--t1)">'+fpv2(pct)+'</span></div>';if(subPct!==null&&subPct!==undefined&&!isNaN(subPct)){var w2=Math.min(subPct/10*100,100);var cc2=subPct<3?'bar-c-'+color:subPct<7?'bar-c-w':'bar-c-r';html+='<div class="avg-row" style="margin-top:-2px"><span class="avg-name" style="font-size:10px;color:var(--t2)">└ s/ refile</span><div class="avg-bar-wrap"><div class="avg-bar-fill '+cc2+'" style="width:'+w2+'%"></div></div><span class="avg-val" style="font-weight:700;color:var(--t1)">'+fpv2(subPct)+'</span></div>';}return html;}
 
 function n(v){return parseFloat(v)||0;}
 function fpv(v){var x=n(v);return x>0?x.toFixed(1)+'%':'—';}
