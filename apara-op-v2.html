@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" translate="no">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google" content="notranslate">
 <title>Apontamento de Apara</title>
 <style>
 :root{
@@ -94,6 +95,7 @@ input::placeholder{color:var(--t3)}
 .del-btn:hover{background:var(--dbg);border-color:var(--dd);color:var(--dt)}
 .stage-body{padding:16px}
 .ir{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.ir.t2{grid-template-columns:1fr 1fr}
 .ir.t3{grid-template-columns:1fr 1fr 1fr}
 .ir.t4{grid-template-columns:1fr 1fr 1fr 1fr}
 .ir:last-child{margin-bottom:0}
@@ -115,6 +117,13 @@ input::placeholder{color:var(--t3)}
 .fmt-block-hd::before{content:'';width:3px;height:13px;border-radius:2px;background:#8b5cf6}
 .fmt-sub{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin:13px 0 9px;padding-top:11px;border-top:1px solid var(--bd)}
 .fmt-sub.s{color:var(--teal)}
+.fmt-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:13px;margin-top:11px}
+.fmt-card.frente{border-left:3px solid var(--acc)}
+.fmt-card.sanfona{border-left:3px solid var(--teal)}
+.fmt-card-hd{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:11px;display:flex;align-items:center;gap:7px}
+.fmt-card.frente .fmt-card-hd{color:var(--acc)}
+.fmt-card.sanfona .fmt-card-hd{color:var(--teal)}
+.fmt-card-hd .fc-dot{width:9px;height:9px;border-radius:50%;background:currentColor}
 
 /* Component summary */
 .comp-sum{background:linear-gradient(135deg,var(--sf2),var(--sf3));border:1px solid var(--bd);border-radius:var(--r);padding:15px;margin-top:6px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:center}
@@ -213,7 +222,7 @@ button.sm:hover{background:var(--acc-bg);border-color:var(--acc)}
 <div class="container">
   <div class="app-hd">
     <div class="brand">
-      <div class="logo">A</div>
+      <div class="logo">04</div>
       <div>
         <h1>Apontamento de Apara</h1>
         <div class="sub">Controle de perda por processo</div>
@@ -424,7 +433,7 @@ function buildStageCard(comp,type,lamIdx,stageId){
   if(type==='imp'||type==='lam'||type==='apl'){
     body+='<div class="ir t3">';
     body+='<div class="fld"><label>Maquina</label><select id="'+p+'-maq" onchange="recalc()">'+maqOpts(type)+'</select></div>';
-    body+='<div class="fld"><label>Quant. bobinas</label><input type="number" id="'+p+'-bob" min="1" placeholder="0" oninput="recalc()"></div>';
+    body+='<div class="fld"><label>Quantidade de Bobinas</label><input type="number" id="'+p+'-bob" min="1" placeholder="0" oninput="recalc()"></div>';
     body+='<div class="fld"><label>Metragem (m)</label><input type="number" id="'+p+'-met" placeholder="0" oninput="recalc()"></div>';
     body+='</div>';
     body+='<div class="ir t4">';
@@ -438,14 +447,14 @@ function buildStageCard(comp,type,lamIdx,stageId){
     body+='<div class="calc-item"><div class="ci-l">Peso '+matLabel+'</div><div class="ci-v" id="'+p+'-mat-kg">\u2014</div></div>';
     body+='<div class="calc-item"><div class="ci-l">Peso util</div><div class="ci-v" id="'+p+'-util">\u2014</div></div>';
     body+='<div class="calc-item"><div class="ci-l">Apara</div><div class="ci-v" id="'+p+'-apara">\u2014</div></div>';
-    body+='<div class="calc-item"><div class="ci-l">Metragem media</div><div class="ci-v" id="'+p+'-metmed">\u2014</div></div>';
+    body+='<div class="calc-item"><div class="ci-l">Metragem Media das Bobinas</div><div class="ci-v" id="'+p+'-metmed">\u2014</div></div>';
     body+='</div>';
-    body+='<div class="calc-row t2" style="margin-top:10px"><div class="calc-item"><div class="ci-l">% sobre util geral</div><span class="bdg" id="'+p+'-pct">\u2014</span></div><div></div></div>';
+    body+='<div class="calc-row t2" style="margin-top:10px"><div class="calc-item"><div class="ci-l">% Sobre Util Geral</div><span class="bdg" id="'+p+'-pct">\u2014</span></div><div></div></div>';
   }
   else if(type==='reb'){
     body+='<div class="ir t3">';
     body+='<div class="fld"><label>Maquina</label><select id="'+p+'-maq" onchange="recalc()">'+maqOpts('reb')+'</select></div>';
-    body+='<div class="fld"><label>Quant. bobinas</label><input type="number" id="'+p+'-bob" placeholder="0" oninput="recalc()"></div>';
+    body+='<div class="fld"><label>Quantidade de Bobinas</label><input type="number" id="'+p+'-bob" placeholder="0" oninput="recalc()"></div>';
     body+='<div class="fld"><label>Metragem (m)</label><input type="number" id="'+p+'-met" placeholder="0" oninput="recalc()"></div>';
     body+='</div>';
     body+='<div class="ir t3">';
@@ -467,25 +476,27 @@ function buildStageCard(comp,type,lamIdx,stageId){
     body+='<div class="fld"><label>Peso ziper (kg)</label><input type="number" id="'+p+'-zip" step="0.01" placeholder="0.00" oninput="recalc()"></div>';
     body+='</div>';
     body+='<div class="ir"><div class="fld"><label>Peso util (kg)</label><input type="number" id="'+p+'-util-in" step="0.01" placeholder="0.00" oninput="recalc()"></div><div class="fld"><label>Peso final (kg)</label><input type="number" id="'+p+'-fin" step="0.01" placeholder="0.00" oninput="recalc()"></div></div>';
-    body+='<div class="calc-row t2"><div class="calc-item"><div class="ci-l">Apara total</div><div class="ci-v" id="'+p+'-apara">\u2014</div></div><div class="calc-item"><div class="ci-l">% sobre util geral</div><span class="bdg" id="'+p+'-pct">\u2014</span></div></div>';
+    body+='<div class="calc-row t2"><div class="calc-item"><div class="ci-l">Apara total</div><div class="ci-v" id="'+p+'-apara">\u2014</div></div><div class="calc-item"><div class="ci-l">% Sobre Util Geral</div><span class="bdg" id="'+p+'-pct">\u2014</span></div></div>';
     body+='<div class="fmt-block"><div class="fmt-block-hd">Refile formatacao</div>';
-    body+='<div class="fmt-sub">Frente</div>';
+    body+='<div class="fmt-card frente"><div class="fmt-card-hd"><span class="fc-dot"></span>Frente</div>';
     body+='<div class="fld" style="margin-bottom:9px"><label>Gramatura final (g/m2)</label><input type="number" id="'+p+'-gram-f" step="0.01" placeholder="0.00" oninput="recalc()"></div>';
-    body+='<div class="ir t4">';
+    body+='<div class="ir t2">';
     body+='<div class="fld"><label>Altura ini c/ refile (mm)</label><input type="number" id="'+p+'-afi" step="0.1" oninput="recalc()"></div>';
     body+='<div class="fld"><label>Largura ini c/ refile (mm)</label><input type="number" id="'+p+'-lfi" step="0.1" oninput="recalc()"></div>';
+    body+='</div><div class="ir t2">';
     body+='<div class="fld"><label>Altura fin s/ refile (mm)</label><input type="number" id="'+p+'-aff" step="0.1" oninput="recalc()"></div>';
     body+='<div class="fld"><label>Largura fin s/ refile (mm)</label><input type="number" id="'+p+'-lff" step="0.1" oninput="recalc()"></div>';
-    body+='</div>';
+    body+='</div></div>';
     body+='<div id="'+p+'-sanfona-refile" style="display:none">';
-    body+='<div class="fmt-sub s">Sanfona</div>';
+    body+='<div class="fmt-card sanfona"><div class="fmt-card-hd"><span class="fc-dot"></span>Sanfona</div>';
     body+='<div class="fld" style="margin-bottom:9px"><label>Gramatura final (g/m2)</label><input type="number" id="'+p+'-gram-s" step="0.01" placeholder="0.00" oninput="recalc()"></div>';
-    body+='<div class="ir t4">';
+    body+='<div class="ir t2">';
     body+='<div class="fld"><label>Altura ini c/ refile (mm)</label><input type="number" id="'+p+'-asi" step="0.1" oninput="recalc()"></div>';
     body+='<div class="fld"><label>Largura ini c/ refile (mm)</label><input type="number" id="'+p+'-lsi" step="0.1" oninput="recalc()"></div>';
+    body+='</div><div class="ir t2">';
     body+='<div class="fld"><label>Altura fin s/ refile (mm)</label><input type="number" id="'+p+'-asf" step="0.1" oninput="recalc()"></div>';
     body+='<div class="fld"><label>Largura fin s/ refile (mm)</label><input type="number" id="'+p+'-lsf" step="0.1" oninput="recalc()"></div>';
-    body+='</div></div>';
+    body+='</div></div></div>';
     body+='<div class="calc-row" style="margin-top:13px">';
     body+='<div class="calc-item"><div class="ci-l">Refile total (kg)</div><div class="ci-v" id="'+p+'-refile-kg">\u2014</div></div>';
     body+='<div class="calc-item"><div class="ci-l">Refile total (m2)</div><div class="ci-v" id="'+p+'-refile-m2">\u2014</div></div>';
