@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apontamento de Apara — v2</title>
+<style>
+:root{
+  --bg:#f5f5f7;--sf:#fff;--sf2:#f0f0f2;--bd:#d8d8dc;--bd2:#c8c8cc;
+  --t1:#1d1d1f;--t2:#6e6e73;--t3:#aeaeb2;
+  --acc:#0071e3;--acc2:rgba(0,113,227,.1);
+  --gg:#34c759;--gbg:rgba(52,199,89,.12);--gt:#1a7a34;
+  --ww:#ff9f0a;--wbg:rgba(255,159,10,.12);--wt:#8a5500;
+  --dd:#ff3b30;--dbg:rgba(255,59,48,.1);--dt:#a21d16;
+  --r:10px;--rs:6px;
+  --mo:'SF Mono','Fira Code','Consolas',monospace;
+  --sn:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#1c1c1e;--sf:#2c2c2e;--sf2:#3a3a3c;--bd:#48484a;--bd2:#636366;
+  --t1:#f5f5f7;--t2:#a1a1a6;--t3:#636366;
+  --gbg:rgba(52,199,89,.18);--gt:#5fd97e;
+  --wbg:rgba(255,159,10,.18);--wt:#ffb340;
+  --dbg:rgba(255,59,48,.15);--dt:#ff6961;
+}}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--t1);font-family:var(--sn);font-size:14px;line-height:1.5;min-height:100vh}
+.container{max-width:980px;margin:0 auto;padding:12px 20px 40px}
+
+/* ── Header ── */
+.app-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px}
+.app-hd h1{font-size:18px;font-weight:600}
+.tabs{display:flex;gap:4px;background:var(--sf2);border-radius:var(--rs);padding:3px}
+.tabs button{padding:6px 16px;border:none;background:transparent;border-radius:4px;font-size:12px;font-weight:500;color:var(--t2);cursor:pointer;font-family:var(--sn);transition:.15s}
+.tabs button.active{background:var(--sf);color:var(--t1);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.tab-pane{display:none}.tab-pane.active{display:block}
+
+/* ── Config bar ── */
+.cfg-bar{display:flex;gap:8px;align-items:end;margin-bottom:16px;padding:10px 14px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r)}
+.cfg-bar .fl{flex:1}
+.cfg-st{font-size:11px;padding:6px 12px;border-radius:var(--rs);white-space:nowrap}
+.cfg-st.ok{background:var(--gbg);color:var(--gt)}
+.cfg-st.no{background:var(--dbg);color:var(--dt)}
+
+/* ── Form elements ── */
+.fl{display:flex;flex-direction:column;gap:3px}
+.fl label,.fld label{font-size:10px;color:var(--t2);font-weight:600;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:2px}
+.fl input,.fl select,.fld input,.fld select{width:100%;padding:6px 10px;border:1px solid var(--bd);border-radius:var(--rs);background:var(--sf2);color:var(--t1);font-family:var(--sn);font-size:13px;transition:border-color .2s}
+.fl input:focus,.fld input:focus,.fl select:focus,.fld select:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px rgba(0,113,227,.12)}
+.fld input{font-size:12px;padding:5px 8px}
+.fld select{font-size:12px;padding:5px 8px}
+
+/* ── OP meta bar ── */
+.op-bar{display:grid;grid-template-columns:2fr 2fr 1fr 1fr;gap:8px;padding:12px 14px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);margin-bottom:14px}
+
+/* ── Type selector ── */
+.type-bar{display:flex;gap:10px;align-items:center;padding:10px 14px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);margin-bottom:14px;flex-wrap:wrap}
+.type-bar .type-lbl{font-size:12px;font-weight:500;color:var(--t2)}
+.type-btn{padding:6px 16px;border:1px solid var(--bd);border-radius:var(--rs);background:var(--sf2);color:var(--t2);font-size:13px;font-weight:500;cursor:pointer;font-family:var(--sn);transition:all .15s}
+.type-btn.active{background:var(--acc);color:#fff;border-color:var(--acc)}
+.bp-toggle{display:flex;align-items:center;gap:8px;margin-left:auto;font-size:13px;font-weight:500;cursor:pointer}
+.bp-toggle input[type=checkbox]{width:16px;height:16px;cursor:pointer}
+
+/* ── Component tabs ── */
+.comp-tabs{display:flex;gap:0;margin-bottom:0;border-bottom:1px solid var(--bd)}
+.comp-tab{padding:8px 20px;border:1px solid transparent;border-bottom:none;background:transparent;font-size:13px;font-weight:500;color:var(--t2);cursor:pointer;font-family:var(--sn);border-radius:var(--rs) var(--rs) 0 0;margin-bottom:-1px;transition:.15s}
+.comp-tab.active{background:var(--sf);border-color:var(--bd);color:var(--t1)}
+.comp-tab .lbl-f{color:var(--acc)}
+.comp-tab .lbl-s{color:var(--gt)}
+.comp-pane{display:none;padding-top:14px}.comp-pane.active{display:block}
+
+/* ── Stage builder ── */
+.stage-builder{margin-bottom:14px}
+.add-stage-bar{display:flex;gap:8px;flex-wrap:wrap;padding:10px 14px;background:var(--sf2);border:1px solid var(--bd);border-radius:var(--r);margin-bottom:12px;align-items:center}
+.add-stage-bar span{font-size:11px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.4px}
+.add-btn{padding:5px 14px;border:1px solid var(--bd);border-radius:var(--rs);background:var(--sf);color:var(--t1);font-size:12px;font-weight:500;cursor:pointer;font-family:var(--sn);transition:all .15s}
+.add-btn:hover{background:var(--acc2);border-color:var(--acc);color:var(--acc)}
+
+/* ── Stage card ── */
+.stage-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);margin-bottom:10px;overflow:hidden}
+.stage-hd{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--bd);background:var(--sf2)}
+.stage-hd .stage-name{font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px}
+.stage-badge{font-size:10px;padding:2px 8px;border-radius:var(--rs);font-weight:600}
+.badge-imp{background:rgba(0,113,227,.1);color:var(--acc)}
+.badge-lam{background:var(--gbg);color:var(--gt)}
+.badge-apl{background:rgba(255,159,10,.15);color:var(--wt)}
+.badge-reb{background:rgba(255,59,48,.1);color:var(--dt)}
+.badge-fmt{background:rgba(88,86,214,.1);color:#5856d6}
+.del-btn{padding:3px 10px;border:1px solid var(--bd);border-radius:var(--rs);background:transparent;color:var(--t2);font-size:11px;cursor:pointer;font-family:var(--sn)}
+.del-btn:hover{background:var(--dbg);border-color:var(--dt);color:var(--dt)}
+.stage-body{padding:12px 14px}
+.ir{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.ir.t3{grid-template-columns:1fr 1fr 1fr}
+.ir.t4{grid-template-columns:1fr 1fr 1fr 1fr}
+
+/* ── Calculated outputs ── */
+.calc-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;border-top:1px solid var(--bd);padding-top:10px;margin-top:4px}
+.calc-row.t2{grid-template-columns:1fr 1fr}
+.calc-row.t3{grid-template-columns:1fr 1fr 1fr}
+.calc-item .ci-l{font-size:10px;color:var(--t2);margin-bottom:2px}
+.calc-item .ci-v{font-size:13px;font-weight:600;font-family:var(--mo)}
+.bdg{display:inline-block;padding:1px 7px;border-radius:var(--rs);font-size:12px;font-weight:600;font-family:var(--mo);background:var(--sf2);color:var(--t2)}
+.bdg.g{background:var(--gbg);color:var(--gt)}
+.bdg.a{background:var(--wbg);color:var(--wt)}
+.bdg.r{background:var(--dbg);color:var(--dt)}
+
+/* ── Component summary ── */
+.comp-summary{background:var(--sf2);border:1px solid var(--bd);border-radius:var(--r);padding:12px 14px;margin-top:8px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
+.comp-summary .cs-l{font-size:10px;color:var(--t2)}
+.comp-summary .cs-v{font-size:16px;font-weight:600;font-family:var(--mo)}
+
+/* ── Summary section ── */
+.summary-sec{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:14px}
+.summary-sec h3{font-size:12px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{text-align:left;font-size:10px;font-weight:600;color:var(--t2);padding:6px 8px;border-bottom:1px solid var(--bd)}
+th:not(:first-child){text-align:right}
+td{padding:6px 8px;border-bottom:1px solid var(--bd);font-family:var(--mo);font-size:12px;text-align:right}
+td:first-child{font-family:var(--sn);text-align:left}
+tr.t-sec td{background:var(--sf2);font-family:var(--sn);font-weight:700;font-size:11px;color:var(--t2);text-transform:uppercase;letter-spacing:.4px}
+tr.t-sub td{font-weight:600;background:var(--sf2);border-top:1px solid var(--bd2)}
+tr.t-sr td{color:var(--t2)}
+tr.t-sr td:first-child{padding-left:20px;font-size:11px}
+tr.t-tot td{font-weight:700;font-size:13px;border-top:2px solid var(--bd2)}
+.mg{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:2px solid var(--bd2);margin-top:14px;background:var(--sf2)}
+.mc{padding:12px 8px;text-align:center;border-right:1px solid var(--bd)}
+.mc:last-child{border-right:none}
+.mc .ml{font-size:10px;color:var(--t2);text-transform:uppercase;letter-spacing:.3px;margin-bottom:5px;font-weight:600}
+.mc .mv{font-size:15px;font-weight:600;font-family:var(--mo)}
+
+/* ── Buttons ── */
+.btn-row{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-top:8px}
+button{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border:1px solid var(--bd);border-radius:var(--rs);background:var(--sf);color:var(--t1);font-family:var(--sn);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s}
+button:hover{background:var(--sf2);border-color:var(--bd2)}
+button.primary{background:var(--acc);color:#fff;border-color:var(--acc)}
+button.primary:hover{opacity:.9}
+button.sm{padding:4px 10px;font-size:11px}
+
+/* ── Edit banner ── */
+.edit-banner{padding:10px 14px;margin-bottom:14px;border-radius:var(--r);background:var(--wbg);color:var(--wt);font-size:13px;font-weight:500;display:none;align-items:center;justify-content:space-between}
+.edit-banner.show{display:flex}
+
+/* ── Toast ── */
+.toast{position:fixed;bottom:20px;right:20px;padding:12px 20px;border-radius:var(--r);font-size:13px;font-weight:500;z-index:999;transform:translateY(100px);opacity:0;transition:.3s}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.ok{background:var(--gg);color:#fff}
+.toast.err{background:var(--dd);color:#fff}
+
+/* ── History ── */
+.hist-ctrl{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.hist-ctrl select{padding:6px 10px;border:1px solid var(--bd);border-radius:var(--rs);background:var(--sf2);color:var(--t1);font-size:12px}
+.hist-empty{text-align:center;padding:40px;color:var(--t3)}
+.op-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);margin-bottom:14px;overflow:hidden}
+.op-card-hd{display:flex;justify-content:space-between;align-items:flex-start;padding:12px 14px;border-bottom:1px solid var(--bd);gap:8px}
+.op-card-hd .op-name{font-size:14px;font-weight:600;margin-bottom:3px}
+.op-card-hd .op-meta{font-size:11px;color:var(--t2)}
+.ht{width:100%;border-collapse:collapse;font-size:12px}
+.ht th{text-align:left;font-size:10px;font-weight:600;color:var(--t2);padding:6px 14px;border-bottom:1px solid var(--bd);text-transform:uppercase;letter-spacing:.3px}
+.ht th:not(:first-child){text-align:right}
+.ht td{padding:6px 14px;border-bottom:1px solid var(--bd);font-family:var(--mo);font-size:12px;text-align:right;color:var(--t1)}
+.ht td:first-child{font-family:var(--sn);text-align:left}
+.ht tr.ht-sec td{background:var(--sf2);font-weight:700;font-size:11px;color:var(--t2);text-transform:uppercase;letter-spacing:.4px;font-family:var(--sn);padding:5px 14px}
+.ht tr.ht-sub td{font-weight:600;background:var(--sf2);border-top:1px solid var(--bd2)}
+.ht tr.ht-sr td{color:var(--t2)}
+.ht tr.ht-sr td:first-child{padding-left:26px;font-size:11px}
+.op-tot{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:2px solid var(--bd2);background:var(--sf2)}
+.op-tot .ot{padding:10px 8px;text-align:center;border-right:1px solid var(--bd)}
+.op-tot .ot:last-child{border-right:none}
+.op-tot .ot-l{font-size:10px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px}
+.op-tot .ot-v{font-size:14px;font-weight:600;font-family:var(--mo)}
+.avg-wrap{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);margin-bottom:14px;overflow:hidden}
+.avg-wrap-hd{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid var(--bd)}
+.avg-wrap-hd h3{font-size:12px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.5px}
+
+/* ── Fmt refile block ── */
+.fmt-block{background:var(--sf2);border-radius:var(--rs);padding:10px 12px;border:1px solid var(--bd);margin-top:8px}
+.fmt-block-hd{font-size:10px;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px}
+
+@media(max-width:700px){
+  .op-bar{grid-template-columns:1fr 1fr}
+  .ir.t3,.ir.t4{grid-template-columns:1fr 1fr}
+  .calc-row{grid-template-columns:1fr 1fr}
+  .mg,.op-tot{grid-template-columns:1fr 1fr}
+}
+@media print{
+  body{background:#fff;font-size:11px}
+  .btn-row,.cfg-bar,.tabs,.edit-banner,.add-stage-bar,.del-btn,.type-bar,.comp-tabs,.hist-ctrl{display:none!important}
+  .tab-pane,.comp-pane{display:block!important}
+  input,select{border:none!important;background:transparent!important;font-weight:600}
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="app-hd">
+    <h1>Apontamento de apara — v2</h1>
+    <div class="tabs">
+      <button class="active" onclick="switchTab('form')">Apontamento</button>
+      <button onclick="switchTab('hist')">Histórico</button>
+    </div>
+  </div>
+
+  <div class="cfg-bar">
+    <div class="fl" style="flex:1"><label>URL do Apps Script</label><input id="script-url" type="text" placeholder="https://script.google.com/macros/s/.../exec" oninput="saveConfig()"></div>
+    <span class="cfg-st no" id="conn-status">Não configurado</span>
+  </div>
+
+  <!-- ══ APONTAMENTO ══ -->
+  <div id="tab-form" class="tab-pane active">
+    <div class="edit-banner" id="edit-banner">
+      <span>Editando OP — <strong id="edit-label"></strong></span>
+      <button onclick="cancelEdit()">Cancelar edição</button>
+    </div>
+
+    <!-- OP meta -->
+    <div class="op-bar">
+      <div class="fl"><label>Cliente</label><input id="op-cli" type="text" placeholder="Nome do cliente"></div>
+      <div class="fl"><label>Produto / Item</label><input id="op-prod" type="text" placeholder="Nome do produto"></div>
+      <div class="fl"><label>Código OP</label><input id="op-cod" type="text" placeholder="000000"></div>
+      <div class="fl"><label>Data</label><input id="op-data" type="date"></div>
+    </div>
+
+    <!-- Tipo -->
+    <div class="type-bar">
+      <span class="type-lbl">Tipo de OP:</span>
+      <button class="type-btn active" id="btn-simples" onclick="setTipo('simples')">Bobina simples</button>
+      <button class="type-btn" id="btn-bp" onclick="setTipo('box_pouch')">Box Pouch</button>
+    </div>
+
+    <!-- Component tabs (Box Pouch) -->
+    <div id="comp-tabs-wrap" style="display:none;margin-bottom:0">
+      <div class="comp-tabs">
+        <button class="comp-tab active" id="ctab-frente" onclick="switchComp('frente')">
+          <span class="lbl-f">Frente</span>
+        </button>
+        <button class="comp-tab" id="ctab-sanfona" onclick="switchComp('sanfona')">
+          <span class="lbl-s">Sanfona</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Frente / único componente -->
+    <div id="comp-frente" class="comp-pane active">
+      <div class="stage-builder" id="builder-frente">
+        <div class="add-stage-bar">
+          <span>Adicionar etapa:</span>
+          <button class="add-btn" onclick="addStage('frente','imp')">+ Impressão</button>
+          <button class="add-btn" onclick="addStage('frente','lam')">+ Laminação</button>
+          <button class="add-btn" onclick="addStage('frente','apl')">+ Aplicação</button>
+          <button class="add-btn" onclick="addStage('frente','reb')">+ Rebobinamento</button>
+          <button class="add-btn" id="add-fmt-btn" onclick="addStage('frente','fmt')">+ Formatação</button>
+        </div>
+        <div id="stages-frente"></div>
+      </div>
+      <div class="comp-summary" id="summary-frente" style="display:none">
+        <div><div class="cs-l">Útil total</div><div class="cs-v" id="cs-util-frente">—</div></div>
+        <div><div class="cs-l">Apara total</div><div class="cs-v" id="cs-apara-frente">—</div></div>
+        <div><div class="cs-l">% geral</div><div class="cs-v" id="cs-pct-frente">—</div></div>
+      </div>
+    </div>
+
+    <!-- Sanfona (Box Pouch only) -->
+    <div id="comp-sanfona" class="comp-pane" style="display:none">
+      <div class="stage-builder" id="builder-sanfona">
+        <div class="add-stage-bar">
+          <span>Adicionar etapa:</span>
+          <button class="add-btn" onclick="addStage('sanfona','imp')">+ Impressão</button>
+          <button class="add-btn" onclick="addStage('sanfona','lam')">+ Laminação</button>
+          <button class="add-btn" onclick="addStage('sanfona','apl')">+ Aplicação</button>
+          <button class="add-btn" onclick="addStage('sanfona','reb')">+ Rebobinamento</button>
+        </div>
+        <div id="stages-sanfona"></div>
+      </div>
+      <div class="comp-summary" id="summary-sanfona" style="display:none">
+        <div><div class="cs-l">Útil total</div><div class="cs-v" id="cs-util-sanfona">—</div></div>
+        <div><div class="cs-l">Apara total</div><div class="cs-v" id="cs-apara-sanfona">—</div></div>
+        <div><div class="cs-l">% geral</div><div class="cs-v" id="cs-pct-sanfona">—</div></div>
+      </div>
+    </div>
+
+    <!-- Summary -->
+    <div class="summary-sec" id="summary-sec">
+      <h3>Apara geral — contribuição por etapa</h3>
+      <table><thead><tr><th>Etapa</th><th>Apara (kg)</th><th>%</th></tr></thead>
+      <tbody id="summary-tbody"></tbody></table>
+      <div class="mg" id="summary-totals">
+        <div class="mc"><div class="ml">Útil total</div><div class="mv" id="tot-util">—</div></div>
+        <div class="mc"><div class="ml">Peso final</div><div class="mv" id="tot-final">—</div></div>
+        <div class="mc"><div class="ml">Apara total</div><div class="mv" id="tot-apara">—</div></div>
+        <div class="mc"><div class="ml">% c/ refile</div><div class="mv" id="tot-pct">—</div></div>
+        <div class="mc"><div class="ml">% s/ refile</div><div class="mv" id="tot-pct-sr">—</div></div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button onclick="clearAll()">Limpar</button>
+      <button onclick="window.print()">Imprimir</button>
+      <button class="primary" id="save-btn" onclick="saveOP()">Salvar OP</button>
+    </div>
+  </div>
+
+  <!-- ══ HISTÓRICO ══ -->
+  <div id="tab-hist" class="tab-pane">
+    <div class="hist-ctrl">
+      <button onclick="loadHistory()">Atualizar</button>
+      <select id="hf-cli"><option value="">Todos os clientes</option></select>
+      <select id="hf-prod"><option value="">Todos os produtos</option></select>
+      <select id="hf-tipo"><option value="">Todos os tipos</option><option value="simples">Bobina simples</option><option value="box_pouch">Box Pouch</option></select>
+      <select id="hf-maq"><option value="">Todas as máquinas</option></select>
+      <input id="hf-data-ini" type="date" style="padding:6px 10px;border:1px solid var(--bd);border-radius:var(--rs);background:var(--sf2);color:var(--t1);font-size:12px">
+      <input id="hf-data-fim" type="date" style="padding:6px 10px;border:1px solid var(--bd);border-radius:var(--rs);background:var(--sf2);color:var(--t1);font-size:12px">
+      <span id="hist-count" style="font-size:11px;color:var(--t2);margin-left:auto"></span>
+    </div>
+    <div id="hist-cards"></div>
+    <div id="hist-empty" class="hist-empty">Clique em "Atualizar" para carregar o histórico</div>
+    <div id="avg-section"></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════
+// CONSTANTS
+// ══════════════════════════════════════════
+var MACHINES = {
+  imp: ['Heliostar 1','Heliostar 2','Primaflex','Miraflex 1','Miraflex 2'],
+  lam: ['Supercombi 3000','Supercombi 4000','Comexi','Flexotech','Simplex 1','Simplex 2'],
+  apl: ['Supercombi 3000','Supercombi 4000','Comexi','Flexotech'],
+  reb: ['Rotobras 1','Rotobras 2','Titan ER610','Titan SR8','Titan SR800','Compack','Permaco','Exitus','Novigrade'],
+  fmt: ['Totani 1','Totani 2','Totani 3','Totani 4','VM 500']
+};
+var STAGE_LABELS = {imp:'Impressão',lam:'Laminação',apl:'Aplicação',reb:'Rebobinamento',fmt:'Formatação'};
+var MATERIAL_LABELS = {imp:'tinta',lam:'adesivo',apl:'verniz'};
+var BADGE_CLASSES = {imp:'badge-imp',lam:'badge-lam',apl:'badge-apl',reb:'badge-reb',fmt:'badge-fmt'};
+
+// ══════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════
+var tipo = 'simples';
+var stageCounters = {frente:{lam:0,imp:0,apl:0,reb:0,fmt:0}, sanfona:{lam:0,imp:0,apl:0,reb:0,fmt:0}};
+var stageOrder = {frente:[], sanfona:[]};
+var editingRow = null;
+var allOps = [];
+
+// ══════════════════════════════════════════
+// UTILS
+// ══════════════════════════════════════════
+function el(id){return document.getElementById(id);}
+function v(id){return parseFloat(el(id)?.value)||0;}
+function sv(id){return el(id)?.value||'';}
+function fmt1(n){return isNaN(n)||!isFinite(n)?'—':n.toFixed(1);}
+function fmt2(n){return isNaN(n)||!isFinite(n)?'—':n.toFixed(2);}
+function fmt0(n){return isNaN(n)||!isFinite(n)?'—':Math.round(n).toLocaleString('pt-BR');}
+function fpv(n){return isNaN(n)||!isFinite(n)?'—':n.toFixed(2)+'%';}
+function bc(p){if(isNaN(p)||!isFinite(p))return '';return p<3?'g':p<7?'a':'r';}
+function setBdg(id,pct){var e=el(id);if(!e)return;e.className='bdg '+bc(pct);e.textContent=fpv(pct);}
+function setVal(id,txt){var e=el(id);if(e)e.textContent=txt;}
+function n(x){return parseFloat(x)||0;}
+function maqOpts(type){return MACHINES[type].map(function(m){return '<option>'+m+'</option>';}).join('');}
+function toast(msg,type){var t=el('toast');t.textContent=msg;t.className='toast '+(type||'ok')+' show';setTimeout(function(){t.classList.remove('show')},3000);}
+
+// ══════════════════════════════════════════
+// CONFIG
+// ══════════════════════════════════════════
+function saveConfig(){localStorage.setItem('apara_v2_url',el('script-url').value.trim());updateStatus();}
+function loadConfig(){el('script-url').value=localStorage.getItem('apara_v2_url')||'';updateStatus();}
+function updateStatus(){var u=(el('script-url').value||'').trim(),s=el('conn-status');if(u&&u.startsWith('https://script.google.com')){s.textContent='Configurado';s.className='cfg-st ok';}else{s.textContent='Não configurado';s.className='cfg-st no';}}
+function getUrl(){return(el('script-url').value||'').trim();}
+
+// ══════════════════════════════════════════
+// TABS
+// ══════════════════════════════════════════
+function switchTab(t){
+  document.querySelectorAll('.tabs button').forEach(function(b,i){b.classList.toggle('active',i===(t==='form'?0:1));});
+  el('tab-form').classList.toggle('active',t==='form');
+  el('tab-hist').classList.toggle('active',t==='hist');
+  if(t==='hist')loadHistory();
+}
+
+// ══════════════════════════════════════════
+// TIPO OP
+// ══════════════════════════════════════════
+function setTipo(t){
+  tipo=t;
+  el('btn-simples').classList.toggle('active',t==='simples');
+  el('btn-bp').classList.toggle('active',t==='box_pouch');
+  el('comp-tabs-wrap').style.display=t==='box_pouch'?'block':'none';
+  el('comp-sanfona').style.display=t==='box_pouch'?'':'none';
+  // formatação só aparece no builder de frente para simples, esconde botão se bp
+  el('add-fmt-btn').style.display='';
+  // se trocar, remove stages incompatíveis de sanfona
+  if(t==='simples'){
+    el('comp-frente').classList.add('active');
+    el('comp-sanfona').classList.remove('active');
+  }
+  recalc();
+}
+
+function switchComp(c){
+  el('comp-frente').classList.toggle('active',c==='frente');
+  el('comp-sanfona').classList.toggle('active',c==='sanfona');
+  el('ctab-frente').classList.toggle('active',c==='frente');
+  el('ctab-sanfona').classList.toggle('active',c==='sanfona');
+}
+
+// ══════════════════════════════════════════
+// STAGE MANAGEMENT
+// ══════════════════════════════════════════
+function addStage(comp, type){
+  var counters = stageCounters[comp];
+  // Restrições
+  if(type==='apl' && counters.apl>=1){toast('Aplicação já adicionada','err');return;}
+  if(type==='reb' && counters.reb>=1){toast('Rebobinamento já adicionado','err');return;}
+  if(type==='fmt' && counters.fmt>=1){toast('Formatação já adicionada','err');return;}
+  if(type==='imp' && counters.imp>=1){toast('Impressão já adicionada','err');return;}
+  if(type==='lam' && counters.lam>=4){toast('Máximo 4 laminações','err');return;}
+
+  counters[type]++;
+  var lamIdx = type==='lam'?counters.lam:null;
+  var stageId = comp+'-'+type+(lamIdx||'');
+  stageOrder[comp].push({id:stageId, type:type, lamIdx:lamIdx});
+
+  var card = buildStageCard(comp, type, lamIdx, stageId);
+  var container = el('stages-'+comp);
+  var div = document.createElement('div');
+  div.id = 'card-'+stageId;
+  div.innerHTML = card;
+  container.appendChild(div);
+  recalc();
+}
+
+function removeStage(comp, stageId){
+  // find type
+  var ord = stageOrder[comp];
+  var found = null;
+  for(var i=0;i<ord.length;i++){if(ord[i].id===stageId){found=ord[i];ord.splice(i,1);break;}}
+  if(found) stageCounters[comp][found.type]--;
+  var card = el('card-'+stageId);
+  if(card) card.remove();
+  recalc();
+}
+
+function buildStageCard(comp, type, lamIdx, stageId){
+  var label = STAGE_LABELS[type]+(type==='lam'&&lamIdx?' '+lamIdx:'');
+  var badgeCls = BADGE_CLASSES[type];
+  var matLabel = MATERIAL_LABELS[type]||'';
+  var p = stageId; // prefix for input IDs
+
+  var body = '';
+
+  if(type==='imp'||type==='lam'||type==='apl'){
+    body += '<div class="ir t3">';
+    body += '<div class="fld"><label>Máquina</label><select id="'+p+'-maq" onchange="recalc()">'+maqOpts(type)+'</select></div>';
+    body += '<div class="fld"><label>Bobinas (qtd)</label><input type="number" id="'+p+'-bob" min="1" placeholder="0" oninput="recalc()"></div>';
+    body += '<div class="fld"><label>Metragem (m)</label><input type="number" id="'+p+'-met" placeholder="0" oninput="recalc()"></div>';
+    body += '</div>';
+    body += '<div class="ir t4">';
+    body += '<div class="fld"><label>Peso inicial (kg)</label><input type="number" id="'+p+'-ini" step="0.01" placeholder="0.00" oninput="recalc()"></div>';
+    body += '<div class="fld"><label>Gram. '+matLabel+' (g/m²)</label><input type="number" id="'+p+'-gram" step="0.01" placeholder="0.00" oninput="recalc()"></div>';
+    body += '<div class="fld"><label>Largura (mm)</label><input type="number" id="'+p+'-larg" step="0.1" placeholder="0.0" oninput="recalc()"></div>';
+    body += '<div class="fld"><label>Sobra (kg)</label><input type="number" id="'+p+'-sob" step="0.01" placeholder="0.00" oninput="recalc()"></div>';
+    body += '</div>';
+    body += '<div class="ir">';
+    body += '<div class="fld"><label>Peso final (kg)</label><input type="number" id="'+p+'-fin" step="0.01" placeholder="0.00" oninput="recalc()"></div>';
+    body += '<div></div>';
+    body += '</div>';
+    body += '<div class="calc-row">';
+    body += '<div class="calc-item"><div class="ci-l">Peso '+matLabel+' (kg)</div><div class="ci-v" id="'+p+'-mat-kg">—</div></div>';
+    body += '<div class="calc-item"><div class="ci-l">Peso útil (kg)</div><div class="ci-v" id="'+p+'-util">—</div></div>';
+    body += '<div class="calc-item"><div class="ci-l">Apara (kg)</div><div class="ci-v" id="'+p+'-apara">—</div></div>';
+    body += '<div class="calc-item"><div class="ci-l">Metragem média (m/bob)</div><div class="ci-v" id="'+p+'-metmed">—</div></div>';
+    body += '</div>';
+    body += '<div class="calc-row t2" style="margin-top:6px">';
+    body += '<div class="calc-item"><div class="ci-l">% sobre útil geral</div><span class="bdg" id="'+p+'-pct">—</span></div>';
+    body += '<div></div>';
+    body += '</div>';
+  }
+
+  else if(type==='reb'){
+    body += '<div class="ir t3">';
+    body += '<div class="fld"><label>Máquina</label><select id="'+p+'-maq" onchange="recalc()">'+maqOpts('reb')+'</select></div>';
+    body += '<div class="fld"><label>Bobinas (qtd)</label><input type="number" id="'+p+'-bob" placeholder="0" oninput="recalc()"></div>';
+    body += '<div class="fld"><label>Metragem (m)</label><input type="number" id="'+p+'-met" placeholder="0" oninput="recalc()"></div>';
+    body += '</div>';
+    body += '<div class="ir t3">';
+    body += '<div class="fld"><label>Largura refile (mm)</label><input type="number" id="'+p+'-lar" step="0.1" placeholder="0.0" oninput="recalc()"></div>';
+    body += '<div class="fld"><label>Gram. refile (g/m²)</label><input type="number" id="'+p+'-gram" step="0.1" placeholder="0.0" oninput="recalc()"></div>';
+    body += '<div></div>';
+    body += '</div>';
+    body += '<div class="ir">';
+    body += '<div class="fld"><label>Peso útil (kg)</label><input type="number" id="'+p+'-util-in" step="0.01" placeholder="0.00" oninput="recalc()"></div>';
+    body += '<div class="fld"><label>Peso final (kg)</label><input type="number" id="'+p+'-fin" step="0.01" placeholder="0.00" oninput="recalc()"></div>';
+    body += '</div>';
+    body += '<div class="calc-row">';
+    body += '<div class="calc-item"><div class="ci-l">Apara total (kg)</div><div class="ci-v" id="'+p+'-apara">—</div></div>';
+    body += '<div class="calc-item"><div class="ci-l">Refile (kg)</div><div class="ci-v" id="'+p+'-refile-kg">—</div></div>';
+    body += '<div class="calc-item"><div class="ci-l">% c/ refile</div><span class="bdg" id="'+p+'-pct-cr">—</span></div>';
+    body += '<div class="calc-item"><div class="ci-l">% s/ refile</div><span class="bdg" id="'+p+'-pct-sr">—</span></div>';
+    body += '</div>';
+  }
+
+  else if(type==='fmt'){
+    body += '<div class="ir t3">';
+    body += '<div class="fld"><label>Máquina</label><select id="'+p+'-maq" onchange="recalc()">'+maqOpts('fmt')+'</select></div>';
+    body += '<div class="fld"><label>Qtd. unidades</label><input type="number" id="'+p+'-qtd" placeholder="0" oninput="recalc()"></div>';
+    body += '<div class="fld"><label>Peso zíper (kg)</label><input type="number" id="'+p+'-zip" step="0.01" placeholder="0.00" oninput="recalc()"></div>';
+    body += '</div>';
+    body += '<div class="ir">';
+    body += '<div class="fld"><label>Peso útil (kg)</label><input type="number" id="'+p+'-util-in" step="0.01" placeholder="0.00" oninput="recalc()"></div>';
+    body += '<div class="fld"><label>Peso final (kg)</label><input type="number" id="'+p+'-fin" step="0.01" placeholder="0.00" oninput="recalc()"></div>';
+    body += '</div>';
+    body += '<div class="calc-row t2">';
+    body += '<div class="calc-item"><div class="ci-l">Apara total (kg)</div><div class="ci-v" id="'+p+'-apara">—</div></div>';
+    body += '<div class="calc-item"><div class="ci-l">% sobre útil geral</div><span class="bdg" id="'+p+'-pct">—</span></div>';
+    body += '</div>';
+    // Refile block
+    body += '<div class="fmt-block"><div class="fmt-block-hd">Refile formatação</div>';
+    body += '<div class="ir t3">';
+    body += '<div class="fld"><label>Gram. final componente (g/m²)</label><input type="number" id="'+p+'-gram-f" step="0.01" placeholder="0.00" oninput="recalc()"></div>';
+    body += '<div class="fld"><label>Alt. ini c/ refile (mm)</label><input type="number" id="'+p+'-afi" step="0.1" oninput="recalc()"></div>';
+    body += '<div class="fld"><label>Larg. ini c/ refile (mm)</label><input type="number" id="'+p+'-lfi" step="0.1" oninput="recalc()"></div>';
+    body += '</div>';
+    body += '<div class="ir t3">';
+    body += '<div></div>';
+    body += '<div class="fld"><label>Alt. fin s/ refile (mm)</label><input type="number" id="'+p+'-aff" step="0.1" oninput="recalc()"></div>';
+    body += '<div class="fld"><label>Larg. fin s/ refile (mm)</label><input type="number" id="'+p+'-lff" step="0.1" oninput="recalc()"></div>';
+    body += '</div>';
+    // Sanfona refile (if box pouch) — we toggle this via JS after render
+    body += '<div id="'+p+'-sanfona-refile" style="display:none">';
+    body += '<div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--bd);font-size:10px;font-weight:700;color:var(--gt);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px">Sanfona</div>';
+    body += '<div class="ir t3">';
+    body += '<div class="fld"><label>Gram. final sanfona (g/m²)</label><input type="number" id="'+p+'-gram-s" step="0.01" placeholder="0.00" oninput="recalc()"></div>';
+    body += '<div class="fld"><label>Alt. ini c/ refile (mm)</label><input type="number" id="'+p+'-asi" step="0.1" oninput="recalc()"></div>';
+    body += '<div class="fld"><label>Larg. ini c/ refile (mm)</label><input type="number" id="'+p+'-lsi" step="0.1" oninput="recalc()"></div>';
+    body += '</div>';
+    body += '<div class="ir t3">';
+    body += '<div></div>';
+    body += '<div class="fld"><label>Alt. fin s/ refile (mm)</label><input type="number" id="'+p+'-asf" step="0.1" oninput="recalc()"></div>';
+    body += '<div class="fld"><label>Larg. fin s/ refile (mm)</label><input type="number" id="'+p+'-lsf" step="0.1" oninput="recalc()"></div>';
+    body += '</div></div>';
+    body += '<div class="calc-row" style="margin-top:8px">';
+    body += '<div class="calc-item"><div class="ci-l">Refile total (kg)</div><div class="ci-v" id="'+p+'-refile-kg">—</div></div>';
+    body += '<div class="calc-item"><div class="ci-l">Refile total (m²)</div><div class="ci-v" id="'+p+'-refile-m2">—</div></div>';
+    body += '<div class="calc-item"><div class="ci-l">% c/ refile</div><span class="bdg" id="'+p+'-pct-cr">—</span></div>';
+    body += '<div class="calc-item"><div class="ci-l">% s/ refile</div><span class="bdg" id="'+p+'-pct-sr">—</span></div>';
+    body += '</div></div>';
+  }
+
+  return '<div class="stage-card">'
+    +'<div class="stage-hd">'
+    +'<div class="stage-name"><span class="stage-badge '+badgeCls+'">'+label+'</span></div>'
+    +'<button class="sm del-btn" onclick="removeStage(\''+comp+'\',\''+stageId+'\')">Remover</button>'
+    +'</div>'
+    +'<div class="stage-body">'+body+'</div>'
+    +'</div>';
+}
+
+// ══════════════════════════════════════════
+// RECALC
+// ══════════════════════════════════════════
+function recalc(){
+  // toggle sanfona refile blocks
+  stageOrder.frente.forEach(function(s){
+    if(s.type==='fmt'){
+      var sfEl = el(s.id+'-sanfona-refile');
+      if(sfEl) sfEl.style.display = tipo==='box_pouch'?'':'none';
+    }
+  });
+
+  var fResult = calcComponent('frente');
+  var sResult = tipo==='box_pouch' ? calcComponent('sanfona') : null;
+
+  buildSummary(fResult, sResult);
+}
+
+function calcComponent(comp){
+  var ord = stageOrder[comp];
+  var stages = [];
+  var totalApara = 0;
+  var totalRefKg = 0;
+  var lastFin = 0;
+  var hasFmt = false;
+  var fmtData = null;
+
+  // Compute útil geral first pass (need lastFin)
+  // We do two passes: first get all aparas, then compute %
+  ord.forEach(function(s){
+    var p = s.id;
+    var t = s.type;
+    var result = {};
+
+    if(t==='imp'||t==='lam'||t==='apl'){
+      var ini = v(p+'-ini'), gram = v(p+'-gram'), larg = v(p+'-larg'), met = v(p+'-met');
+      var sob = v(p+'-sob'), fin = v(p+'-fin'), bob = v(p+'-bob');
+      var matKg = gram>0&&larg>0&&met>0 ? gram/1000 * (larg/1000) * met : 0;
+      var util = ini>0 ? ini+matKg : 0;
+      var apara = util>0&&fin>0 ? Math.max(0, util-sob-fin) : 0;
+      var metMed = bob>0&&met>0 ? met/bob : 0;
+      setVal(p+'-mat-kg', matKg>0?fmt2(matKg)+' kg':'—');
+      setVal(p+'-util', util>0?fmt2(util)+' kg':'—');
+      setVal(p+'-apara', apara>0?fmt2(apara)+' kg':'—');
+      setVal(p+'-metmed', metMed>0?fmt1(metMed)+' m':'—');
+      if(fin>0) lastFin = fin;
+      totalApara += apara;
+      result = {type:t, label:STAGE_LABELS[t], apara:apara, util:util, fin:fin, maq:sv(p+'-maq'), bob:bob, met:met};
+    }
+    else if(t==='reb'){
+      var utilIn = v(p+'-util-in'), fin = v(p+'-fin'), met = v(p+'-met');
+      var lar = v(p+'-lar'), gram = v(p+'-gram');
+      var apara = utilIn>0&&fin>0 ? Math.max(0,utilIn-fin) : 0;
+      var refileKg = met>0&&lar>0&&gram>0 ? (lar/1000)*met*(gram/1000) : 0;
+      setVal(p+'-apara', apara>0?fmt2(apara)+' kg':'—');
+      setVal(p+'-refile-kg', refileKg>0?fmt2(refileKg)+' kg':'—');
+      if(fin>0) lastFin = fin;
+      totalApara += apara;
+      totalRefKg += refileKg;
+      result = {type:t, label:'Rebobinamento', apara:apara, refileKg:refileKg, utilIn:utilIn, fin:fin, maq:sv(p+'-maq'), met:met};
+    }
+    else if(t==='fmt'){
+      hasFmt = true;
+      var utilIn = v(p+'-util-in'), fin = v(p+'-fin'), qtd = v(p+'-qtd'), zip = v(p+'-zip');
+      var apara = utilIn>0&&fin>0 ? Math.max(0,utilIn-fin) : 0;
+      // refile frente
+      var gramF=v(p+'-gram-f'),afiF=v(p+'-afi'),lfiF=v(p+'-lfi'),affF=v(p+'-aff'),lffF=v(p+'-lff');
+      var m2iniF=(afiF*lfiF)/1e6, m2finF=(affF*lffF)/1e6;
+      var m2refF = m2iniF>0&&m2finF>0&&qtd>0 ? (m2iniF-m2finF)*qtd : 0;
+      var refKgF = m2refF>0&&gramF>0 ? m2refF*(gramF/1000) : 0;
+      // refile sanfona (box pouch)
+      var gramS=v(p+'-gram-s'),asiS=v(p+'-asi'),lsiS=v(p+'-lsi'),asfS=v(p+'-asf'),lsfS=v(p+'-lsf');
+      var m2iniS=(asiS*lsiS)/1e6, m2finS=(asfS*lsfS)/1e6;
+      var m2refS = tipo==='box_pouch'&&m2iniS>0&&m2finS>0&&qtd>0 ? (m2iniS-m2finS)*qtd : 0;
+      var refKgS = m2refS>0&&gramS>0 ? m2refS*(gramS/1000) : 0;
+      var refileTotKg = refKgF+refKgS;
+      var refileTotM2 = m2refF+m2refS;
+      setVal(p+'-apara', apara>0?fmt2(apara)+' kg':'—');
+      setVal(p+'-refile-kg', refileTotKg>0?fmt2(refileTotKg)+' kg':'—');
+      setVal(p+'-refile-m2', refileTotM2>0?refileTotM2.toFixed(1)+' m²':'—');
+      if(fin>0) lastFin = fin;
+      totalApara += apara;
+      totalRefKg += refileTotKg;
+      fmtData = {apara:apara, refileTotKg:refileTotKg, utilIn:utilIn, fin:fin, qtd:qtd, zip:zip, maq:sv(p+'-maq')};
+      result = Object.assign({type:t, label:'Formatação'}, fmtData);
+    }
+    stages.push(Object.assign({id:p, lamIdx:s.lamIdx}, result));
+  });
+
+  // útil geral = lastFin + totalApara
+  var utilGeral = lastFin + totalApara;
+
+  // Second pass: set % values
+  stages.forEach(function(s){
+    var p = s.id;
+    var t = s.type;
+    if(utilGeral<=0) return;
+    if(t==='reb'){
+      var pctCr = s.apara/utilGeral*100;
+      var pctSr = (s.apara-(s.refileKg||0))/utilGeral*100;
+      setBdg(p+'-pct-cr', pctCr);
+      setBdg(p+'-pct-sr', pctSr);
+    } else if(t==='fmt'){
+      var pct = s.apara/utilGeral*100;
+      var pctCr = s.apara/utilGeral*100;
+      var pctSr = (s.apara-(s.refileTotKg||0))/utilGeral*100;
+      setBdg(p+'-pct', pct);
+      setBdg(p+'-pct-cr', pctCr);
+      setBdg(p+'-pct-sr', pctSr);
+    } else {
+      var pct = s.apara/utilGeral*100;
+      setBdg(p+'-pct', pct);
+    }
+  });
+
+  // Component summary
+  var pctGeral = utilGeral>0 ? totalApara/utilGeral*100 : NaN;
+  var sumEl = el('summary-'+comp);
+  if(sumEl){
+    sumEl.style.display = stages.length>0?'grid':'none';
+    setVal('cs-util-'+comp, utilGeral>0?fmt1(utilGeral)+' kg':'—');
+    setVal('cs-apara-'+comp, totalApara>0?fmt1(totalApara)+' kg':'—');
+    var pctEl = el('cs-pct-'+comp);
+    if(pctEl){pctEl.className='cs-v bdg '+bc(pctGeral);pctEl.textContent=utilGeral>0?pctGeral.toFixed(1)+'%':'—';}
+  }
+
+  return {stages:stages, utilGeral:utilGeral, totalApara:totalApara, totalRefKg:totalRefKg, lastFin:lastFin, hasFmt:hasFmt};
+}
+
+function buildSummary(fResult, sResult){
+  var html = '';
+  var grandUtil=0, grandApara=0, grandRefKg=0;
+
+  function addRows(result, prefix){
+    if(!result) return;
+    var lIdx = {lam:0};
+    result.stages.forEach(function(s){
+      var lbl = s.label;
+      if(s.type==='lam'){lIdx.lam++;if(result.stages.filter(function(x){return x.type==='lam';}).length>1)lbl+=' '+lIdx.lam;}
+      var pct = result.utilGeral>0?s.apara/result.utilGeral*100:NaN;
+      html+='<tr><td>'+prefix+lbl+'</td><td>'+fmt2(s.apara)+' kg</td><td><span class="bdg '+bc(pct)+'">'+fpv(pct)+'</span></td></tr>';
+      if(s.type==='reb'&&s.refileKg>0){
+        var pctSr=result.utilGeral>0?(s.apara-s.refileKg)/result.utilGeral*100:NaN;
+        html+='<tr class="t-sr"><td>↳ s/ refile</td><td>'+fmt2(s.apara-s.refileKg)+' kg</td><td><span class="bdg '+bc(pctSr)+'">'+fpv(pctSr)+'</span></td></tr>';
+      }
+      if(s.type==='fmt'&&s.refileTotKg>0){
+        var pctSr=result.utilGeral>0?(s.apara-s.refileTotKg)/result.utilGeral*100:NaN;
+        html+='<tr class="t-sr"><td>↳ s/ refile</td><td>'+fmt2(s.apara-s.refileTotKg)+' kg</td><td><span class="bdg '+bc(pctSr)+'">'+fpv(pctSr)+'</span></td></tr>';
+      }
+    });
+    if(prefix){
+      var sp=result.utilGeral>0?result.totalApara/result.utilGeral*100:NaN;
+      html+='<tr class="t-sub"><td>Subtotal '+prefix.replace(' — ','').toLowerCase()+'</td><td>'+fmt1(result.totalApara)+' kg</td><td><span class="bdg '+bc(sp)+'">'+fpv(sp)+'</span></td></tr>';
+    }
+    grandUtil += result.utilGeral;
+    grandApara += result.totalApara;
+    grandRefKg += result.totalRefKg;
+  }
+
+  if(sResult){
+    html+='<tr class="t-sec"><td colspan="3">Frente</td></tr>';
+    addRows(fResult,'');
+    html+='<tr class="t-sec"><td colspan="3">Sanfona</td></tr>';
+    addRows(sResult,'');
+  } else {
+    addRows(fResult,'');
+  }
+
+  el('summary-tbody').innerHTML = html;
+
+  // totals
+  var finalWgt = grandUtil - grandApara;
+  var totPct = grandUtil>0?grandApara/grandUtil*100:NaN;
+  var totSrPct = grandUtil>0?(grandApara-grandRefKg)/grandUtil*100:NaN;
+  setVal('tot-util', grandUtil>0?fmt1(grandUtil)+' kg':'—');
+  setVal('tot-final', finalWgt>0?fmt1(finalWgt)+' kg':'—');
+  setVal('tot-apara', grandApara>0?fmt1(grandApara)+' kg':'—');
+  var pEl=el('tot-pct'); if(pEl){pEl.className='mv bdg '+bc(totPct);pEl.textContent=fpv(totPct);}
+  var psEl=el('tot-pct-sr'); if(psEl){psEl.className='mv bdg '+bc(totSrPct);psEl.textContent=fpv(totSrPct);}
+}
+
+// ══════════════════════════════════════════
+// COLLECT / RESTORE for save/edit
+// ══════════════════════════════════════════
+function collectAll(){
+  var inputs = {};
+  document.querySelectorAll('#tab-form input, #tab-form select').forEach(function(e){
+    if(e.id&&e.id!=='script-url') inputs[e.id]=e.value;
+  });
+  inputs['_tipo'] = tipo;
+  inputs['_order_frente'] = JSON.stringify(stageOrder.frente);
+  inputs['_order_sanfona'] = JSON.stringify(stageOrder.sanfona);
+  return inputs;
+}
+
+function restoreAll(inputs){
+  if(!inputs||!Object.keys(inputs).length) return false;
+  // restore tipo
+  var t = inputs['_tipo']||'simples';
+  setTipo(t);
+  // restore stage orders
+  var oF=[],oS=[];
+  try{oF=JSON.parse(inputs['_order_frente']||'[]');}catch(e){}
+  try{oS=JSON.parse(inputs['_order_sanfona']||'[]');}catch(e){}
+  // clear
+  clearStages();
+  // rebuild frente
+  oF.forEach(function(s){addStage('frente',s.type);});
+  // rebuild sanfona
+  oS.forEach(function(s){addStage('sanfona',s.type);});
+  // fill values
+  Object.keys(inputs).forEach(function(id){
+    if(id.startsWith('_')) return;
+    var e=el(id); if(e) e.value=inputs[id];
+  });
+  recalc();
+  return true;
+}
+
+function clearStages(){
+  ['frente','sanfona'].forEach(function(comp){
+    el('stages-'+comp).innerHTML='';
+    stageOrder[comp]=[];
+    stageCounters[comp]={lam:0,imp:0,apl:0,reb:0,fmt:0};
+  });
+}
+
+// ══════════════════════════════════════════
+// SAVE
+// ══════════════════════════════════════════
+function saveOP(){
+  var url = getUrl();
+  if(!url){toast('Configure a URL do Apps Script','err');return;}
+  var cli=sv('op-cli'),prod=sv('op-prod');
+  if(!cli&&!prod){toast('Preencha ao menos cliente ou produto','err');return;}
+
+  // Collect calculated results
+  var fResult = calcComponent('frente');
+  var sResult = tipo==='box_pouch'?calcComponent('sanfona'):null;
+  var grandUtil=fResult.utilGeral+(sResult?sResult.utilGeral:0);
+  var grandApara=fResult.totalApara+(sResult?sResult.totalApara:0);
+  var grandRefKg=fResult.totalRefKg+(sResult?sResult.totalRefKg:0);
+  var totPct=grandUtil>0?grandApara/grandUtil*100:0;
+  var totSrPct=grandUtil>0?(grandApara-grandRefKg)/grandUtil*100:0;
+
+  // Build maquinas string
+  var maqSet={};
+  function collectMaq(result){result.stages.forEach(function(s){if(s.maq)maqSet[s.maq]=true;});}
+  collectMaq(fResult); if(sResult)collectMaq(sResult);
+  var maquinas=Object.keys(maqSet).join(', ');
+
+  // qtd unidades from fmt stage
+  var qtdUnidades=0;
+  fResult.stages.forEach(function(s){if(s.type==='fmt')qtdUnidades=s.qtd||0;});
+
+  // metragem principal = first reb or first imp met
+  var metPrincipal=0;
+  var ms=fResult.stages.find(function(s){return s.type==='reb';})||fResult.stages.find(function(s){return s.type==='imp';});
+  if(ms) metPrincipal=v(ms.id+'-met')||0;
+
+  var etapas=[]; 
+  function stageToObj(s,utilGeral){
+    var p=s.id,t=s.type;
+    var obj={type:t,label:s.label,maq:s.maq||'',apara:s.apara||0};
+    if(t==='imp'||t==='lam'||t==='apl'){
+      obj.ini=v(p+'-ini');obj.gram=v(p+'-gram');obj.larg=v(p+'-larg');
+      obj.met=v(p+'-met');obj.bob=v(p+'-bob');obj.sob=v(p+'-sob');obj.fin=v(p+'-fin');
+      obj.matKg=n(el(p+'-mat-kg')?.textContent);
+      obj.util=n(el(p+'-util')?.textContent);
+      obj.pct=utilGeral>0?obj.apara/utilGeral*100:0;
+    } else if(t==='reb'){
+      obj.met=v(p+'-met');obj.bob=v(p+'-bob');obj.lar=v(p+'-lar');obj.gram=v(p+'-gram');
+      obj.utilIn=v(p+'-util-in');obj.fin=v(p+'-fin');
+      obj.refileKg=s.refileKg||0;
+      obj.pctCr=utilGeral>0?obj.apara/utilGeral*100:0;
+      obj.pctSr=utilGeral>0?(obj.apara-obj.refileKg)/utilGeral*100:0;
+    } else if(t==='fmt'){
+      obj.qtd=s.qtd||0;obj.zip=s.zip||0;obj.utilIn=s.utilIn||0;obj.fin=s.fin||0;
+      obj.refileTotKg=s.refileTotKg||0;
+      obj.pct=utilGeral>0?obj.apara/utilGeral*100:0;
+      obj.pctCr=obj.pct;
+      obj.pctSr=utilGeral>0?(obj.apara-obj.refileTotKg)/utilGeral*100:0;
+    }
+    return obj;
+  }
+  fResult.stages.forEach(function(s){etapas.push(Object.assign({comp:'frente'},stageToObj(s,fResult.utilGeral)));});
+  if(sResult) sResult.stages.forEach(function(s){etapas.push(Object.assign({comp:'sanfona'},stageToObj(s,sResult.utilGeral)));});
+
+  var payload={
+    _version:'v2',
+    _action:editingRow?'update':'save',
+    _row:editingRow||undefined,
+    data:sv('op-data'),
+    cliente:cli,produto:prod,codigo:sv('op-cod'),
+    tipo_op:tipo,maquinas:maquinas,
+    qtd_unidades:qtdUnidades,
+    metragem_principal:metPrincipal,
+    total_util:grandUtil,total_apara:grandApara,
+    total_pct:totPct,total_pct_sr:totSrPct,
+    etapas_json:JSON.stringify(etapas),
+    meta_json:JSON.stringify({inputs:collectAll()})
+  };
+
+  var btn=el('save-btn');btn.textContent='Salvando...';btn.disabled=true;
+  fetch(url,{method:'POST',body:JSON.stringify(payload),headers:{'Content-Type':'text/plain'}})
+    .then(function(r){return r.json();})
+    .then(function(res){
+      if(res.status==='ok'){toast(editingRow?'OP atualizada!':'OP salva!','ok');if(editingRow)cancelEdit();}
+      else{toast('Erro: '+res.message,'err');}
+    })
+    .catch(function(e){toast('Erro de conexão','err');})
+    .finally(function(){btn.textContent=editingRow?'Atualizar OP':'Salvar OP';btn.disabled=false;});
+}
+
+// ══════════════════════════════════════════
+// EDIT
+// ══════════════════════════════════════════
+function startEdit(op){
+  var meta={};
+  try{meta=JSON.parse(op.meta_json||'{}');}catch(e){}
+  var inputs=meta.inputs||{};
+  clearAll();
+  var ok=restoreAll(inputs);
+  if(!ok){
+    if(op.cliente)el('op-cli').value=op.cliente;
+    if(op.produto)el('op-prod').value=op.produto;
+    if(op.codigo)el('op-cod').value=op.codigo;
+    if(op.data)el('op-data').value=String(op.data).substring(0,10);
+    toast('OP antiga — dados básicos carregados','err');
+  }
+  editingRow=op._row;
+  el('edit-banner').classList.add('show');
+  el('edit-label').textContent=(op.produto||'')+(op.data?' — '+String(op.data).substring(0,10):'');
+  el('save-btn').textContent='Atualizar OP';
+  switchTab('form');window.scrollTo(0,0);
+}
+
+function cancelEdit(){
+  editingRow=null;
+  el('edit-banner').classList.remove('show');
+  el('save-btn').textContent='Salvar OP';
+  clearAll();
+}
+
+// ══════════════════════════════════════════
+// CLEAR
+// ══════════════════════════════════════════
+function clearAll(){
+  clearStages();
+  document.querySelectorAll('#tab-form input:not(#script-url), #tab-form select').forEach(function(e){
+    if(e.tagName==='SELECT') e.selectedIndex=0;
+    else e.value='';
+  });
+  el('op-data').value=new Date().toISOString().split('T')[0];
+  setTipo('simples');
+  editingRow=null;
+  el('edit-banner').classList.remove('show');
+  el('save-btn').textContent='Salvar OP';
+  recalc();
+}
+
+// ══════════════════════════════════════════
+// HISTORY
+// ══════════════════════════════════════════
+function loadHistory(){
+  var url=getUrl();
+  if(!url){toast('Configure a URL do Apps Script','err');return;}
+  el('hist-empty').textContent='Carregando...';
+  el('hist-empty').style.display='block';
+  el('hist-cards').innerHTML='';
+  el('avg-section').innerHTML='';
+  fetch(url+'?v=v2')
+    .then(function(r){return r.json();})
+    .then(function(res){
+      if(res.status==='ok'){allOps=res.ops||[];populateFilters();renderHistory();}
+      else{el('hist-empty').textContent='Erro: '+res.message;}
+    })
+    .catch(function(e){el('hist-empty').textContent='Erro de conexão';});
+}
+
+function populateFilters(){
+  var clis={},prods={},maqs={};
+  allOps.forEach(function(op){
+    if(op.cliente)clis[op.cliente]=true;
+    if(op.produto)prods[op.produto]=true;
+    if(op.maquinas){op.maquinas.split(',').forEach(function(m){var t=m.trim();if(t)maqs[t]=true;});}
+  });
+  function fill(selId,map){
+    var sel=el(selId),prev=sel.value;
+    var first=sel.options[0].text;
+    sel.innerHTML='<option value="">'+first+'</option>';
+    Object.keys(map).sort().forEach(function(k){sel.innerHTML+='<option>'+k+'</option>';});
+    sel.value=prev;
+    sel.onchange=renderHistory;
+  }
+  fill('hf-cli',clis);fill('hf-prod',prods);fill('hf-maq',maqs);
+  el('hf-data-ini').onchange=renderHistory;
+  el('hf-data-fim').onchange=renderHistory;
+  el('hf-tipo').onchange=renderHistory;
+}
+
+function renderHistory(){
+  var fc=el('hf-cli').value,fp=el('hf-prod').value,ft=el('hf-tipo').value;
+  var fm=el('hf-maq').value,fdi=el('hf-data-ini').value,fdf=el('hf-data-fim').value;
+  var ops=allOps.filter(function(op){
+    if(fc&&op.cliente!==fc)return false;
+    if(fp&&op.produto!==fp)return false;
+    if(ft&&op.tipo_op!==ft)return false;
+    if(fm&&(!op.maquinas||op.maquinas.indexOf(fm)<0))return false;
+    if(fdi&&op.data&&String(op.data)<fdi)return false;
+    if(fdf&&op.data&&String(op.data)>fdf)return false;
+    return true;
+  });
+  el('hist-count').textContent=ops.length+' OP'+(ops.length!==1?'s':'');
+  if(!ops.length){el('hist-empty').style.display='block';el('hist-empty').textContent='Nenhuma OP encontrada';el('hist-cards').innerHTML='';el('avg-section').innerHTML='';return;}
+  el('hist-empty').style.display='none';
+
+  var html='';
+  ops.forEach(function(op){
+    var idx=allOps.indexOf(op);
+    var d=op.data?String(op.data).substring(0,10):'—';
+    var etapas=[];
+    try{etapas=JSON.parse(op.etapas_json||'[]');}catch(e){}
+    var isBP=op.tipo_op==='box_pouch';
+    var totUtil=n(op.total_util),totApara=n(op.total_apara);
+    var totPct=n(op.total_pct),totSrPct=n(op.total_pct_sr);
+    var pesoFinal=totUtil-totApara;
+    var qtd=n(op.qtd_unidades);
+
+    html+='<div class="op-card">';
+    html+='<div class="op-card-hd"><div>';
+    html+='<div class="op-name">'+(op.produto||'Sem produto')+'</div>';
+    html+='<div class="op-meta">'+d+(op.cliente?' · '+op.cliente:'')+(op.codigo?' · '+op.codigo:'')+(qtd>0?' · '+fmt0(qtd)+' un':'')+(op.tipo_op==='box_pouch'?' · Box Pouch':'')+(op.maquinas?' · '+op.maquinas:'')+'</div>';
+    html+='</div><button class="sm" onclick="startEdit(allOps['+idx+'])">Editar</button></div>';
+
+    html+='<table class="ht"><thead><tr><th>Etapa</th><th>Apara (kg)</th><th>%</th></tr></thead><tbody>';
+
+    // group by comp
+    var fEtapas=etapas.filter(function(e){return e.comp==='frente'||!e.comp;});
+    var sEtapas=etapas.filter(function(e){return e.comp==='sanfona';});
+    var lamCntF=0,lamCntS=0;
+
+    function renderEtapas(list, prefix, utilGeral){
+      list.forEach(function(e){
+        var lbl=e.label;
+        if(e.type==='lam'){lamCntF++;if(list.filter(function(x){return x.type==='lam';}).length>1)lbl+=' '+lamCntF;}
+        var pct=n(utilGeral)>0?n(e.apara)/n(utilGeral)*100:0;
+        html+='<tr><td>'+(prefix?prefix+' — ':'')+lbl+'</td><td>'+fmt2(n(e.apara))+' kg</td><td><span class="bdg '+bc(pct)+'">'+fpv(pct)+'</span></td></tr>';
+        if(e.type==='reb'&&n(e.refileKg)>0){
+          var pSr=n(utilGeral)>0?(n(e.apara)-n(e.refileKg))/n(utilGeral)*100:0;
+          html+='<tr class="ht-sr"><td>↳ s/ refile</td><td>'+fmt2(n(e.apara)-n(e.refileKg))+' kg</td><td><span class="bdg '+bc(pSr)+'">'+fpv(pSr)+'</span></td></tr>';
+        }
+        if(e.type==='fmt'&&n(e.refileTotKg)>0){
+          var pSr=n(utilGeral)>0?(n(e.apara)-n(e.refileTotKg))/n(utilGeral)*100:0;
+          html+='<tr class="ht-sr"><td>↳ s/ refile</td><td>'+fmt2(n(e.apara)-n(e.refileTotKg))+' kg</td><td><span class="bdg '+bc(pSr)+'">'+fpv(pSr)+'</span></td></tr>';
+        }
+      });
+    }
+
+    if(isBP){
+      var fUtil=etapas.filter(function(e){return e.comp==='frente';}).reduce(function(s,e){return s+n(e.apara);},0)+n(fEtapas[fEtapas.length-1]?.fin||0);
+      var sUtil=etapas.filter(function(e){return e.comp==='sanfona';}).reduce(function(s,e){return s+n(e.apara);},0)+n(sEtapas[sEtapas.length-1]?.fin||0);
+      html+='<tr class="ht-sec"><td colspan="3">Frente</td></tr>';
+      renderEtapas(fEtapas,'',fUtil);
+      html+='<tr class="ht-sec"><td colspan="3">Sanfona</td></tr>';
+      renderEtapas(sEtapas,'',sUtil);
+    } else {
+      renderEtapas(fEtapas,'',totUtil);
+    }
+
+    html+='</tbody></table>';
+    html+='<div class="op-tot">';
+    html+='<div class="ot"><div class="ot-l">Útil total</div><div class="ot-v">'+fmt1(totUtil)+' kg</div></div>';
+    html+='<div class="ot"><div class="ot-l">Peso final</div><div class="ot-v">'+fmt1(pesoFinal)+' kg</div></div>';
+    html+='<div class="ot"><div class="ot-l">Apara total</div><div class="ot-v">'+fmt1(totApara)+' kg</div></div>';
+    html+='<div class="ot"><div class="ot-l">% c/ refile</div><div class="ot-v"><span class="bdg '+bc(totPct)+'">'+fpv(totPct)+'</span></div></div>';
+    html+='<div class="ot"><div class="ot-l">% s/ refile</div><div class="ot-v"><span class="bdg '+bc(totSrPct)+'">'+fpv(totSrPct)+'</span></div></div>';
+    html+='</div></div>';
+  });
+  el('hist-cards').innerHTML=html;
+  renderAverages(ops);
+}
+
+function renderAverages(ops){
+  if(!ops.length){el('avg-section').innerHTML='';return;}
+  function avg(field){var s=0,c=0;ops.forEach(function(op){var v=n(op[field]);if(v){s+=v;c++;}});return c?s/c:NaN;}
+  var totAvg=avg('total_pct'),srAvg=avg('total_pct_sr');
+  var utilAvg=avg('total_util'),aparaAvg=avg('total_apara');
+  var finalAvg=utilAvg-aparaAvg;
+
+  var html='<div class="avg-wrap"><div class="avg-wrap-hd"><h3>Médias — '+ops.length+' OP'+(ops.length!==1?'s':'')+'</h3></div>';
+  html+='<div class="op-tot">';
+  html+='<div class="ot"><div class="ot-l">Útil médio</div><div class="ot-v">'+fmt1(utilAvg)+' kg</div></div>';
+  html+='<div class="ot"><div class="ot-l">Peso final médio</div><div class="ot-v">'+fmt1(finalAvg)+' kg</div></div>';
+  html+='<div class="ot"><div class="ot-l">Apara média</div><div class="ot-v">'+fmt1(aparaAvg)+' kg</div></div>';
+  html+='<div class="ot"><div class="ot-l">% média c/ refile</div><div class="ot-v"><span class="bdg '+bc(totAvg)+'">'+fpv(totAvg)+'</span></div></div>';
+  html+='<div class="ot"><div class="ot-l">% média s/ refile</div><div class="ot-v"><span class="bdg '+bc(srAvg)+'">'+fpv(srAvg)+'</span></div></div>';
+  html+='</div></div>';
+  el('avg-section').innerHTML=html;
+}
+
+// ══════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════
+el('op-data').value = new Date().toISOString().split('T')[0];
+loadConfig();
+recalc();
+</script>
+</body>
+</html>
